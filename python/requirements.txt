@@ -1,0 +1,7 @@
+PyJWT
+Flask
+PyMySQL
+python-dotenv
+bcrypt
+smtplib
+flask-cors
