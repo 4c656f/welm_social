@@ -1,3 +1,4 @@
+import flask_cors
 import jwt
 from flask import Flask, request, jsonify
 import flask
@@ -8,8 +9,8 @@ from middleware.token_private import *
 from middleware.error_handler import *
 from dotenv import load_dotenv
 import json
-from flask_cors import CORS
-
+from flask_cors import CORS, cross_origin
+from models.stock_service import StockService
 
 
 
@@ -28,14 +29,19 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, support_credentials=True)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+
 
 @app.route("/login", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def login():
 
 
     data = request.get_json()
-
 
 
     try:
@@ -46,6 +52,7 @@ def login():
 
 
 @app.route("/registration", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def registration():
     
     data = request.get_json()
@@ -55,38 +62,70 @@ def registration():
 
 
 @app.route("/logout", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def logout():
     return UserService().logout(request)
 
 
 @app.route("/activate/<link>", methods=["GET"])
+@cross_origin(supports_credentials=True)
 def activate(link):
     return UserService().activation(link)
 
 
 @app.route("/refresh", methods=["GET"])
+@cross_origin(supports_credentials=True)
 def refresh():
     return UserService().refresh(request)
 
 @app.route("/add_post", methods=["POST"])
+@cross_origin(supports_credentials=True)
 @private()
 def add_post():
     return UserService().add_post(request)
 
 @app.route("/add_comment", methods=["POST"])
+@cross_origin(supports_credentials=True)
 @private()
 def add_comment():
     return UserService().add_comment(request)
 
 
 @app.route("/like", methods=["POST"])
+@cross_origin(supports_credentials=True)
 @private()
 def like():
     return UserService().like(request)
 
-@app.route("/get_posts", methods=["GET"])
+@app.route("/get_posts", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def get_posts():
     return UserService().get_posts(request)
+
+
+@app.route("/ticker_search", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def ticker_search():
+    return StockService().search(request)
+
+@app.route("/buy", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def buy():
+    return StockService().buy(request)
+
+
+@app.route("/get_dashboard", methods=["GET"])
+@cross_origin(supports_credentials=True)
+@private()
+def get_dashboard():
+    return StockService().get_dashboard(request)
+
+@app.route("/get_char", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def get_char():
+    return StockService().get_char(request)
+
 
 
 if __name__ == '__main__':

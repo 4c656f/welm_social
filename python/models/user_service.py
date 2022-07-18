@@ -4,7 +4,8 @@ from .token_service import *
 import datetime
 sys.path.append("..")
 from mysql_methods.mysql import DB
-
+from slugify import slugify
+import datetime
 
 class UserService:
     
@@ -36,8 +37,10 @@ class UserService:
 
 
         activation_link = uuid.uuid4()
+        user_link = slugify(nickname)
+        sql = "INSERT INTO `users` (`id`, `nickname`, `email`, `password`, `is_activated`, `activation_link`, `user_link`) VALUES (NULL, '{}', '{}', '{}', {}, '{}', '{}')".format(nickname ,email, hash_password, int(False), activation_link, user_link)
 
-        self.db.registration(nickname, email, hash_password, int(False), activation_link)
+        self.db.execute_commit(sql)
 
         send_activation_mail(email, activation_link)
 
@@ -179,10 +182,19 @@ class UserService:
             author_id = user["user_id"]
 
             author_nickname = user["user_nickname"]
+            date = datetime.datetime.now()
+            post_link = slugify(title)
+
+            sql = "INSERT INTO `posts` (`id`, `title`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', '{}', {}, '{}', '{}', '{}')".format(
+                title,
+                author_nickname,
+                author_id,
+                content,
+                date,
+                post_link
 
 
-            sql = "INSERT INTO `posts` (`id`, `title`, `author_nickname`, `author_id`, `content`) VALUES (NULL, '{}', '{}', {}, '{}')".format(
-                title, author_nickname, author_id, content)
+            )
             self.db.execute_commit(sql)
 
             return flask.jsonify(True), 200
@@ -198,9 +210,22 @@ class UserService:
             author_nickname = user["user_nickname"]
             content = data["comment"]["content"]
             post_id = data["comment"]["post_id"]
-
-            sql = "INSERT INTO `posts_comments` (`id`, `author_nickname`, `author_id`, `post_id`, `content`) VALUES (NULL, '{}', '{}', {}, '{}')".format(author_nickname,
-                                                                                                                                                         author_id,post_id, content)
+            date = datetime.datetime.now()
+            sql = "INSERT INTO `posts_comments` " \
+                  "(`id`, " \
+                  "`author_nickname`, " \
+                  "`author_id`," \
+                  " `post_id`, " \
+                  "`content`, " \
+                  "`creation_date`) " \
+                  "VALUES " \
+                  "(NULL, " \
+                  "'{}', '{}', {}, '{}', '{}')".format(
+                author_nickname,
+                author_id,
+                post_id,
+                content,
+                date)
             self.db.execute_commit(sql)
 
             return flask.jsonify(True), 200

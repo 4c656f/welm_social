@@ -28,7 +28,7 @@ def save_token(user_id, refresh_token, access_token):
 def generate_tokens(payload):
 
     access_token = jwt.encode(
-        {"exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60), "payload": payload},
+        {"exp": datetime.datetime.utcnow() + datetime.timedelta(minutes = 60), "payload": payload},
         os.getenv('JWT_ACCESS_TOKEN'))
 
 

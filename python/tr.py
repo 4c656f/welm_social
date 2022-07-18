@@ -1,6 +1,6 @@
-def kwargs(*args, **kwargs):
-    for i in args:
-        print(i)
-    print(kwargs)
+from slugify import slugify
 
-kwargs("Jonathan","Jonathan", dog="Brock", fish=["Larry", "Curly", "Moe"], turtle="Shelldon")
+title = "ffff]4343"
+
+
+print(slugify(title,))
