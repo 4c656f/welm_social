@@ -184,7 +184,14 @@ class UserService:
             author_nickname = user["user_nickname"]
             date = datetime.datetime.now()
             post_link = slugify(title)
+            last_id = self.db.fetch("SELECT `id` FROM `posts` ORDER BY `id` DESC LIMIT 1")
+            if not last_id:
+                last_id = 1
 
+            else:
+                last_id = int(last_id[0]["id"]) + 1
+            post_link = f"{last_id}-{post_link}"
+            print(last_id)
             sql = "INSERT INTO `posts` (`id`, `title`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', '{}', {}, '{}', '{}', '{}')".format(
                 title,
                 author_nickname,
@@ -263,30 +270,69 @@ class UserService:
             return str(e), 400
 
     def get_posts(self, request):
-        data = request.get_json()
-        start = data["start"]
-        end = data["end"]
-        sort = data["sort"]
-        posts = self.db.fetch("SELECT * FROM `posts` ORDER BY `id` DESC LIMIT {}, {};".format(start, end))
-        resp_body = []
-        for i in posts:
+        try:
+            data = request.get_json()
+            start = data["start"]
+            end = data["end"]
+            sort = data["sort"]
+        except Exception as e:
+            print(e)
+            return str(e), 400
+        posts = self.db.fetch(
+            f"""
+            SELECT 
+            posts.*,
+            IFNULL(l.count, 0) as likes 
+            FROM posts 
+            LEFT JOIN (
+                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
+            ) l on l.post_id = posts.id
+            ORDER BY posts.creation_date DESC LIMIT {start}, {end}
+            """
+        )
 
-            i["comments"] = self.db.fetch("SELECT"
-                                          " `content`,"
-                                          " `author_id`,"
-                                          " `author_nickname`,"
-                                          " `id`"
-                                          " FROM `posts_comments` "
-                                          "WHERE `post_id` = {} ORDER BY `id` DESC".format(i["id"]))
-            i["likes"] = self.db.fetch(
-                "SELECT `id`,"
-                " `like_type`,"
-                " `author_nickname`,"
-                " `author_id`"
-                " FROM `posts_likes` WHERE `post_id` = {} ORDER BY `id` DESC".format(i["id"]))
-            resp_body.append(i)
+        return flask.jsonify(posts)
 
-        return flask.jsonify(resp_body)
+    def save_post(self, request):
+        try:
+            data = request.get_json()
+            user_id = data["user"]["user_id"]
+            post_id = data["post_id"]
 
 
+        except Exception as e:
+            print(e)
+            return str(e), 400
 
+        sql = f"SELECT * FROM `saved_posts` WHERE user_id = {user_id} AND post_id = {post_id}"
+        if self.db.fetch(sql):
+            return "already", 200
+        try:
+            add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`) VALUES (NULL, {user_id},{post_id})"
+            self.db.execute_commit(add_save)
+            return flask.jsonify(True), 200
+        except Exception as e:
+            print(e)
+            return str(e), 400
+
+
+    def get_save_post(self, request):
+        try:
+            data = request.get_json()
+            user_id = data["user"]["user_id"]
+
+
+        except Exception as e:
+            print(e)
+            return str(e), 400
+
+        sql = f"SELECT * FROM `saved_posts` WHERE user_id = {user_id} AND post_id = {post_id}"
+        if self.db.fetch(sql):
+            return "already", 200
+        try:
+            add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`) VALUES (NULL, {user_id},{post_id})"
+            self.db.execute_commit(add_save)
+            return flask.jsonify(True), 200
+        except Exception as e:
+            print(e)
+            return str(e), 400

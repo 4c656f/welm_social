@@ -1,6 +1,8 @@
-from slugify import slugify
-
-title = "ffff]4343"
+import yfinance as yf
 
 
-print(slugify(title,))
+msft = yf.Ticker("MSFT")
+
+
+
+print(msft.news[0]["title"])

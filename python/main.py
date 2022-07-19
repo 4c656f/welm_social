@@ -121,6 +121,19 @@ def buy():
 def get_dashboard():
     return StockService().get_dashboard(request)
 
+@app.route("/save_post", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def save_post():
+    return UserService().save_post(request)
+
+@app.route("/get_save_posts", methods=["GET"])
+@cross_origin(supports_credentials=True)
+@private()
+def save_post():
+    return UserService().get_save_posts(request)
+
+
 @app.route("/get_char", methods=["GET"])
 @cross_origin(supports_credentials=True)
 def get_char():
