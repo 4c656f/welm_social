@@ -1,0 +1,25 @@
+.button{
+    color: white;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    transition: 0.2s;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button:hover{
+    background-color: var(--button_hover);
+}
+.disabled{
+    pointer-events:none
+}
+.active{
+    background-color: var(--active_button_bg);
+}

@@ -56,6 +56,7 @@ def login():
 def registration():
     
     data = request.get_json()
+    print(data)
     return UserService().register(data)
 
 
@@ -73,7 +74,7 @@ def activate(link):
     return UserService().activation(link)
 
 
-@app.route("/refresh", methods=["GET"])
+@app.route("/refresh", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def refresh():
     return UserService().refresh(request)
@@ -102,8 +103,12 @@ def like():
 def get_posts():
     return UserService().get_posts(request)
 
+@app.route("/get_posts_by_ticker", methods=["POST"])
+@cross_origin(supports_credentials=True)
+def get_posts_by_ticker():
+    return UserService().get_posts_by_ticker(request)
 
-@app.route("/ticker_search", methods=["GET"])
+@app.route("/ticker_search", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def ticker_search():
     return StockService().search(request)
@@ -115,7 +120,7 @@ def buy():
     return StockService().buy(request)
 
 
-@app.route("/get_dashboard", methods=["GET"])
+@app.route("/get_dashboard", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def get_dashboard():
@@ -130,14 +135,21 @@ def save_post():
 @app.route("/get_save_posts", methods=["GET"])
 @cross_origin(supports_credentials=True)
 @private()
-def save_post():
+def get_save_post():
     return UserService().get_save_posts(request)
 
 
-@app.route("/get_char", methods=["GET"])
+@app.route("/get_char", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def get_char():
     return StockService().get_char(request)
+
+@app.route("/get_check_nickname", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def get_check_nickname():
+    print(request)
+    return UserService().get_check_nickname(request)
+
 
 
 

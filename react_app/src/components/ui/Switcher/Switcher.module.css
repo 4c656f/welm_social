@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    grid-gap: 10px;
+    background-color: #1B1B1B;
+    border-radius: 7px;
+    padding: 10px 20px 10px 20px;
+}
+.placeholder{
+    margin-right: 10px;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    font-size: 10px;
+    font-weight: 300;
+}

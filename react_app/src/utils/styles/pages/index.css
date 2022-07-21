@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body{
+    background-color: black;
+}
+:root{
+    --button_bg: #232323;
+    --active_button_bg: #363636;
+    --button_hover: #262626;
+    --button_border_radius: 7px;
+    --inter_font: 'Inter', sans-serif;
+}
+
+
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+
+.scroll_container{
+    width: 50vw;
+    position: relative;
+    top: 0%;
+    left: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transform: translate(-50%, 0);
+}
+
+.loader_bg{
+    animation-duration: 1.8s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: linear-gradient(to right, #1a1a1a 8%, #1c1c1c 38%, #151515 54%);
+    background-size: 1000px 640px;
+}

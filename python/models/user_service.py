@@ -46,7 +46,7 @@ class UserService:
 
 
 
-        return flask.jsonify(True)
+        return flask.jsonify(True), 200
         
     def login(self, data):
 
@@ -184,12 +184,30 @@ class UserService:
             author_nickname = user["user_nickname"]
             date = datetime.datetime.now()
             post_link = slugify(title)
+
+            text = content.split(" ")
+
+            tags = []
+
+            for i in text:
+                if i.startswith("$"):
+                    tags.append(i.upper())
+
+            tags = list(dict.fromkeys(tags))
+
             last_id = self.db.fetch("SELECT `id` FROM `posts` ORDER BY `id` DESC LIMIT 1")
+
             if not last_id:
                 last_id = 1
 
             else:
                 last_id = int(last_id[0]["id"]) + 1
+
+
+
+
+
+
             post_link = f"{last_id}-{post_link}"
             print(last_id)
             sql = "INSERT INTO `posts` (`id`, `title`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', '{}', {}, '{}', '{}', '{}')".format(
@@ -203,6 +221,11 @@ class UserService:
 
             )
             self.db.execute_commit(sql)
+            for i in tags:
+                selection = self.db.fetch(f"SELECT `id` FROM `ticker_tags` WHERE `ticker_tag` = '{i}' AND `post_id` = {last_id}")
+                if not selection:
+                    self.db.execute_commit(
+                        f"INSERT INTO `ticker_tags`(`id`, `ticker_tag`, `post_id`) VALUES (NULL,'{i}', {last_id})")
 
             return flask.jsonify(True), 200
         except Exception as e:
@@ -275,21 +298,42 @@ class UserService:
             start = data["start"]
             end = data["end"]
             sort = data["sort"]
+            if sort == "popular":
+                interval = data["interval"]
         except Exception as e:
             print(e)
             return str(e), 400
-        posts = self.db.fetch(
-            f"""
+
+        if sort == "new":
+            sql = f"""
             SELECT 
             posts.*,
-            IFNULL(l.count, 0) as likes 
+            IFNULL(l.count, 0) as likes, IFNULL(c.comment_count, 0) as comments
             FROM posts 
             LEFT JOIN (
                 SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
             ) l on l.post_id = posts.id
-            ORDER BY posts.creation_date DESC LIMIT {start}, {end}
+            LEFT JOIN (
+                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
+            ) c on c. post_id = posts.id
+            ORDER BY posts.creation_date DESC LIMIT {start}, {end};
             """
-        )
+        elif sort == "popular":
+            sql = f"""
+            SELECT 
+            posts.*,
+            IFNULL(l.count, 0) as likes, IFNULL(c.comment_count, 0) as comments
+            FROM posts 
+            LEFT JOIN (
+                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
+            ) l on l.post_id = posts.id
+            LEFT JOIN (
+                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
+            ) c on c. post_id = posts.id WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
+            ORDER BY likes DESC LIMIT {start}, {end};
+            """
+        print (sql)
+        posts = self.db.fetch(sql)
 
         return flask.jsonify(posts)
 
@@ -298,7 +342,7 @@ class UserService:
             data = request.get_json()
             user_id = data["user"]["user_id"]
             post_id = data["post_id"]
-
+            date = datetime.datetime.now()
 
         except Exception as e:
             print(e)
@@ -308,7 +352,7 @@ class UserService:
         if self.db.fetch(sql):
             return "already", 200
         try:
-            add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`) VALUES (NULL, {user_id},{post_id})"
+            add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`, `save_date`) VALUES (NULL, {user_id}, {post_id}, '{date}')"
             self.db.execute_commit(add_save)
             return flask.jsonify(True), 200
         except Exception as e:
@@ -316,7 +360,7 @@ class UserService:
             return str(e), 400
 
 
-    def get_save_post(self, request):
+    def get_save_posts(self, request):
         try:
             data = request.get_json()
             user_id = data["user"]["user_id"]
@@ -326,13 +370,69 @@ class UserService:
             print(e)
             return str(e), 400
 
-        sql = f"SELECT * FROM `saved_posts` WHERE user_id = {user_id} AND post_id = {post_id}"
-        if self.db.fetch(sql):
-            return "already", 200
+        sql = f"""SELECT posts.*,
+        IFNULL(l.count, 0) as likes,
+        IFNULL(c.comment_count, 0) as comments
+        FROM posts INNER JOIN saved_posts ON saved_posts.post_id = posts.id AND saved_posts.user_id = {user_id} 
+        LEFT JOIN ( SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes GROUP BY posts_likes.post_id ) l on l.post_id = posts.id 
+        LEFT JOIN ( SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments GROUP BY posts_comments.post_id ) c on c. post_id = posts.id 
+        ORDER BY saved_posts.save_date DESC;"""
+
+        posts = self.db.fetch(sql)
+
+        return flask.jsonify(posts), 200
+
+
+    def get_posts_by_ticker(self, request):
         try:
-            add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`) VALUES (NULL, {user_id},{post_id})"
-            self.db.execute_commit(add_save)
-            return flask.jsonify(True), 200
+            data = request.get_json()
+            ticker = "$" + data["ticker"]
+            start = data["start"]
+            end = data["end"]
+            sort = data["sort"]
+            if sort == "popular":
+                interval = data["interval"]
         except Exception as e:
             print(e)
             return str(e), 400
+
+        print(ticker)
+
+
+
+        if sort == "new":
+            sql = f"""SELECT posts.*,
+            IFNULL(l.count, 0) as likes,
+            IFNULL(c.comment_count, 0) as comments 
+            FROM posts INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = '{ticker}' 
+            LEFT JOIN ( SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes GROUP BY posts_likes.post_id ) l on l.post_id = posts.id 
+            LEFT JOIN ( SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments GROUP BY posts_comments.post_id ) c on c. post_id = posts.id 
+            ORDER BY posts.creation_date DESC LIMIT {start}, {end};"""
+        elif sort == "popular":
+            sql = f"""SELECT posts.*, 
+            IFNULL(l.count, 0) as likes,
+            IFNULL(c.comment_count, 0) as comments 
+            FROM posts INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = '{ticker}'
+            AND DATE(posts.creation_date) >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
+            LEFT JOIN ( SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes GROUP BY posts_likes.post_id ) l on l.post_id = posts.id 
+            LEFT JOIN ( SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments GROUP BY posts_comments.post_id ) c on c. post_id = posts.id 
+            ORDER BY likes DESC LIMIT {start}, {end};"""
+
+        print(sql)
+        posts = self.db.fetch(sql)
+        print(posts)
+
+        return flask.jsonify(posts), 200
+
+    def get_check_nickname(self, request):
+        try:
+            nickname = request.args.get('nickname')
+            email = request.args.get('email')
+            print(email)
+        except Exception as e:
+            print(e)
+            return str(e), 400
+        sql = f"SELECT * FROM `users` WHERE users.nickname = '{nickname}' OR users.email = '{email}'"
+        if self.db.fetch(sql):
+            return flask.jsonify(False), 200
+        return flask.jsonify(True), 200

@@ -1,8 +1,3 @@
-import yfinance as yf
+import datetime
 
-
-msft = yf.Ticker("MSFT")
-
-
-
-print(msft.news[0]["title"])
+print(datetime.date.today())

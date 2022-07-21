@@ -1,40 +1,27 @@
 import React, {FC} from 'react';
-import AuthService from "./services/AuthService";
-import PostsService from "./services/PostsService";
-
-function tr(): string{
-
-    let val
-    val = 1
-    return "r"
-
-}
-
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import TickerPage from "./pages/TickerPage";
+import "./utils/styles/pages/index.css"
 
 
 const App: FC  = () => {
 
-
-
-
-
-
-    const x = async () => {
-        let resp = await AuthService.login("vlevo.yovlyo@yandex.ru", "1")
-        localStorage.setItem("token", resp.data.tokens.access_token)
-    }
-
-    const y = async () => {
-        let resp = await PostsService.login(0, 10, "sort")
-        console.log(resp.data)
-    }
-
-
     return (
-        <div>
-            <button onClick={x}> login</button>
-            <button onClick={y}> get_post</button>
-        </div>
+        <BrowserRouter>
+            <Routes>
+
+
+                <Route path="/" element={<Home />}/>
+                <Route path="/sign-in" element={<SignIn/>}/>
+                <Route path="/sign-up" element={<SignUp/>}/>
+                <Route path="/ticker/:ticker" element={<TickerPage/>}/>
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </BrowserRouter>
     );
 };
 
