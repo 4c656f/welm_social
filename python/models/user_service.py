@@ -127,8 +127,9 @@ class UserService:
 
 
             tokens = generate_tokens(payload)
-
-            res = flask.make_response(flask.jsonify(tokens))
+            resp = {"tokens": tokens, "user": {"user_id": data["id"], "user_nickname": data["nickname"], "email": data["email"],
+                                               "is_activated": data["is_activated"]}}
+            res = flask.make_response(flask.jsonify(resp))
 
             res.set_cookie("refresh_token", value=tokens["refresh_token"], httponly=True, expires= datetime.datetime.utcnow() + datetime.timedelta(days=30))
 
@@ -266,25 +267,25 @@ class UserService:
 
     def like(self, request):
         try:
-            data = request.get_json()
+            data = request.get_json()["data"]
+
             user = data["user"]
             author_id = user["user_id"]
             author_nickname = user["user_nickname"]
             like = data["like"]["like_type"]
             post_id = data["like"]["post_id"]
-
+            date = datetime.datetime.now()
             select_check = self.db.fetch("SELECT * FROM `posts_likes` WHERE `author_id` = {} AND `post_id` = {}".format(author_id, post_id))
             if select_check:
-                if select_check[0]["like_type"] == like:
-                    self.db.execute_commit("DELETE FROM `posts_likes` WHERE `author_id` = '{}' AND `post_id` = '{}'".format(author_id, post_id))
-                    return flask.jsonify(True), 200
-                self.db.execute_commit(
-                    "UPDATE `posts_likes` SET `like_type` = {}  WHERE `author_id` = '{}' AND `post_id` = '{}'".format(like, author_id, post_id))
+                sql = f"UPDATE `posts_likes` SET `like_type`='{like}',`creation_date`='{date}'  WHERE `author_id` = '{author_id}' AND `post_id` = '{post_id}'"
+                print(sql)
+                self.db.execute_commit(sql)
                 return flask.jsonify(True), 200
 
 
-            sql = "INSERT INTO `posts_likes` (`id`, `author_nickname`, `author_id`, `post_id`, `like_type`) VALUES (NULL, '{}', '{}', {}, '{}')".format(author_nickname,
-                                                                                                                                                         author_id,post_id, like)
+
+            sql = f"INSERT INTO `posts_likes` (`id`, `author_nickname`, `author_id`, `post_id`, `like_type`, `creation_date`) VALUES (NULL, '{author_nickname}', '{author_id}', {post_id}, '{like}', '{date}')"
+            print(sql)
             self.db.execute_commit(sql)
 
             return flask.jsonify(True), 200
@@ -391,7 +392,7 @@ class UserService:
             end = data["end"]
             sort = data["sort"]
             if sort == "popular":
-                interval = data["interval"]
+                interval = int(data["interval"])
         except Exception as e:
             print(e)
             return str(e), 400
@@ -420,7 +421,6 @@ class UserService:
 
         print(sql)
         posts = self.db.fetch(sql)
-        print(posts)
 
         return flask.jsonify(posts), 200
 

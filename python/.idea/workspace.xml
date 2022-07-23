@@ -2,20 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0be55ffb-fe26-41f0-abae-f9eda8a105a8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/token_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tr.py" beforeDir="false" afterPath="$PROJECT_DIR$/tr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/services/AuthService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/services/PostsService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/types/IPost.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/types/IPost.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Button/Button.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Button/Button.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Feed/Feed.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/LIkeCounter/LikeCounter.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/LoginInput/LoginInput.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/LoginInput/LoginInput.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/LoginInput/LoginInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/LoginInput/LoginInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/SmallSpinnerLoader/SmallSpinnerLoader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/SmallSpinnerLoader/SmallSpinnerLoader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/Switcher.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/Switcher.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/Switcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/Switcher.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/SwitcherButton.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Switcher/SwitcherButton.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/hooks/UseFetchFeed.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/services/postsServices/PostsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/services/postsServices/PostsService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/utils/styles/pages/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/utils/styles/pages/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

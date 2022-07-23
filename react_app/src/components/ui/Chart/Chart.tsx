@@ -17,6 +17,7 @@ const Chart:FC<ChartProps> = ({ticker,char_data,isLoading}) => {
         return char_data[ticker].length -2
     }
 
+
     return (
         <>
         {
@@ -26,7 +27,7 @@ const Chart:FC<ChartProps> = ({ticker,char_data,isLoading}) => {
                 </div>
                 :
                 <div className={classes.char_container}>
-                    <ResponsiveContainer>
+                    <ResponsiveContainer width={"100%"} height={"100%"}>
                         <LineChart width={730} height={250} data={char_data[ticker]}>
                             <Tooltip isAnimationActive={false} allowEscapeViewBox={{x: true, y: true}} position={{y: 0}} content={<CustomTooltip />} />
                             <Line dot={false} isAnimationActive={true} type="basis" dataKey="price" stroke="#fff" />

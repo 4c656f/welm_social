@@ -1,0 +1,26 @@
+.like_counter_wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 10px;
+}
+
+.like_number{
+    font-family: var(--inter_font);
+    color: var(--font_color);
+}
+.like_number_positive{
+    color: greenyellow;
+}
+.like_number_negative{
+    color: red;
+}
+.like_button{
+    transform: rotate(180deg);
+    height: max-content;
+    width: max-content;
+}
+.dislike_button{
+    height: max-content;
+    width: max-content;
+}

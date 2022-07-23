@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
 import classes from "./LoginInput.module.css"
-import { ReactComponent as LoaderSvg } from "../../../utils/svg/spinnerloader.svg"
 
 interface LoginInputProps{
     value:string;
@@ -23,7 +22,7 @@ const LoginInput:FC<LoginInputProps> = ({value, onChangeFc, placeholder, type, m
             {
                 isFetching?
                     <div className={classes.loader}>
-                        <LoaderSvg/>
+                        <SmallSpinnerLoader/>
                     </div>
                     :null
             }

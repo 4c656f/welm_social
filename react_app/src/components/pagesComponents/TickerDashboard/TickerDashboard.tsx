@@ -3,7 +3,7 @@ import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
 import classes from "./TickerDashboard.module.css"
-import Feed from "../../ui/Feed/Feed";
+import TickerFeed from "../../ui/TickerFeed/TickerFeed";
 
 
 interface TickerDashboardProps{
@@ -61,7 +61,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
             </div>
-            <Feed type={"main"} ticker={ticker}/>
+            <TickerFeed ticker={ticker}/>
         </div>
     );
 };

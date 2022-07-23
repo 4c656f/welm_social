@@ -12,10 +12,10 @@ interface IButtonSwitcherProps{
 
 
 interface switcherProps{
-    buttonObject: IButtonSwitcherProps[];
-    setButtonsFc:(value: IButtonSwitcherProps[] | ((prevVar: IButtonSwitcherProps[]) => IButtonSwitcherProps[])) => IButtonSwitcherProps[];
-    setValFc:(value: string | ((prevVar: string) => string)) => string;
-    placeholder:string;
+    buttonObject: IButtonSwitcherProps[] | any;
+    setButtonsFc:(value: IButtonSwitcherProps[] | ((prevVar: IButtonSwitcherProps[]) => IButtonSwitcherProps[])) => IButtonSwitcherProps[]| any;
+    setValFc:(value: string | ((prevVar: string) => string)) => string | any;
+    placeholder:string | any;
 }
 const Switcher:FC<switcherProps> = ({buttonObject, setButtonsFc, setValFc, placeholder}) => {
 

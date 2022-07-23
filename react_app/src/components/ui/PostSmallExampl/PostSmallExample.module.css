@@ -1,0 +1,20 @@
+.post_container{
+    width: 70%;
+    padding-top: 40px;
+    background-color: var(--button_bg);
+    border-radius: var(--button_border_radius);
+}
+.post_text{
+    font-family: var(--inter_font);
+    font-weight: 300;
+    color: var(--font_color);
+}
+
+
+
+
+.title{
+    font-weight: 500;
+    font-family: var(--inter_font);
+    color: var(--font_color);
+}

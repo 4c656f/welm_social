@@ -11,7 +11,7 @@
 .placeholder{
     margin-right: 10px;
     font-family: 'Inter', sans-serif;
-    color: white;
+    color: var(--font_color);
     font-size: 10px;
     font-weight: 300;
 }

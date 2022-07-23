@@ -1,11 +1,31 @@
-import React, {FC} from 'react';
+import React, {FC, memo, useEffect} from 'react';
+import {IPost} from "../../../types/IPost";
+import classes from "./PostSmallExample.module.css"
+import LikeCounter from "./LikeCounter/LikeCounter";
 
-const PostSmallExample:FC = () => {
+interface PostSmallExampleProps{
+    post: IPost
+}
+
+
+const PostSmallExample:FC<PostSmallExampleProps> = ({post}) => {
+
+
+
+
     return (
-        <div>
-            
+
+        <div className={classes.post_container}>
+            <div className={classes.title}>
+                {post.title}
+            </div>
+            <div className={classes.post_text}>
+                {post.content}
+            </div>
+            <LikeCounter count={Number(post.likes)} postId={post.id}/>
+
         </div>
     );
 };
 
-export default PostSmallExample;
+export default memo(PostSmallExample);
