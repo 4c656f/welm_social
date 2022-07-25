@@ -8,4 +8,5 @@ export interface IPost {
     author_id: number;
     likes: number;
     comments: number;
+    like_initial:number;
 }

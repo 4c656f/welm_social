@@ -7,11 +7,22 @@ import {IPost} from "../types/IPost";
 
 
 
-const useFetchTickerFeed = (start:number, end:number,setStart:any,setEnd:any, sort:string, interval:number, ticker:string) =>{
+const useFetchFeed = (start:number,
+                      end:number,
+                      setStart:any,
+                      setEnd:any,
+                      sort:"new"|"popular",
+                      interval:1|7|30|365,
+                      ticker:boolean|string,
+                      user:boolean|object,
+                      isStoreLoading:boolean) =>{
+
+
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [posts, setPosts] = useState<IPost[]|undefined[]>([])
     const [isLast, setIsLast] = useState<boolean>(false)
+
 
 
 
@@ -23,10 +34,13 @@ const useFetchTickerFeed = (start:number, end:number,setStart:any,setEnd:any, so
 
 
     useEffect(()=>{
+        if(isStoreLoading){
 
+            return
+        }
         setIsLoading(true)
 
-        PostsServices.GetTickerPosts(start, end, sort, interval, ticker)
+        PostsServices.GetPosts({start, end, sort, interval, user, ticker})
             .then((res)=>{
 
                 if(res.data.length < 1){
@@ -37,7 +51,7 @@ const useFetchTickerFeed = (start:number, end:number,setStart:any,setEnd:any, so
 
             })
             .finally(()=>setIsLoading(false))
-    },[sort,interval, start])
+    },[sort,interval, start, isStoreLoading])
 
 
 
@@ -45,4 +59,4 @@ const useFetchTickerFeed = (start:number, end:number,setStart:any,setEnd:any, so
 
 }
 
-export default useFetchTickerFeed
+export default useFetchFeed

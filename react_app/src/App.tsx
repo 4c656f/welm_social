@@ -8,6 +8,7 @@ import TickerPage from "./pages/TickerPage";
 import "./utils/styles/pages/index.css"
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
+import {toJS} from "mobx";
 
 
 const App: FC  = () => {
@@ -15,11 +16,18 @@ const App: FC  = () => {
     const {store} = useContext(Context)
 
     useEffect(()=>{
+        console.log("отработал mobx App", store.isAuth)
+    },[store.isAuth])
+
+    useEffect(()=>{
+        console.log("отработал логин")
         if(localStorage.getItem("token")){
             store.checkAuth()
         }
 
     },[])
+
+
 
     return (
         <BrowserRouter>

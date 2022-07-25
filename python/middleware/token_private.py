@@ -27,7 +27,7 @@ def private():
 
 
             except Exception as e:
-                print(e)
+                print(e, "protected")
                 return "invalid access_token", 401
 
             return f()

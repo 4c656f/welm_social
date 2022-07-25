@@ -1,28 +1,19 @@
 import api from "../../http";
 import {AxiosResponse} from 'axios'
-
 import {IPost} from "../../types/IPost";
 import {IUser} from "../../types/IUser";
+import {IGetPostsArgs} from "../../types/IGetPostsArgs";
 
 export default class AuthService{
 
-    static async GetPosts(start: number, end: number, sort: string, interval:number): Promise<AxiosResponse<IPost[]>>{
-
+    static async GetPosts(args:IGetPostsArgs): Promise<AxiosResponse<IPost[]>>{
         return api.post<IPost[]>("/get_posts", {
-            "start": start,
-            "end": end,
-            "sort": sort,
-            "interval": interval
-        })
-    }
-    static async GetTickerPosts(start: number, end: number, sort: string, interval:number, ticker:string): Promise<AxiosResponse<IPost[]>>{
-
-        return api.post<IPost[]>("/get_posts_by_ticker", {
-            "ticker": ticker,
-            "start": start,
-            "end": end,
-            "sort": sort,
-            "interval": interval
+            "start": args.start,
+            "end": args.end,
+            "sort": args.sort,
+            "interval": args.interval,
+            "user": args.user,
+            "ticker": args.ticker
         })
     }
     static async AddLike(user: IUser, likeType:number, postId:number): Promise<AxiosResponse<boolean>>{

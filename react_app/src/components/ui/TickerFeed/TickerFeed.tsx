@@ -1,9 +1,12 @@
-import React, {FC, memo, useEffect, useRef, useState} from 'react';
-import useFetchTickerFeed from "../../../hooks/useFetchTickerFeed";
+import React, {FC, memo, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import useFetchFeed from "../../../hooks/useFetchFeed";
 import PostCategorySwitcher from "../PostCategorySwitcher/PostCategorySwitcher";
 import PostSmallExample from "../PostSmallExampl/PostSmallExample";
 import classes from "./TickerFeed.module.css"
 import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
+import {Context} from "../../../index";
+import {toJS} from "mobx";
+import {observer} from "mobx-react-lite";
 
 interface FeedProps{
     ticker: string;
@@ -18,9 +21,14 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
     const [sort, setSort]= useState<"new" | "popular">("new")
     const [interval, setInterval]= useState<1 | 7 | 30 | 365>(1)
 
+    const {store} = useContext(Context)
 
 
-    const{posts, isLoading, isLast} = useFetchTickerFeed(start, end, setStart, setEnd, sort, interval, ticker)
+
+
+
+
+    const {posts, isLoading, isLast} = useFetchFeed(start, end, setStart, setEnd, sort, interval, ticker, toJS(store.user), store.isLoading)
 
 
 
@@ -99,4 +107,4 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
     );
 };
 
-export default memo(TickerFeed);
+export default memo(observer(TickerFeed));

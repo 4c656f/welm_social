@@ -10,7 +10,7 @@ export default class Store{
 
     user = {} as IUser;
     isAuth = false;
-    isLoading = false;
+    isLoading = true;
 
 
     constructor() {
@@ -69,13 +69,15 @@ export default class Store{
     async checkAuth(){
         try {
             const response = await  axios.post<AuthResponse>(`${API_URL}/refresh`,{},{withCredentials:true})
-            console.log(response.data)
             localStorage.setItem("token", response.data.tokens.access_token)
             this.setAuth(true);
             this.setUser(response.data.user);
             return [true]
         }catch (e) {
+            console.log(e)
             
+        }finally {
+            this.isLoading = false
         }
     }
 

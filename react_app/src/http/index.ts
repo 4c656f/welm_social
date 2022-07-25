@@ -30,10 +30,11 @@ api.interceptors.response.use((config)=>{
         originalRequest._isRetry = true
         try {
             const response = await axios.post<AuthResponse>(`${API_URL}/refresh`, {}, {withCredentials: true})
+
             localStorage.setItem("token", response.data.tokens.access_token)
             return api.request(originalRequest);
         }catch (e) {
-            console.log("пользователь не авторизован")
+            console.log("пользователь не авторизован interceptor", e)
 
         }
 

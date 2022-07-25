@@ -299,6 +299,8 @@ class UserService:
             start = data["start"]
             end = data["end"]
             sort = data["sort"]
+            user = data["user"]
+            ticker = data["ticker"]
             if sort == "popular":
                 interval = data["interval"]
         except Exception as e:
@@ -307,30 +309,42 @@ class UserService:
 
         if sort == "new":
             sql = f"""
-            SELECT 
-            posts.*,
-            IFNULL(l.count, 0) as likes, IFNULL(c.comment_count, 0) as comments
-            FROM posts 
+            SELECT posts.*,
+            IFNULL(l.count, 0) as likes,
+            IFNULL(c.comment_count, 0) as comments,
+            {"IFNULL(li.like_type, 0)" if user else 0} as like_initial
+            FROM posts
+            {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
+            LEFT JOIN (
+                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id)
+                l on l.post_id = posts.id
+            LEFT JOIN (
+                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id)
+                c on c. post_id = posts.id
+            {f'''LEFT JOIN (
+                SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
+                li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
+            ORDER BY posts.creation_date DESC LIMIT {start}, {end};
+            """
+
+        elif sort == "popular":
+            sql = f"""
+            SELECT posts.*,
+            IFNULL(l.count, 0) as likes,
+            IFNULL(c.comment_count, 0) as comments,
+            {"IFNULL(li.like_type, 0)" if user else 0} as like_initial
+            FROM posts
+            {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
             LEFT JOIN (
                 SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
             ) l on l.post_id = posts.id
             LEFT JOIN (
                 SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
             ) c on c. post_id = posts.id
-            ORDER BY posts.creation_date DESC LIMIT {start}, {end};
-            """
-        elif sort == "popular":
-            sql = f"""
-            SELECT 
-            posts.*,
-            IFNULL(l.count, 0) as likes, IFNULL(c.comment_count, 0) as comments
-            FROM posts 
-            LEFT JOIN (
-                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
-            ) l on l.post_id = posts.id
-            LEFT JOIN (
-                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
-            ) c on c. post_id = posts.id WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
+            {f'''LEFT JOIN (
+                SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
+                li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
+            WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
             ORDER BY likes DESC LIMIT {start}, {end};
             """
         print (sql)
@@ -373,10 +387,14 @@ class UserService:
 
         sql = f"""SELECT posts.*,
         IFNULL(l.count, 0) as likes,
-        IFNULL(c.comment_count, 0) as comments
-        FROM posts INNER JOIN saved_posts ON saved_posts.post_id = posts.id AND saved_posts.user_id = {user_id} 
+        IFNULL(c.comment_count, 0) as comments,
+        IFNULL(li.like_type, 0) as like_init
+        FROM posts
+        INNER JOIN saved_posts ON saved_posts.post_id = posts.id AND saved_posts.user_id = {user_id} 
         LEFT JOIN ( SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes GROUP BY posts_likes.post_id ) l on l.post_id = posts.id 
-        LEFT JOIN ( SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments GROUP BY posts_comments.post_id ) c on c. post_id = posts.id 
+        LEFT JOIN ( SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments GROUP BY posts_comments.post_id ) c on c. post_id = posts.id
+        LEFT JOIN ( SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
+        li on li.post_id = posts.id AND li.author_id = {user_id}
         ORDER BY saved_posts.save_date DESC;"""
 
         posts = self.db.fetch(sql)

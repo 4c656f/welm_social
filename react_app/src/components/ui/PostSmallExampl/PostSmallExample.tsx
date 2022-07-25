@@ -11,7 +11,9 @@ interface PostSmallExampleProps{
 const PostSmallExample:FC<PostSmallExampleProps> = ({post}) => {
 
 
-
+    useEffect(()=>{
+        console.log(post)
+    }, [])
 
     return (
 
@@ -22,7 +24,7 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post}) => {
             <div className={classes.post_text}>
                 {post.content}
             </div>
-            <LikeCounter count={Number(post.likes)} postId={post.id}/>
+            <LikeCounter count={Number(post.likes)} postId={post.id} LikeInit={post.like_initial}/>
 
         </div>
     );

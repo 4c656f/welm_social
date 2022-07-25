@@ -10,40 +10,44 @@ interface LikeCounterProps{
     postId:number;
 }
 
-const LikeCounter = ({count, postId}) => {
+const LikeCounter = ({count, postId, LikeInit}) => {
 
-    const [likeCount, setLikeCount] = useState<number>(count)
-    const [likeType, setLikeType] = useState<number>(0)
+    const [likeCount, setLikeCount] = useState<number>(count - LikeInit)
+    const [likeType, setLikeType] = useState<number>(LikeInit)
 
 
 
     const {store} = useContext(Context)
+
     const addLike = async (type) => {
         console.log(type)
         if(!store.isAuth){
-            //PopUp
             console.log("пользователь не авторизован")
             return
         }
-        const likeResp = await PostsServices.AddLike(store.user,type,postId)
+        let cur_type = type
+        if(type === likeType)cur_type = 0
+
+        const likeResp = await PostsServices.AddLike(store.user,cur_type,postId)
         if(likeResp.data){
-            setLikeType(type)
+            setLikeType(cur_type)
         }else{
             console.log("error")
         }
 
     }
 
+
     return (
         <div className={classes.like_counter_wrap}>
-            <div className={classes.dislike_button} onClick={()=>addLike(-1)}>
+            <div className={`${classes.dislike_button} ${likeType===-1?classes.active_button:""}`} onClick={()=>addLike(-1)}>
                 <LikeSvg/>
             </div>
 
-            <div className={`${classes.like_number} ${likeCount>0? classes.like_number_positive: likeCount<0?classes.like_number_negative: ""}`}>
+            <div className={`${classes.like_number} ${(likeCount + likeType)>0?classes.like_number_positive:(likeCount + likeType)<0?classes.like_number_negative:""}`}>
                 {likeCount + likeType}
             </div>
-            <div className={classes.like_button} onClick={()=>addLike(1)}>
+            <div className={`${classes.like_button} ${likeType===1?classes.active_button:""}`} onClick={()=>addLike(1)}>
                 <LikeSvg/>
             </div>
         </div>

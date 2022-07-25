@@ -11,7 +11,7 @@ load_dotenv()
 def save_token(user_id, refresh_token, access_token):
     
     db = DB()
-    print(db.selection_command('*', 'tokens', 'user_id', user_id))
+
 
     if db.selection_command('*', 'tokens', 'user_id', user_id):
         sql = "UPDATE tokens SET refresh_token='{}', access_token='{}' WHERE user_id= '{}'".format(refresh_token ,access_token, user_id)
@@ -28,7 +28,7 @@ def save_token(user_id, refresh_token, access_token):
 def generate_tokens(payload):
 
     access_token = jwt.encode(
-        {"exp": datetime.datetime.utcnow() + datetime.timedelta(seconds = 60), "payload": payload},
+        {"exp": datetime.datetime.utcnow() + datetime.timedelta(seconds = 10), "payload": payload},
         os.getenv('JWT_ACCESS_TOKEN'))
 
 
