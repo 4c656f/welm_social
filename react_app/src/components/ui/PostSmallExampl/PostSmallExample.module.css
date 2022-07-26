@@ -9,12 +9,9 @@
     font-weight: 300;
     color: var(--font_color);
 }
-
-
-
-
-.title{
-    font-weight: 500;
+.read_more{
     font-family: var(--inter_font);
-    color: var(--font_color);
+    font-weight: 300;
+    color: deepskyblue;
+    cursor: pointer;
 }

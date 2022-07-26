@@ -84,10 +84,24 @@ class StockService:
             period = req_data["period"]
             interval = req_data["interval"]
 
+            print(period, interval)
+
 
         except Exception as e:
             print(e)
             return flask.jsonify(False), 400
 
         return flask.jsonify(get_char(ticker, period, interval))
-    
+
+    def get_price(self, request):
+        try:
+            req_data = request.get_json()
+            print(req_data)
+
+
+
+        except Exception as e:
+            print(e)
+            return flask.jsonify(False), 400
+
+        return flask.jsonify(get_current_price(req_data))

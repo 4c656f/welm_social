@@ -16,7 +16,9 @@ const Button:FC<IButtonProps> = ({content, onClick, width, isFetching, isDisable
         <div className={`${classes.button} ${isDisabled?classes.disabled:""} ${isActive?classes.active:""}`} style={{width: width}} onClick={onClick}>
             {
                 isFetching?
-                    <SmallSpinnerLoader/>
+                    <div className={classes.loader_wrapper}>
+                        <SmallSpinnerLoader/>
+                    </div>
                     :null
             }
             {content}

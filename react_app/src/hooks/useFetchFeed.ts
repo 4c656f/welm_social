@@ -9,8 +9,6 @@ import {IPost} from "../types/IPost";
 
 const useFetchFeed = (start:number,
                       end:number,
-                      setStart:any,
-                      setEnd:any,
                       sort:"new"|"popular",
                       interval:1|7|30|365,
                       ticker:boolean|string,
@@ -34,10 +32,7 @@ const useFetchFeed = (start:number,
 
 
     useEffect(()=>{
-        if(isStoreLoading){
-
-            return
-        }
+        if(isStoreLoading)return
         setIsLoading(true)
 
         PostsServices.GetPosts({start, end, sort, interval, user, ticker})

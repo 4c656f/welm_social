@@ -1,5 +1,4 @@
 import datetime
-import time
 import yfinance as yf
 import multiprocessing
 import numpy as np
@@ -8,13 +7,23 @@ import numpy as np
 def get_current_price(symbol):
     def request_thread(L, ticker):
         try:
-            # data = yf.download(i, period="1d", interval='1d')
-            data2 = yf.download(i, period="2d", interval='1d')
-            c = ((data2['Close'][-1] - data2['Close'][0]) / data2['Close'][0] * 100)
-            L.update({i: round(c, 2)})
+            data2 = yf.download(ticker["ticker"],  period='2d', interval='1d', threads = True,)
+
+            L.update({ticker["ticker"]: {
+                "open": round(data2['Close'][0], 2),
+                "close": round(data2['Close'][-1],2)
+            }})
             return
         except Exception as e:
             print(e)
+
+    if len(symbol) == 1:
+        response_dict = {}
+        request_thread(response_dict, symbol[0])
+        print(response_dict)
+        return response_dict
+
+
 
     with multiprocessing.Manager() as manager:
         L = manager.dict()
@@ -29,7 +38,7 @@ def get_current_price(symbol):
             t.join()
 
         L = dict(L)
-    print(L)
+
     return (L)
 
 
@@ -37,7 +46,10 @@ def get_char(ticker, period, interval):
 
     L = {}
     try:
-        data = yf.download(ticker, period= period, interval= interval)
+        print(period, interval)
+        ticker_history = yf.Ticker(ticker)
+        data = ticker_history.history(period=period, interval= interval)
+        # data = yf.download(ticker, period= period, interval= interval, threads = True,)
 
         date = data['Close'].index.strftime('%Y-%m-%d').tolist()
         price = data['Close']
@@ -96,5 +108,6 @@ def get_dashboard_prices(list_of_dashboards):
         L = list(L)
 
     return (L)
+
 
 

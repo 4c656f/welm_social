@@ -1,0 +1,19 @@
+.search_results_wrapper{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 20px;
+    background-color: black;
+    border-radius: 10px;
+    border: white solid 1px;
+    padding: 20px;
+    position: absolute;
+    transform: translate(-50%, 0);
+    left: 50%;
+    top: calc(0% + 80px);
+
+
+    overflow: hidden;
+    overflow-y: auto;
+    z-index: 5;
+    max-height: 40vh;
+}

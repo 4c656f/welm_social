@@ -28,7 +28,7 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
 
 
 
-    const {posts, isLoading, isLast} = useFetchFeed(start, end, setStart, setEnd, sort, interval, ticker, toJS(store.user), store.isLoading)
+    const {posts, isLoading, isLast} = useFetchFeed(start, end, sort, interval, ticker, toJS(store.user), store.isLoading)
 
 
 

@@ -174,9 +174,7 @@ class UserService:
     def add_post(self, request):
         try:
             data = request.get_json()
-
             user = data["user"]
-            title = data["post"]["title"]
             content = data["post"]["content"]
 
 
@@ -184,10 +182,10 @@ class UserService:
 
             author_nickname = user["user_nickname"]
             date = datetime.datetime.now()
-            post_link = slugify(title)
 
             text = content.split(" ")
-
+            link_text = f"{text[0:3]}"
+            post_link = slugify(link_text)
             tags = []
 
             for i in text:
@@ -211,8 +209,7 @@ class UserService:
 
             post_link = f"{last_id}-{post_link}"
             print(last_id)
-            sql = "INSERT INTO `posts` (`id`, `title`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', '{}', {}, '{}', '{}', '{}')".format(
-                title,
+            sql = "INSERT INTO `posts` (`id`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', {}, '{}', '{}', '{}')".format(
                 author_nickname,
                 author_id,
                 content,

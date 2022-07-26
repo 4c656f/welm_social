@@ -14,7 +14,7 @@ const Home:FC = () => {
             {store.isAuth?
                 <div style={{color:"white"}}>пользователь авторизован</div>:null
             }
-            Home
+
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React, {FC, memo, useState} from 'react';
-
+import classes from "./PostCategorySwitcher.module.css";
 
 interface PostCategorySwitcherProps{
     sort:string;
@@ -17,12 +17,12 @@ const PostCategorySwitcher:FC<PostCategorySwitcherProps> = ({sort, setSort, setI
 
     return (
         <div>
-            <select value={sort} onChange={e => {setSort(e.target.value); setFeed()}}>
+            <select className={classes.select} value={sort} onChange={e => {setSort(e.target.value); setFeed()}}>
                 <option value={"new"}>new</option>
                 <option value={"popular"}>popular</option>
             </select>
             {sort==="popular"?
-                <select value={interval} onChange={(e)=>{setInterval(Number(e.target.value)); setFeed()}}>
+                <select className={classes.select} value={interval} onChange={(e)=>{setInterval(Number(e.target.value)); setFeed()}}>
                     <option value={1}>day</option>
                     <option value={7}>week</option>
                     <option value={30}>month</option>

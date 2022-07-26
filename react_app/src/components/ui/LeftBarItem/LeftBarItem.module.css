@@ -1,0 +1,7 @@
+.left_bar_item_text{
+    color: var(--font_color);
+    font-family: var(--inter_font);
+}
+.left_bar_item_active{
+    background-color: var(--button_bg);
+}

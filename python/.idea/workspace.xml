@@ -3,9 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0be55ffb-fe26-41f0-abae-f9eda8a105a8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/token_private.py" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/token_private.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/stock_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/token_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql_methods/yfinance.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_methods/yfinance.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

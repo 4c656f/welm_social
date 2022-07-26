@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useCallback, useContext, useState} from 'react';
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
 import LoginInput from "../ui/LoginInput/LoginInput";
@@ -25,14 +25,14 @@ const Loginform:FC = () => {
     const navigator = useNavigate()
 
 
-    const inputEmail = async e => {
+    const inputEmail = useCallback ((e) => {
         setEmail(e.target.value)
-    }
+    },[])
 
-
-    const inputPassword = e => {
+    const inputPassword = useCallback ((e) => {
         setPassword(e.target.value)
-    }
+    },[])
+
 
     const Login = async () => {
         try {

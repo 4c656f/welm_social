@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
 import classes from "./LoginInput.module.css"
 
@@ -33,4 +33,4 @@ const LoginInput:FC<LoginInputProps> = ({value, onChangeFc, placeholder, type, m
     );
 };
 
-export default LoginInput;
+export default memo(LoginInput);

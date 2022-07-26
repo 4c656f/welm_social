@@ -1,0 +1,23 @@
+.left_bar_wrapper{
+    position: absolute;
+    left: 0%;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    grid-gap: 20px;
+}
+.left_bar_item_wrapper{
+    border-radius: var(--button_border_radius);
+    grid-gap: 15px;
+    width: 80%;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+.left_bar_item_active{
+    background-color: var(--button_bg);
+}

@@ -1,0 +1,40 @@
+.price_wrapper{
+    background-color: var(--button_bg);
+    width: max-content;
+    height: max-content;
+    padding: 10px 20px 10px 20px;
+    border-radius: var(--button_border_radius);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 5px;
+}
+.current_price{
+    font-weight: 300;
+    color: var(--font_color);
+    font-family: var(--inter_font);
+}
+.price_change{
+    font-weight: 300;
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    padding: 3px 5px 3px 5px;
+    border-radius: calc(var(--button_border_radius) - 4px);
+    font-size: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.light_positive{
+    background-color: #c8ff6f !important;
+}
+.light_negative{
+    background-color: #ff8383 !important;
+
+}
+.price_change_positive{
+    background-color: greenyellow;
+}
+.price_change_negative{
+    background-color: red;
+}

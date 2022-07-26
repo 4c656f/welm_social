@@ -9,18 +9,19 @@ import "./utils/styles/pages/index.css"
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
 import {toJS} from "mobx";
+import TopBar from "./layouts/TopBar/TopBar";
+import LeftBar from "./layouts/LeftBar/LeftBar";
+import Dashboard from "./pages/Dashboard";
+import SavedPosts from "./pages/SavedPosts";
 
 
 const App: FC  = () => {
 
     const {store} = useContext(Context)
 
-    useEffect(()=>{
-        console.log("отработал mobx App", store.isAuth)
-    },[store.isAuth])
+
 
     useEffect(()=>{
-        console.log("отработал логин")
         if(localStorage.getItem("token")){
             store.checkAuth()
         }
@@ -30,14 +31,20 @@ const App: FC  = () => {
 
 
     return (
+
         <BrowserRouter>
+            <TopBar/>
+            <LeftBar/>
             <Routes>
 
 
                 <Route path="/" element={<Home />}/>
+                <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/saved-posts" element={<SavedPosts/>}/>
                 <Route path="/sign-in" element={<SignIn/>}/>
                 <Route path="/sign-up" element={<SignUp/>}/>
                 <Route path="/ticker/:ticker" element={<TickerPage/>}/>
+                <Route path="/not-found" element={<NotFound/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Routes>
         </BrowserRouter>

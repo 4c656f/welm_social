@@ -144,6 +144,12 @@ def get_save_post():
 def get_char():
     return StockService().get_char(request)
 
+@app.route("/get_price", methods=["POST"])
+@cross_origin(supports_credentials=True)
+def get_day_price():
+    return StockService().get_price(request)
+
+
 @app.route("/get_check_nickname", methods=["GET"])
 @cross_origin(supports_credentials=True)
 def get_check_nickname():

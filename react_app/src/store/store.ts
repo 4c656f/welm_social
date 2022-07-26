@@ -59,6 +59,7 @@ export default class Store{
             const response = await AuthService.logout();
             localStorage.removeItem("token");
             this.setAuth(false)
+
             this.setUser({} as IUser)
         }
         catch (e){

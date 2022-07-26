@@ -4,6 +4,8 @@ import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
 import classes from "./TickerDashboard.module.css"
 import TickerFeed from "../../ui/TickerFeed/TickerFeed";
+import TickerDashboardPriceLabel from "../../ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel";
+import Button from "../../ui/Button/Button";
 
 
 interface TickerDashboardProps{
@@ -52,14 +54,21 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
     const [intervalVal, setIntervalVal] = useState<string>("1h")
     const {isLoading, data} = useFetchChar(ticker, intervalVal, periodVal)
 
-
+    useEffect(()=>{
+        console.log(data)
+    }, [data])
 
     return (
         <div className={"scroll_container"}>
+            <div className={classes.name_price_wrapper}>
+                <div>name</div>
+                <TickerDashboardPriceLabel ticker={ticker}/>
+            </div>
             <Chart ticker={ticker} char_data={data} isLoading={isLoading}/>
             <div className={classes.switcher_container}>
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
+                <Button onClick={()=>null} content={"add to dashboard"}/>
             </div>
             <TickerFeed ticker={ticker}/>
         </div>

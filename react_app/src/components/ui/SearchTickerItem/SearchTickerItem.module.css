@@ -1,0 +1,64 @@
+.search_card{
+    flex-shrink: 0;
+    color: white;
+    display: flex;
+    height: 70px;
+    width: 300px;
+    background-color: black;
+    border-radius: 10px;
+    border: white solid 1px;
+    transition: 0.2s;
+}
+.search_card:hover{
+    background-color: #c1ff57;
+    color: black;
+}
+.search_card:hover>.right_container>.search_text_name{
+
+    color: black;
+}
+.right_container{
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    justify-content: space-between;
+}
+.left_container{
+    height: 100%;
+    display: flex;
+
+    align-content: center;
+    align-items: center;
+
+}
+.search_tick{
+    margin-left: 20px;
+    font-family: var(--inter_font);
+    font-size: 20px;
+
+}
+.search_exchange{
+    font-size: 10px;
+    font-family: var(--inter_font);
+
+    top: 0%;
+    margin-top: 10px;
+    font-weight: 300;
+
+    left: 0%;
+
+
+}
+.search_name{
+    font-family: var(--inter_font);
+    color: #b4b4b4;
+    left: 0%;
+    bottom: 0%;
+    margin-bottom: 10px;
+    transition: 0.2s;
+    font-size: 9px;
+    font-weight: 200;
+
+}

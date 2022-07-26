@@ -2,8 +2,11 @@ import api from "../../http";
 import {AxiosResponse} from 'axios'
 import {ITickerDescription} from "../../types/ITickerDescription";
 import {ITickerChar} from "../../types/ITickerChar";
+import {IDayPrice} from "../../types/IDayPrice";
 
-
+interface GetDayPriceTicker_arr{
+    ticker:string
+}
 
 export default class StocksServices{
 
@@ -22,6 +25,12 @@ export default class StocksServices{
             "period":period,
             "interval": interval
         })
+    }
+
+    static async GetDayPrice(tickerArr:GetDayPriceTicker_arr[]): Promise<AxiosResponse<IDayPrice>>{
+        const resp = await api.post<IDayPrice>("/get_price", tickerArr)
+
+        return resp
     }
 
     static async GetTickerSearch(symbol: string): Promise<AxiosResponse<ITickerDescription[]>>{
