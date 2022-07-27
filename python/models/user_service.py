@@ -321,7 +321,7 @@ class UserService:
             {f'''LEFT JOIN (
                 SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
                 li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
-            ORDER BY posts.creation_date DESC LIMIT {start}, {end};
+            ORDER BY posts.creation_date DESC,posts.id ASC LIMIT {start}, {end};
             """
 
         elif sort == "popular":
@@ -342,7 +342,7 @@ class UserService:
                 SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
                 li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
             WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
-            ORDER BY likes DESC LIMIT {start}, {end};
+            ORDER BY likes DESC,posts.id ASC LIMIT {start}, {end};
             """
         print (sql)
         posts = self.db.fetch(sql)

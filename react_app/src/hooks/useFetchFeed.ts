@@ -1,7 +1,7 @@
 import PostsServices from "../services/postsServices/PostsService"
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import {IPost} from "../types/IPost";
-
+import { useWhatChanged } from '@simbathesailor/use-what-changed';
 
 
 
@@ -13,7 +13,8 @@ const useFetchFeed = (start:number,
                       interval:1|7|30|365,
                       ticker:boolean|string,
                       user:boolean|object,
-                      isStoreLoading:boolean) =>{
+                      isStoreLoading:boolean,
+                      setStart:any) =>{
 
 
 
@@ -24,29 +25,36 @@ const useFetchFeed = (start:number,
 
 
 
-
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         setPosts([])
-        },[sort,interval]
-    )
+    },[sort,interval, ticker])
+    useEffect(() => {
+
+        },)
 
 
+    let deps = [sort, interval, start, isStoreLoading, ticker]
+    useWhatChanged(deps, 'sort, interval, start, isStoreLoading, ticker');
     useEffect(()=>{
+
         if(isStoreLoading)return
         setIsLoading(true)
 
         PostsServices.GetPosts({start, end, sort, interval, user, ticker})
-            .then((res)=>{
+            .then(async (res)=>{
+
+                console.log(start, end, "fetch----------", ticker, posts)
 
                 if(res.data.length < 1){
                     setIsLast(true)
                     return
                 }else setIsLast(false)
-                setPosts((prevState => [...prevState, ...res.data]))
+                await setPosts((prevState => [...prevState, ...res.data]))
+
 
             })
             .finally(()=>setIsLoading(false))
-    },[sort,interval, start, isStoreLoading])
+    },deps)
 
 
 

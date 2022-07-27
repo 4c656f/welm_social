@@ -1,0 +1,9 @@
+.selector{
+    font-family: var(--inter_font);
+    color: var(--font_color);
+}
+.option{
+    font-family: var(--inter_font);
+    color: var(--font_color);
+
+}

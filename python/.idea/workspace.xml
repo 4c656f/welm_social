@@ -3,11 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="0be55ffb-fe26-41f0-abae-f9eda8a105a8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/stock_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/token_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql_methods/yfinance.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_methods/yfinance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Chart/Chart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/PostCategorySwitcher/PostCategorySwitcher.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PostCategorySwitcher/PostCategorySwitcher.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/TickerFeed/TickerFeed.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/TickerFeed/TickerFeed.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/TopBarSearch/TopBarSearch.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/TopBarSearch/TopBarSearch.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/hooks/useFetchChar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/hooks/useFetchChar.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/hooks/useFetchFeed.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/hooks/useFetchFeed.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/pages/TickerPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/pages/TickerPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/services/postsServices/PostsService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/services/postsServices/PostsService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

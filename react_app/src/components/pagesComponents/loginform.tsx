@@ -41,7 +41,7 @@ const Loginform:FC = () => {
             setIsLoginFetching(false)
 
             if (res[0]) {
-                console.log("1")
+
                 return navigator("/")
             }
             if (res[1] === "user not found") {

@@ -14,15 +14,20 @@ const TickerDashboardPriceLabel:FC<TickerDashboardPriceLabelProps> = ({ticker}) 
     const [priceChange, setPriceChange] = useState({"open":0, "close":0})
     const [isPercent, setIsPercent] = useState(false)
     const [lightClass, setLightClass] = useState(0)
+    const [isPositive, setIsPositive] = useState("")
 
     useEffect(()=>{
+
+
 
         const GetDayPrice = async () => {
             const data = await StocksServices.GetDayPrice([{"ticker":ticker}])
             setIsLoading(false)
             if(data.data[ticker]["close"]>data.data[ticker]["open"]){
+                setIsPositive("+")
                 setLightClass(1)
             }else if(data.data[ticker]["close"]<data.data[ticker]["open"]){
+                setIsPositive("")
                 setLightClass(-1)
             }
             setTimeout(() => {
@@ -33,21 +38,19 @@ const TickerDashboardPriceLabel:FC<TickerDashboardPriceLabelProps> = ({ticker}) 
 
         }
         GetDayPrice()
-        setInterval(() => {
+        const interval = setInterval(() => {
             GetDayPrice()
 
         }, 60000);
 
+        return () => clearInterval(interval);
+
+
+    },[ticker])
 
 
 
-    },[])
 
-
-
-    useEffect(()=>{
-        console.log(priceChange)
-    },[priceChange])
 
 
 
@@ -63,7 +66,9 @@ const TickerDashboardPriceLabel:FC<TickerDashboardPriceLabelProps> = ({ticker}) 
                  onClick={()=> setIsPercent((prev)=>!prev)}
 
             >{
-                isPercent?(priceChange["close"]/priceChange["open"]*100-100).toFixed(2)+"%":(priceChange["close"]-priceChange["open"]).toFixed(2)+"$"
+                isPercent?`${isPositive} ${(priceChange["close"]/priceChange["open"]*100-100).toFixed(2)}%`
+                    :
+                    `${isPositive} ${(priceChange["close"]-priceChange["open"]).toFixed(2)}$`
             }</div>
         </div>
     );

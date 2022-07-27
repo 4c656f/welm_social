@@ -1,34 +1,52 @@
 import React, {FC, memo, useState} from 'react';
 import classes from "./PostCategorySwitcher.module.css";
+import Selector from "../Selector/Selector";
 
 interface PostCategorySwitcherProps{
     sort:string;
     setSort: any;
     setInterval:any;
-    interval:number
-    setFeed:any
+    setFeed:any;
 }
+const CategoryOptions = [
+    {
+        "optionText": "new",
+        "value": "new"
+    },
+    {
+        "optionText": "popular",
+        "value": "popular"
+    }
+]
+const IntervalOptions = [
+    {
+        "optionText": "day",
+        "value": 1
+    },
+    {
+        "optionText": "week",
+        "value": 7
+    },
+    {
+        "optionText": "month",
+        "value": 30
+    },
+    {
+        "optionText": "year",
+        "value": 360
+    }
+]
 
-
-const PostCategorySwitcher:FC<PostCategorySwitcherProps> = ({sort, setSort, setInterval, interval, setFeed}) => {
+const PostCategorySwitcher:FC<PostCategorySwitcherProps> = ({sort, setSort, setInterval, setFeed}) => {
 
 
 
 
     return (
         <div>
-            <select className={classes.select} value={sort} onChange={e => {setSort(e.target.value); setFeed()}}>
-                <option value={"new"}>new</option>
-                <option value={"popular"}>popular</option>
-            </select>
+            <Selector initState={"new"} options={CategoryOptions} setFc={setSort} setFeed={setFeed}/>
             {sort==="popular"?
-                <select className={classes.select} value={interval} onChange={(e)=>{setInterval(Number(e.target.value)); setFeed()}}>
-                    <option value={1}>day</option>
-                    <option value={7}>week</option>
-                    <option value={30}>month</option>
-                    <option value={365}>year</option>
-                </select>:
-
+                <Selector initState={"day"} options={IntervalOptions} setFc={setInterval} setFeed={setFeed}/>:
                 null
 
             }

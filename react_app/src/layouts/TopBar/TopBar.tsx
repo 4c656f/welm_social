@@ -13,9 +13,7 @@ const TopBar = () => {
     const {store} = useContext(Context)
 
     const navigator = useNavigate()
-    useEffect(()=>{
-        console.log(store.isAuth)
-    }, [store.isAuth])
+
 
 
     return (

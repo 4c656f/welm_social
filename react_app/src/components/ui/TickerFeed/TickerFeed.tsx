@@ -1,4 +1,4 @@
-import React, {FC, memo, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import React, {FC, memo, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import useFetchFeed from "../../../hooks/useFetchFeed";
 import PostCategorySwitcher from "../PostCategorySwitcher/PostCategorySwitcher";
 import PostSmallExample from "../PostSmallExampl/PostSmallExample";
@@ -16,32 +16,48 @@ interface FeedProps{
 
 const TickerFeed:FC<FeedProps> = ({ticker}) => {
 
+
+    const [allPropsInOne, setAllPropsInOne] = useState({
+        "start": 0,
+        "ticker": ticker,
+        "sort": "new",
+        "interval": 1
+    })
     const [start, setStart]= useState(0)
-    const [end, setEnd]= useState(5)
+    const end = 5
     const [sort, setSort]= useState<"new" | "popular">("new")
     const [interval, setInterval]= useState<1 | 7 | 30 | 365>(1)
 
     const {store} = useContext(Context)
 
-
-
-
-
-
-    const {posts, isLoading, isLast} = useFetchFeed(start, end, sort, interval, ticker, toJS(store.user), store.isLoading)
-
-
-
-
-    const incriminateFeed = () => {
-
-        setStart((prevState => prevState+5))
-        setEnd((prevState => prevState+5))
-    }
     const setFeedToZero = () => {
+        console.log("reset_feed-----")
         setStart(0)
-        setEnd(5)
     }
+
+
+    useLayoutEffect(() => {
+
+        setStart(0)
+    },[ticker])
+
+
+
+    const {posts, isLoading, isLast} = useFetchFeed(start,
+                                                    end,
+                                                    sort,
+                                                    interval,
+                                                    ticker,
+                                                    toJS(store.user),
+                                                    store.isLoading,
+                                                    setStart)
+
+
+
+
+
+
+
 
 
     const lastElem = useRef<any>();
@@ -51,7 +67,7 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
 
         if(isLoading) return;
         if(isLast){
-            observer.current.disconnect()
+            if(observer.current)observer.current.disconnect();
             return;
         };
         if (observer.current)observer.current.disconnect();
@@ -59,7 +75,10 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
         const callback = (entries) => {
 
             if(entries[0].isIntersecting){
-                incriminateFeed()
+                console.log("increment worked------")
+                setStart((prevState) => {
+                    return prevState+5
+                })
             }
 
         }
@@ -73,14 +92,14 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
 
     return (
         <div className={classes.feed_container_my}>
-            <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval} interval={interval} setFeed={setFeedToZero}/>
+            <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval} setFeed={setFeedToZero}/>
 
             <div className={classes.post_container}>
 
 
 
                 {posts.map((value) => {
-                    return <PostSmallExample key={value.id} post={value}/>
+                    return <PostSmallExample key={`post${value.id}`} post={value}/>
                 }
                 )}
                 {isLoading?

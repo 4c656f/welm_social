@@ -66,7 +66,7 @@ const Registrationform:FC = () => {
 
         const newTimer = setTimeout(() => {
 
-            console.log(e.target.value)
+
             if(e.target.value.length<6){
                 setValidatePassword(false)
                 return

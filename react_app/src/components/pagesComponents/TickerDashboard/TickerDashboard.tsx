@@ -54,9 +54,6 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
     const [intervalVal, setIntervalVal] = useState<string>("1h")
     const {isLoading, data} = useFetchChar(ticker, intervalVal, periodVal)
 
-    useEffect(()=>{
-        console.log(data)
-    }, [data])
 
     return (
         <div className={"scroll_container"}>
@@ -64,7 +61,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
                 <div>name</div>
                 <TickerDashboardPriceLabel ticker={ticker}/>
             </div>
-            <Chart ticker={ticker} char_data={data} isLoading={isLoading}/>
+            <Chart char_data={data} isLoading={isLoading} />
             <div className={classes.switcher_container}>
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>

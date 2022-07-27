@@ -16,7 +16,7 @@ const TopBarSearch = () => {
         const newTimer = setTimeout(async () => {
             const resp = await StocksServices.GetTickerSearch(e.target.value)
             setResults(resp.data)
-        }, 500)
+        }, 200)
         setTimer(newTimer)
     }
 
