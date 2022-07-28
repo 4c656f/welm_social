@@ -21,40 +21,58 @@ const useFetchFeed = (start:number,
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [posts, setPosts] = useState<IPost[]|undefined[]>([])
     const [isLast, setIsLast] = useState<boolean>(false)
+    const [isTriggered, setIsTriggered] = useState(false)
+    const [isFirstFetch, setIsFirstFetch] = useState(true)
 
 
 
 
-    useLayoutEffect(()=>{
-        setPosts([])
-    },[sort,interval, ticker])
-    useEffect(() => {
 
-        },)
+    useEffect(()=>{
+        if(isStoreLoading)return;
+        if(isTriggered)return;
+        setIsLoading(true)
+        setIsFirstFetch(false)
+        PostsServices.GetPosts(start, end, sort, interval, user, ticker)
+            .then(async (res)=>{
+                if(res.data.length < 1){
+                    setIsLast(true)
+                    return
+                }else setIsLast(false)
+                setPosts((prevState => [...prevState, ...res.data]))
+            })
+            .finally(()=>setIsLoading(false))
+    },[start, isStoreLoading])
 
-
-    let deps = [sort, interval, start, isStoreLoading, ticker]
-    useWhatChanged(deps, 'sort, interval, start, isStoreLoading, ticker');
     useEffect(()=>{
 
-        if(isStoreLoading)return
-        setIsLoading(true)
+        if(isStoreLoading)return;
+        if(isFirstFetch)return;
 
-        PostsServices.GetPosts({start, end, sort, interval, user, ticker})
+        setIsLoading(true)
+        setPosts([])
+        setIsTriggered(true)
+        setStart(0)
+        const startTriggered:number = 0;
+
+        PostsServices.GetPosts(startTriggered, end, sort, interval, user, ticker)
             .then(async (res)=>{
 
-                console.log(start, end, "fetch----------", ticker, posts)
+
 
                 if(res.data.length < 1){
                     setIsLast(true)
                     return
                 }else setIsLast(false)
-                await setPosts((prevState => [...prevState, ...res.data]))
+                setPosts((prevState => [...prevState, ...res.data]))
 
 
             })
-            .finally(()=>setIsLoading(false))
-    },deps)
+            .finally(()=>{
+                setIsLoading(false)
+                setIsTriggered(false)
+            })
+    },[sort, interval, isStoreLoading, ticker])
 
 
 

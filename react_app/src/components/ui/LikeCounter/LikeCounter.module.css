@@ -8,6 +8,7 @@
 .like_number{
     font-family: var(--inter_font);
     color: var(--font_color);
+    font-size: 13px;
 }
 .like_number_positive{
     color: greenyellow;

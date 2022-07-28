@@ -1,11 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
-import classes from "./TickerDashboard.module.css"
-import TickerFeed from "../../ui/TickerFeed/TickerFeed";
+import classes from "./TickerDashboard.module.css";
 import TickerDashboardPriceLabel from "../../ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel";
 import Button from "../../ui/Button/Button";
+import PostsFeed from "../../ui/PostsFeed/PostsFeed";
 
 
 interface TickerDashboardProps{
@@ -13,9 +13,6 @@ interface TickerDashboardProps{
 }
 
 const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
-
-
-
 
     const [periodSwitcher, setPeriodSwitcher] = useState([
        {
@@ -67,7 +64,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
                 <Button onClick={()=>null} content={"add to dashboard"}/>
             </div>
-            <TickerFeed ticker={ticker}/>
+            <PostsFeed ticker={ticker}/>
         </div>
     );
 };

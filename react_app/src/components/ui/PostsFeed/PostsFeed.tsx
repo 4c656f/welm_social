@@ -2,27 +2,23 @@ import React, {FC, memo, useContext, useEffect, useLayoutEffect, useMemo, useRef
 import useFetchFeed from "../../../hooks/useFetchFeed";
 import PostCategorySwitcher from "../PostCategorySwitcher/PostCategorySwitcher";
 import PostSmallExample from "../PostSmallExampl/PostSmallExample";
-import classes from "./TickerFeed.module.css"
+import classes from "./PostsFeed.module.css"
 import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
 import {Context} from "../../../index";
 import {toJS} from "mobx";
 import {observer} from "mobx-react-lite";
+import {useNavigate} from "react-router-dom";
 
 interface FeedProps{
-    ticker: string;
+    ticker: string|boolean;
 }
 
 
 
-const TickerFeed:FC<FeedProps> = ({ticker}) => {
+const PostsFeed:FC<FeedProps> = ({ticker}) => {
 
 
-    const [allPropsInOne, setAllPropsInOne] = useState({
-        "start": 0,
-        "ticker": ticker,
-        "sort": "new",
-        "interval": 1
-    })
+
     const [start, setStart]= useState(0)
     const end = 5
     const [sort, setSort]= useState<"new" | "popular">("new")
@@ -30,16 +26,6 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
 
     const {store} = useContext(Context)
 
-    const setFeedToZero = () => {
-        console.log("reset_feed-----")
-        setStart(0)
-    }
-
-
-    useLayoutEffect(() => {
-
-        setStart(0)
-    },[ticker])
 
 
 
@@ -75,7 +61,7 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
         const callback = (entries) => {
 
             if(entries[0].isIntersecting){
-                console.log("increment worked------")
+
                 setStart((prevState) => {
                     return prevState+5
                 })
@@ -87,19 +73,19 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
         observer.current.observe(lastElem.current)
     }, [isLoading, isLast]);
 
-
-
+    const navigator = useNavigate()
+    useEffect(()=>{
+        console.log(posts)
+    },[posts])
 
     return (
-        <div className={classes.feed_container_my}>
-            <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval} setFeed={setFeedToZero}/>
+        <div className={classes.feed_container}>
+
 
             <div className={classes.post_container}>
-
-
-
+                <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval}/>
                 {posts.map((value) => {
-                    return <PostSmallExample key={`post${value.id}`} post={value}/>
+                    return <PostSmallExample key={`post${value.id}`} post={value} navigator={navigator}/>
                 }
                 )}
                 {isLoading?
@@ -126,4 +112,4 @@ const TickerFeed:FC<FeedProps> = ({ticker}) => {
     );
 };
 
-export default memo(observer(TickerFeed));
+export default memo(observer(PostsFeed));

@@ -1,6 +1,5 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, memo, useEffect, useState} from 'react';
 import classes from "./TickerDashbardPriceLabel.module.css";
-import {IDayPrice} from "../../../types/IDayPrice";
 import StocksServices from "../../../services/stocksServices/StocksServices";
 
 interface TickerDashboardPriceLabelProps{
@@ -74,4 +73,4 @@ const TickerDashboardPriceLabel:FC<TickerDashboardPriceLabelProps> = ({ticker}) 
     );
 };
 
-export default TickerDashboardPriceLabel;
+export default memo(TickerDashboardPriceLabel);

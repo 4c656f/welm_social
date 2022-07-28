@@ -1,0 +1,14 @@
+.save_icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.save_icon > svg > path{
+    stroke: white;
+
+}
+
+.active > svg > path{
+    fill: white;
+}

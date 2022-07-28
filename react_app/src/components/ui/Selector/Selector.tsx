@@ -12,11 +12,10 @@ interface SelectorProps{
     initState: string;
     options: options[];
     setFc: any;
-    setFeed?:any;
 }
 
 
-const Selector:FC<SelectorProps> = ({initState, options, setFc, setFeed}) => {
+const Selector:FC<SelectorProps> = ({initState, options, setFc}) => {
 
     const [isOptions, setIsOptions] = useState(false)
     const [selectorText, setSelectorText] = useState(initState)
@@ -32,7 +31,6 @@ const Selector:FC<SelectorProps> = ({initState, options, setFc, setFeed}) => {
     },[])
 
     const optionClick = (e, text) => {
-        if(setFeed)setFeed()
         setIsOptions(false)
         setSelectorText(text)
         setFc(e.target.dataset.value)

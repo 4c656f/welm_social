@@ -2,19 +2,19 @@ import api from "../../http";
 import {AxiosResponse} from 'axios'
 import {IPost} from "../../types/IPost";
 import {IUser} from "../../types/IUser";
-import {IGetPostsArgs} from "../../types/IGetPostsArgs";
+
 
 export default class AuthService{
 
-    static async GetPosts(args:IGetPostsArgs): Promise<AxiosResponse<IPost[]>>{
+    static async GetPosts(start:number, end:number, sort:"new"|"popular", interval:1|7|30|365, user:boolean|object, ticker:boolean|string): Promise<AxiosResponse<IPost[]>>{
 
         return api.post<IPost[]>("/get_posts", {
-            "start": args.start,
-            "end": args.end,
-            "sort": args.sort,
-            "interval": Number(args.interval),
-            "user": args.user,
-            "ticker": args.ticker
+            "start": start,
+            "end": end,
+            "sort": sort,
+            "interval": Number(interval),
+            "user": user,
+            "ticker": ticker
         })
     }
     static async AddLike(user: IUser, likeType:number, postId:number): Promise<AxiosResponse<boolean>>{
@@ -27,6 +27,14 @@ export default class AuthService{
         }
         return api.post<boolean>("/like", {
             data
+        })
+    }
+    static async SavePost(user: IUser, postId:number): Promise<AxiosResponse<boolean>>{
+
+
+        return api.post<boolean>("/save_post", {
+            "user": user,
+            "post_id":postId,
         })
     }
 

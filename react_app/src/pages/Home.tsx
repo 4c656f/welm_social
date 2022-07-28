@@ -1,6 +1,7 @@
 import React, {FC, useContext} from 'react';
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import PostsMainPage from "../components/pagesComponents/PostsMainPage/PostsMainPage";
 
 const Home:FC = () => {
 
@@ -11,9 +12,7 @@ const Home:FC = () => {
 
     return (
         <div>
-            {store.isAuth?
-                <div style={{color:"white"}}>пользователь авторизован</div>:null
-            }
+            <PostsMainPage/>
 
         </div>
     );

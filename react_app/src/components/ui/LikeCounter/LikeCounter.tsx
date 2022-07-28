@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react';
 import classes from "./LikeCounter.module.css"
-import { ReactComponent as LikeSvg } from "../../../../utils/svg/like.svg"
+import { ReactComponent as LikeSvg } from "../../../utils/svg/like.svg"
 import {observer} from "mobx-react-lite";
-import {Context} from "../../../../index";
-import PostsServices from "../../../../services/postsServices/PostsService"
+import {Context} from "../../../index";
+import PostsServices from "../../../services/postsServices/PostsService"
 
 interface LikeCounterProps{
     count:number;

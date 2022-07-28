@@ -303,51 +303,69 @@ class UserService:
         except Exception as e:
             print(e)
             return str(e), 400
+        try:
+            if sort == "new":
+                sql = f"""
+                SELECT posts.*,
+                IFNULL(l.count, 0) as likes,
+                IFNULL(c.comment_count, 0) as comments,
+                {"IFNULL(posts_likes.like_type, 0)" if user else 0} as like_initial,
+                {"IFNULL(saved_posts.post_id  ,0)" if user else 0} as is_saved
+                FROM posts
+                {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
+                LEFT JOIN (
+                    SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id)
+                    l on l.post_id = posts.id
+                LEFT JOIN (
+                    SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id)
+                    c on c. post_id = posts.id
+                {f'''
+                LEFT JOIN posts_likes on posts_likes.post_id = posts.id AND posts_likes.author_id = {user["user_id"]}
+                LEFT JOIN saved_posts on saved_posts.post_id = posts.id AND saved_posts.user_id = {user["user_id"]}
+                ''' if user else ""}
+                
+                ORDER BY posts.creation_date DESC,posts.id ASC LIMIT {start}, {end};
+                """
 
-        if sort == "new":
-            sql = f"""
-            SELECT posts.*,
-            IFNULL(l.count, 0) as likes,
-            IFNULL(c.comment_count, 0) as comments,
-            {"IFNULL(li.like_type, 0)" if user else 0} as like_initial
-            FROM posts
-            {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
-            LEFT JOIN (
-                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id)
-                l on l.post_id = posts.id
-            LEFT JOIN (
-                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id)
-                c on c. post_id = posts.id
-            {f'''LEFT JOIN (
-                SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
-                li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
-            ORDER BY posts.creation_date DESC,posts.id ASC LIMIT {start}, {end};
-            """
+            elif sort == "popular":
+                sql = f"""
+                SELECT posts.*,
+                IFNULL(l.count, 0) as likes,
+                IFNULL(c.comment_count, 0) as comments,
+                {"IFNULL(posts_likes.like_type, 0)" if user else 0} as like_initial,
+                {"IFNULL(saved_posts.post_id  ,0)" if user else 0} as is_saved
+                FROM posts
+                {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
+                LEFT JOIN (
+                    SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
+                ) l on l.post_id = posts.id
+                LEFT JOIN (
+                    SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
+                ) c on c. post_id = posts.id
+                {f'''
+                LEFT JOIN posts_likes on posts_likes.post_id = posts.id AND posts_likes.author_id = {user["user_id"]}
+                LEFT JOIN saved_posts on saved_posts.post_id = posts.id AND saved_posts.user_id = {user["user_id"]}
+                ''' if user else ""}
+                WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
+                ORDER BY likes DESC,posts.id ASC LIMIT {start}, {end};
+                """
+            print (sql)
+            posts = self.db.fetch(sql)
 
-        elif sort == "popular":
-            sql = f"""
-            SELECT posts.*,
-            IFNULL(l.count, 0) as likes,
-            IFNULL(c.comment_count, 0) as comments,
-            {"IFNULL(li.like_type, 0)" if user else 0} as like_initial
-            FROM posts
-            {f'INNER JOIN ticker_tags ON ticker_tags.post_id = posts.id AND ticker_tags.ticker_tag = "${ticker}"' if ticker else ""} 
-            LEFT JOIN (
-                SELECT SUM(posts_likes.like_type) as count, posts_likes.post_id FROM posts_likes  GROUP BY posts_likes.post_id
-            ) l on l.post_id = posts.id
-            LEFT JOIN (
-                SELECT COUNT(*) as comment_count, posts_comments.post_id FROM posts_comments  GROUP BY posts_comments.post_id
-            ) c on c. post_id = posts.id
-            {f'''LEFT JOIN (
-                SELECT posts_likes.author_id, posts_likes.post_id,posts_likes.like_type FROM posts_likes)
-                li on li.post_id = posts.id AND li.author_id = {user["user_id"]}''' if user else ""}
-            WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
-            ORDER BY likes DESC,posts.id ASC LIMIT {start}, {end};
-            """
-        print (sql)
-        posts = self.db.fetch(sql)
+            data_return = []
 
-        return flask.jsonify(posts)
+            for i in posts:
+                tags_select = f"SELECT * FROM ticker_tags WHERE ticker_tags.post_id = {i['id']} GROUP BY ticker_tags.ticker_tag"
+                tags = self.db.fetch(tags_select)
+                cur_post = i
+                cur_post["tags"] = tags
+
+                data_return.append(cur_post)
+
+        except Exception as e:
+            print(e)
+            return str(e), 400
+        return flask.jsonify(data_return)
 
     def save_post(self, request):
         try:
@@ -362,7 +380,8 @@ class UserService:
 
         sql = f"SELECT * FROM `saved_posts` WHERE user_id = {user_id} AND post_id = {post_id}"
         if self.db.fetch(sql):
-            return "already", 200
+            self.db.execute_commit(f"DELETE FROM `saved_posts` WHERE user_id = {user_id} AND post_id = {post_id}")
+            return flask.jsonify(True), 200
         try:
             add_save = f"INSERT INTO `saved_posts`(`id`, `user_id`, `post_id`, `save_date`) VALUES (NULL, {user_id}, {post_id}, '{date}')"
             self.db.execute_commit(add_save)

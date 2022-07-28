@@ -1,0 +1,22 @@
+.comment_count_wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    grid-gap: 7px;
+}
+.comment_count_icon{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comment_count_icon>svg{
+    height: 19px;
+}
+.comment_count_count{
+    font-family: var(--inter_font);
+    color: var(--font_color);
+    font-weight: 300;
+    font-size: 16px;
+
+}

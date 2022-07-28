@@ -1,6 +1,6 @@
 .post_container{
-    width: 70%;
-    padding-top: 40px;
+    width: 500px;
+    padding: 40px 40px 10px 40px;
     background-color: var(--button_bg);
     border-radius: var(--button_border_radius);
 }
@@ -14,4 +14,17 @@
     font-weight: 300;
     color: deepskyblue;
     cursor: pointer;
+}
+
+.buttons_bottom_container{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.buttons_bottom_right_container{
+    display: flex;
+    flex-direction: row;
+    grid-gap: 10px;
 }
