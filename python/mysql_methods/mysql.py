@@ -32,12 +32,17 @@ class DB:
     def execute(self, sql):
         self.__connect__()
         self.cur.execute(sql)
-
         self.__disconnect__()
 
     def execute_commit(self, sql):
         self.__connect__()
         self.cur.execute(sql)
+        self.con.commit()
+        self.__disconnect__()
+
+    def execute_commit_many(self, sql, list):
+        self.__connect__()
+        self.cur.executemany(sql, list)
         self.con.commit()
         self.__disconnect__()
 

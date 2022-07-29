@@ -187,10 +187,20 @@ class UserService:
             link_text = f"{text[0:3]}"
             post_link = slugify(link_text)
             tags = []
-
+            text_with_tags = ""
             for i in text:
+
                 if i.startswith("$"):
-                    tags.append(i.upper())
+
+                    sql = f"SELECT * FROM tickers WHERE ticker = '{i[1:]}'"
+                    selection = self.db.fetch(sql)
+                    if selection:
+                        tags.append(i.upper())
+                        text_with_tags += f"<div>{i.upper()}</div> "
+                else:
+                    text_with_tags += f"{i} "
+
+
 
             tags = list(dict.fromkeys(tags))
 
@@ -202,28 +212,23 @@ class UserService:
             else:
                 last_id = int(last_id[0]["id"]) + 1
 
-
-
-
-
-
             post_link = f"{last_id}-{post_link}"
-            print(last_id)
-            sql = "INSERT INTO `posts` (`id`, `author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES (NULL, '{}', {}, '{}', '{}', '{}')".format(
+
+            sql = "INSERT INTO `posts` (`author_nickname`, `author_id`, `content`, `creation_date`, `post_link`) VALUES ('{}', {}, '{}', '{}', '{}')".format(
                 author_nickname,
                 author_id,
-                content,
+                text_with_tags,
                 date,
                 post_link
 
 
             )
+
             self.db.execute_commit(sql)
-            for i in tags:
-                selection = self.db.fetch(f"SELECT `id` FROM `ticker_tags` WHERE `ticker_tag` = '{i}' AND `post_id` = {last_id}")
-                if not selection:
-                    self.db.execute_commit(
-                        f"INSERT INTO `ticker_tags`(`id`, `ticker_tag`, `post_id`) VALUES (NULL,'{i}', {last_id})")
+            self.db.execute_commit_many(
+                f"INSERT INTO `ticker_tags` (`ticker_tag`, `post_id`) VALUES (%s, {last_id})", tags)
+
+
 
             return flask.jsonify(True), 200
         except Exception as e:
@@ -355,7 +360,8 @@ class UserService:
             data_return = []
 
             for i in posts:
-                tags_select = f"SELECT * FROM ticker_tags WHERE ticker_tags.post_id = {i['id']} GROUP BY ticker_tags.ticker_tag"
+                tags_select = f"SELECT * FROM ticker_tags WHERE ticker_tags.post_id = {i['id']} GROUP BY ticker_tag"
+                print(tags_select)
                 tags = self.db.fetch(tags_select)
                 cur_post = i
                 cur_post["tags"] = tags

@@ -28,3 +28,8 @@
     flex-direction: row;
     grid-gap: 10px;
 }
+.tags_in_text{
+    display: inline-block;
+    color: #c5d5ff;
+    cursor: pointer;
+}

@@ -22,33 +22,36 @@ class StockService:
         sql = f"SELECT * FROM `tickers` WHERE `ticker` LIKE '%{symbol}%' OR `company_name` LIKE '%{symbol}%' LIMIT 10;"
         return flask.jsonify(self.db.fetch(sql)), 200
 
-    def buy(self, request):
+    def sync_dashboard(self, request):
         try:
-
             req_data = request.get_json()
             user_id = req_data["user"]["user_id"]
-            ticker = req_data["buy"]["ticker"].upper()
-            amount = req_data["buy"]["amount"]
-            buy_date = req_data["buy"]["buy_date"]
+            tickers = req_data["tickers"]
+
 
 
         except Exception as e:
             print(e)
             return flask.jsonify(False), 400
 
+        delete_command = f"DELETE FROM `user_dashboard` WHERE user_id = {user_id}"
+        self.db.execute_commit(delete_command)
 
-        selection_comand = f"SELECT * FROM user_dashboard WHERE user_id = {user_id} AND ticker = '{ticker}' AND buy_date = '{buy_date}'"
-        selection = self.db.fetch(selection_comand)
-        if selection:
-            summ = selection[0]["amount"] + amount
-            update = f"UPDATE user_dashboard SET amount = {summ} WHERE user_id = {user_id} AND ticker = '{ticker}' AND buy_date = '{buy_date}'"
-            self.db.execute_commit(update)
-            return flask.jsonify(True), 200
+        commit_list = []
 
-        sql = f"INSERT INTO `user_dashboard` (`id`, `user_id`, `ticker`, `buy_date`, `amount`) VALUES (NULL, '{user_id}', '{ticker}', '{buy_date}', {amount})"
+        for i in tickers:
+            commit_list.append((
+                i["ticker"],
+                i["amount"]
+            ))
 
+
+        sql = f"INSERT INTO `user_dashboard` (`user_id`, `ticker`, `amount`) VALUES ({user_id}, %s, %s)"
         print(sql)
-        self.db.execute_commit(sql)
+        self.db.execute_commit_many(sql, commit_list)
+
+
+
 
         return flask.jsonify(True), 200
 
@@ -69,11 +72,9 @@ class StockService:
 
         selection = self.db.fetch(sql_selection)
 
-        print(selection)
 
-        prices = get_dashboard_prices(selection)
 
-        return flask.jsonify(prices)
+        return flask.jsonify(selection)
 
 
     def get_char(self, request):
@@ -97,8 +98,6 @@ class StockService:
         try:
             req_data = request.get_json()
             print(req_data)
-
-
 
         except Exception as e:
             print(e)

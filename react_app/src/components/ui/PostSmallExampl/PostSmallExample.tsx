@@ -5,7 +5,7 @@ import LikeCounter from "../LikeCounter/LikeCounter";
 import CommentsCounter from "../CommentsCounter/CommentsCounter";
 import PostsTags from "../PostsTags/PostsTags";
 import SavePostButton from "../SavePostButton/SavePostButton";
-
+import ReactHtmlParser from "react-html-parser";
 interface PostSmallExampleProps{
     post: IPost;
     navigator: any;
@@ -28,13 +28,35 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator}) => {
         navigator(url)
 
     }
+    let id:number = 0
 
     return (
 
         <div className={classes.post_container}>
             <div className={classes.post_text}>
-                {isReadMore?post.content.slice(0, 800):post.content}
-                {isReadMore?<div className={classes.read_more} onClick={()=>setIsReadMore(false)}>read more</div>:null}
+                {ReactHtmlParser(post.content, {
+
+                    transform: (node) => {
+
+
+
+
+                        if (node.name === "div") {
+                            id++
+                            return (
+                                <div
+                                    key={`${id}-${post.id}`}
+                                    className={classes.tags_in_text}
+                                    onClick={()=>navigator(`/ticker/${node.children[0].data.slice(1)}`)}
+                                >
+                                    {node.children[0].data}
+                                </div>
+                            );
+                        }
+                    }
+                })}
+                {/*{isReadMore?post.content.slice(0, 800):post.content}*/}
+                {/*{isReadMore?<div className={classes.read_more} onClick={()=>setIsReadMore(false)}>read more</div>:null}*/}
             </div>
             <PostsTags tags={post.tags} tagRedirect={tagRedirect}/>
             <div className={classes.buttons_bottom_container}>

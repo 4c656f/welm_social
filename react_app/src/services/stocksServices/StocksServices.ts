@@ -3,16 +3,15 @@ import {AxiosResponse} from 'axios'
 import {ITickerDescription} from "../../types/ITickerDescription";
 import {ITickerChar} from "../../types/ITickerChar";
 import {IDayPrice} from "../../types/IDayPrice";
+import {IGetDayPriceTicker} from "../../types/IGetDayPriceTicker";
+import {IDashboardElem} from "../../types/IDashboardElem";
+import {IUser} from "../../types/IUser";
 
-interface GetDayPriceTicker_arr{
-    ticker:string
-}
 
 export default class StocksServices{
 
 
     static async GetTickerDescription(ticker: string): Promise<AxiosResponse<ITickerDescription>>{
-
         return api.post<ITickerDescription>("/get_posts", {
             "ticker": ticker,
         })
@@ -27,9 +26,8 @@ export default class StocksServices{
         })
     }
 
-    static async GetDayPrice(tickerArr:GetDayPriceTicker_arr[]): Promise<AxiosResponse<IDayPrice>>{
+    static async GetDayPrice(tickerArr:IGetDayPriceTicker): Promise<AxiosResponse<IDayPrice>>{
         const resp = await api.post<IDayPrice>("/get_price", tickerArr)
-
         return resp
     }
 
@@ -37,6 +35,21 @@ export default class StocksServices{
 
         return api.post<ITickerDescription[]>("/ticker_search", {
             "symbol": symbol,
+        })
+    }
+
+    static async GetUserDashboard(user: IUser): Promise<AxiosResponse<IDashboardElem[]>>{
+
+        return api.post<IDashboardElem[]>("/get_dashboard", {
+            "user": user,
+        })
+    }
+
+    static async GetSyncUserDashboard(user: IUser, dashboard: IDashboardElem[]): Promise<AxiosResponse<boolean>>{
+
+        return api.post<boolean>("/sync_dashboard", {
+            "user": user,
+            "tickers": dashboard
         })
     }
 

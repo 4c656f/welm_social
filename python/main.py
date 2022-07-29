@@ -113,11 +113,11 @@ def get_posts_by_ticker():
 def ticker_search():
     return StockService().search(request)
 
-@app.route("/buy", methods=["POST"])
+@app.route("/sync_dashboard", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
-def buy():
-    return StockService().buy(request)
+def sync_dashboard():
+    return StockService().sync_dashboard(request)
 
 
 @app.route("/get_dashboard", methods=["POST"])

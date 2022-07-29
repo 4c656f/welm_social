@@ -20,7 +20,7 @@ const TickerDashboardPriceLabel:FC<TickerDashboardPriceLabelProps> = ({ticker}) 
 
 
         const GetDayPrice = async () => {
-            const data = await StocksServices.GetDayPrice([{"ticker":ticker}])
+            const data = await StocksServices.GetDayPrice({"tickers": [{"ticker": ticker}], "period":false})
             setIsLoading(false)
             if(data.data[ticker]["close"]>data.data[ticker]["open"]){
                 setIsPositive("+")

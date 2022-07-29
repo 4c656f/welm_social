@@ -74,9 +74,6 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
     }, [isLoading, isLast]);
 
     const navigator = useNavigate()
-    useEffect(()=>{
-        console.log(posts)
-    },[posts])
 
     return (
         <div className={classes.feed_container}>
