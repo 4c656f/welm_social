@@ -37,8 +37,25 @@ export default class Store{
         if(!this.isAuth)return;
         StocksServices.GetSyncUserDashboard(this.user, this.dashboardElems)
     }
+
     firstSetDashboard(){
 
+        if(!this.isAuth){
+            if(JSON.parse(localStorage.getItem("dashboard"))){
+                const local = JSON.parse(localStorage.getItem("dashboard"))
+                this.dashboardElems = local
+                return local
+            }
+
+        }
+
+        const dashboardFromCloud = async () =>{
+            const resp = await StocksServices.GetUserDashboard(this.user);
+            localStorage.setItem("dashboard", JSON.stringify(resp.data));
+            this.dashboardElems = resp.data
+            return resp.data
+        }
+        return dashboardFromCloud()
     }
 
     async login(email:string, password: string){

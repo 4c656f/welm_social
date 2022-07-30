@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0be55ffb-fe26-41f0-abae-f9eda8a105a8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/stock_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql_methods/mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_methods/mysql.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql_methods/yfinance.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysql_methods/yfinance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PostSmallExampl/PostSmallExample.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/PostsFeed/PostsFeed.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PostsFeed/PostsFeed.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/TickerDashboard/TickerDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/pagesComponents/UserDashboard/UserDashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/Selector/Selector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/Selector/Selector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/TickerDashboardPriceLabel/TickerDashbardPriceLabel.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PriceLabel/PriceLabel.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/components/ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/components/ui/PriceLabel/PriceLabel.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../react_app/src/pages/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/pages/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/services/stocksServices/StocksServices.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/services/stocksServices/StocksServices.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../react_app/src/store/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../react_app/src/store/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -39,7 +39,7 @@ export default class StocksServices{
     }
 
     static async GetUserDashboard(user: IUser): Promise<AxiosResponse<IDashboardElem[]>>{
-
+        console.log("dashboardrequest-----------")
         return api.post<IDashboardElem[]>("/get_dashboard", {
             "user": user,
         })

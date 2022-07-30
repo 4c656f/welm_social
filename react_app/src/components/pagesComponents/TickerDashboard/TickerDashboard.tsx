@@ -1,13 +1,14 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
 import classes from "./TickerDashboard.module.css";
-import TickerDashboardPriceLabel from "../../ui/TickerDashboardPriceLabel/TickerDashboardPriceLabel";
 import Button from "../../ui/Button/Button";
 import PostsFeed from "../../ui/PostsFeed/PostsFeed";
 import {Context} from "../../../index";
 import {observer} from "mobx-react-lite";
+import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
+import PriceLabel from "../../ui/PriceLabel/PriceLabel";
 
 
 interface TickerDashboardProps{
@@ -51,15 +52,29 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
             "isActive":false,
         }])
     const [intervalVal, setIntervalVal] = useState<string>("1h")
+
     const {isLoading, data} = useFetchChar(ticker, intervalVal, periodVal)
+
     const {store} = useContext(Context)
+
+    const [isPercent, setIsPercent] = useState(false)
+
+    const [tickerArr, setTickerArr]= useState([{"ticker": ticker}])
+
+    useEffect(()=>{
+        setTickerArr([{"ticker": ticker}])
+    },[ticker])
+
+    const{isLoadingPrice, dayPrice} = useFetchDayPrice(tickerArr, "1d", true)
+
+
 
 
     return (
         <div className={"scroll_container"}>
             <div className={classes.name_price_wrapper}>
                 <div>name</div>
-                <TickerDashboardPriceLabel ticker={ticker}/>
+                <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice} ticker={ticker}/>
             </div>
             <Chart char_data={data} isLoading={isLoading} />
             <div className={classes.switcher_container}>

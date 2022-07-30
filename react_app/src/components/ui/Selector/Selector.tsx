@@ -41,7 +41,6 @@ const Selector:FC<SelectorProps> = ({initState, options, setFc}) => {
         <div>
             <div className={classes.selector} onClick={()=>setIsOptions((prev)=>!prev)}>
                 {selectorText}
-
             </div>
             {isOptions?options.map((val)=>{
 

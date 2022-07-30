@@ -1,0 +1,12 @@
+.main_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.content_container{
+    width: 50%;
+}
+.card_container{
+
+}
