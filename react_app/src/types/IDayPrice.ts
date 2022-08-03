@@ -1,6 +1,6 @@
 export interface IDayPrice{
     [key:string]: {
-        close:number,
-        open:number,
+        close:number|string,
+        open:number|string,
     }
 }

@@ -1,5 +1,5 @@
 .post_container{
-    width: 500px;
+    width: 100%;
     padding: 40px 40px 10px 40px;
     background-color: var(--button_bg);
     border-radius: var(--button_border_radius);

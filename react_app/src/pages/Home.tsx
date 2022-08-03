@@ -1,12 +1,10 @@
-import React, {FC, useContext} from 'react';
-import {Context} from "../index";
-import {observer} from "mobx-react-lite";
+import React, {FC} from 'react';
+
 import PostsMainPage from "../components/pagesComponents/PostsMainPage/PostsMainPage";
+
 
 const Home:FC = () => {
 
-
-    const {store} = useContext(Context)
 
 
 
@@ -18,4 +16,4 @@ const Home:FC = () => {
     );
 };
 
-export default observer(Home);
+export default Home;

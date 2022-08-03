@@ -4,7 +4,7 @@ import { ReactComponent as CommentIcon } from "../../../utils/svg/message-circle
 
 
 
-const CommentsCounter:FC<{CommentCount:number}> = ({CommentCount}) => {
+const CommentsCounter:FC<{CommentCount:number, commentRedirect:any}> = ({CommentCount, commentRedirect}) => {
 
 
     return (
@@ -12,7 +12,7 @@ const CommentsCounter:FC<{CommentCount:number}> = ({CommentCount}) => {
             <div className={classes.comment_count_count}>
                 {CommentCount}
             </div>
-            <div className={classes.comment_count_icon}>
+            <div className={classes.comment_count_icon} onClick={commentRedirect}>
                 <CommentIcon/>
             </div>
 

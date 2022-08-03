@@ -1,11 +1,9 @@
 import React, {FC, memo, useEffect, useState} from 'react';
 import classes from "./PriceLabel.module.css";
-import StocksServices from "../../../services/stocksServices/StocksServices";
-import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
 import {IDayPrice} from "../../../types/IDayPrice";
 
 interface PriceLabelProps{
-    price:IDayPrice[string];
+    price:IDayPrice[string]|IDayPrice;
     isPercent:boolean;
     setIsPercent:any;
     isLoading:boolean;

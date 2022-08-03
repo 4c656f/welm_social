@@ -1,0 +1,11 @@
+.main_container{
+    width: 50%;
+    top: 0%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

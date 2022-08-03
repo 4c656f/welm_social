@@ -1,14 +1,14 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
 import classes from "./TickerDashboard.module.css";
 import Button from "../../ui/Button/Button";
 import PostsFeed from "../../ui/PostsFeed/PostsFeed";
-import {Context} from "../../../index";
 import {observer} from "mobx-react-lite";
 import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
 import PriceLabel from "../../ui/PriceLabel/PriceLabel";
+import {useStores} from "../../../store";
 
 
 interface TickerDashboardProps{
@@ -55,7 +55,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
 
     const {isLoading, data} = useFetchChar(ticker, intervalVal, periodVal)
 
-    const {store} = useContext(Context)
+    const {UserStore, StockStore} = useStores();
 
     const [isPercent, setIsPercent] = useState(false)
 
@@ -74,13 +74,13 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
         <div className={"scroll_container"}>
             <div className={classes.name_price_wrapper}>
                 <div>name</div>
-                <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice} ticker={ticker}/>
+                <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice}/>
             </div>
             <Chart char_data={data} isLoading={isLoading} />
             <div className={classes.switcher_container}>
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
-                <Button onClick={()=>{store.addDashboardElem(ticker)}} content={"add to dashboard"}/>
+                <Button onClick={()=>{StockStore.addDashboardElem(ticker)}} content={"add to dashboard"}/>
             </div>
             <PostsFeed ticker={ticker}/>
         </div>

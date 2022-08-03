@@ -39,12 +39,39 @@ export default class StocksServices{
     }
 
     static async GetUserDashboard(user: IUser): Promise<AxiosResponse<IDashboardElem[]>>{
-        console.log("dashboardrequest-----------")
         return api.post<IDashboardElem[]>("/get_dashboard", {
             "user": user,
         })
     }
+    static async AddToDashboard(user: IUser, ticker: string): Promise<AxiosResponse<boolean>>{
 
+        return api.post<boolean>("/add_to_dashboard", {
+            "user": user,
+            "ticker": ticker
+        })
+    }
+    static async DeleteFromDashboard(user: IUser, ticker: string): Promise<AxiosResponse<boolean>>{
+
+        return api.post<boolean>("/delete_from_dashboard", {
+            "user": user,
+            "ticker": ticker
+        })
+    }
+    static async SortDashboard(user: IUser, dashboard: IDashboardElem[]): Promise<AxiosResponse<boolean>>{
+
+        return api.post<boolean>("/sort_dashboard", {
+            "user": user,
+            "sort_arr": dashboard
+        })
+    }
+    static async ChangeAmountDashboard(user: IUser, ticker: string, amount:number): Promise<AxiosResponse<boolean>>{
+
+        return api.post<boolean>("/change_amount", {
+            "user": user,
+            "ticker": ticker,
+            "amount": amount
+        })
+    }
     static async GetSyncUserDashboard(user: IUser, dashboard: IDashboardElem[]): Promise<AxiosResponse<boolean>>{
 
         return api.post<boolean>("/sync_dashboard", {

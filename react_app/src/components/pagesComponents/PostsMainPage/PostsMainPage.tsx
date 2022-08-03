@@ -3,7 +3,7 @@ import PostsFeed from "../../ui/PostsFeed/PostsFeed";
 
 const PostsMainPage = () => {
     return (
-        <div>
+        <div className={"scroll_container"}>
             <PostsFeed ticker={false}/>
         </div>
     );

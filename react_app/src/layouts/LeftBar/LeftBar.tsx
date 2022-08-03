@@ -1,8 +1,8 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import classes from "./LeftBar.module.css";
 import { ReactComponent as BookMark } from "../../utils/svg/bookmark.svg"
 import LeftBarItem from "../../components/ui/LeftBarItem/LeftBarItem";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 const initLeftBarElems = [{
@@ -31,7 +31,7 @@ const LeftBar = () => {
     const [items, setItems] = useState(initLeftBarElems)
 
     const navigator = useNavigate()
-
+    const location = useLocation()
     const clickRedirect = (to) => {
         setItems((prev)=>{
             const arr = prev.map((val)=>{
@@ -47,6 +47,20 @@ const LeftBar = () => {
         })
         navigator(to)
     }
+    useEffect(()=>{
+        setItems((prev)=>{
+            const arr = prev.map((val)=>{
+                const returnContainer = val
+                if (val.redirect === location.pathname){
+                    returnContainer["active"] = true
+                    return returnContainer
+                }
+                returnContainer["active"] = false
+                return returnContainer
+            })
+            return arr
+        })
+    },[location])
 
 
     return (

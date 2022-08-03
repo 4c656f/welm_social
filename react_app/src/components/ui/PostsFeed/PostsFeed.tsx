@@ -4,10 +4,10 @@ import PostCategorySwitcher from "../PostCategorySwitcher/PostCategorySwitcher";
 import PostSmallExample from "../PostSmallExampl/PostSmallExample";
 import classes from "./PostsFeed.module.css"
 import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
-import {Context} from "../../../index";
 import {toJS} from "mobx";
 import {observer} from "mobx-react-lite";
 import {useNavigate} from "react-router-dom";
+import {useStores} from "../../../store";
 
 interface FeedProps{
     ticker: string|boolean;
@@ -24,7 +24,7 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
     const [sort, setSort]= useState<"new" | "popular">("new")
     const [interval, setInterval]= useState<1 | 7 | 30 | 365>(1)
 
-    const {store} = useContext(Context)
+    const {UserStore, StockStore} = useStores();
 
 
 
@@ -34,8 +34,8 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
                                                     sort,
                                                     interval,
                                                     ticker,
-                                                    toJS(store.user),
-                                                    store.isLoading,
+                                                    toJS(UserStore.user),
+                                                    UserStore.isLoading,
                                                     setStart)
 
 
@@ -82,7 +82,7 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
             <div className={classes.post_container}>
                 <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval}/>
                 {posts.map((value) => {
-                    return <PostSmallExample key={`post${value.id}`} post={value} navigator={navigator}/>
+                    return <PostSmallExample key={`post${value.id}`} post={value} navigator={navigator} isFull={false}/>
                 }
                 )}
                 {isLoading?

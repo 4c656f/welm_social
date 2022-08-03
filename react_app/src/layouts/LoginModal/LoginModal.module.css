@@ -1,0 +1,44 @@
+.main_container{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form_container{
+    z-index: 4;
+    background-color: blue;
+    width: 50%;
+    height: 70%;
+    border-radius: var(--button_border_radius);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.background{
+    z-index: 3;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.4;
+}
+.close_bt{
+    position: absolute;
+    top: calc(0% + 25px);
+    right: calc(0% + 40px);
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    transform: rotate(-45grad);
+
+}
+.sign_in{
+    color: var(--font_color);
+    font-family: var(--inter_font);
+}

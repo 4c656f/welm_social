@@ -1,10 +1,10 @@
 import React, {FC, useCallback, useContext, useState} from 'react';
-import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
 import LoginInput from "../ui/LoginInput/LoginInput";
 import Button from "../ui/Button/Button";
 import {observer} from "mobx-react-lite";
 import "../../utils/styles/pages/LoginForm.css"
+import {useStores} from "../../store";
 
 
 
@@ -20,7 +20,7 @@ const Loginform:FC = () => {
     const [isLoginFetching, setIsLoginFetching] = useState(false)
 
 
-    const {store} = useContext(Context)
+    const {UserStore, StockStore} = useStores();
 
     const navigator = useNavigate()
 
@@ -37,7 +37,7 @@ const Loginform:FC = () => {
     const Login = async () => {
         try {
             setIsLoginFetching(true)
-            const res = await store.login(email, password);
+            const res = await UserStore.login(email, password);
             setIsLoginFetching(false)
 
             if (res[0]) {

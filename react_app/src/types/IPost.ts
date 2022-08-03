@@ -9,7 +9,7 @@ export interface IPost {
     content: string;
     author_nickname: string;
     creation_date: string;
-    postLink: string;
+    post_link: string;
     author_id: number;
     likes: number;
     tags: ITag[];

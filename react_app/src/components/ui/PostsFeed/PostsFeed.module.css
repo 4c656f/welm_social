@@ -1,7 +1,16 @@
 .feed_container{
     width: 100%;
+    top: 0%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .post_container{
+
     flex-direction: column;
     flex-wrap: wrap;
     display: flex;

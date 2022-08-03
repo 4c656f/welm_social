@@ -1,0 +1,12 @@
+.container{
+    background-color: var(--button_bg);
+}
+
+.author{
+    color: var(--font_color);
+    font-family: var(--inter_font);
+}
+.content{
+    color: var(--font_color);
+    font-family: var(--inter_font);
+}

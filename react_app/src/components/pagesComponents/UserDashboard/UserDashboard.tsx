@@ -1,5 +1,4 @@
 import React, {memo, useContext, useEffect, useState} from 'react';
-import {Context} from "../../../index";
 import {observer} from "mobx-react-lite";
 import {IDashboardElem} from "../../../types/IDashboardElem";
 import StocksServices from "../../../services/stocksServices/StocksServices";
@@ -10,6 +9,8 @@ import classes from "./UserDashboard.module.css";
 import CardExemplar from "./CardExemplar/CardExemplar";
 import PriceLabel from "../../ui/PriceLabel/PriceLabel";
 import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
+import {Reorder} from "framer-motion";
+import {useStores} from "../../../store";
 
 const periodOptions = [
     {
@@ -34,53 +35,94 @@ const periodOptions = [
 const UserDashboard = () => {
 
     const [dashboardElems, setDashboardElems] = useState<IDashboardElem[]>([] as IDashboardElem[])
-    const [dashboardElemsLen,setDashboardElemsLen] = useState(0)
-
+    const [dashboardElemsLen,setDashboardElemsLen] = useState(0 )
+    const [stockAmountState, setStockAmountState] = useState(false)
+    const [isToggles, setIsToggles] = useState(true)
     const [isPercent, setIsPercent]= useState(false)
-    const [dashboardFullPrice, setDashboardFullPrice] = useState({}as{open:number, close:number})
+    const [dashboardFullPrice, setDashboardFullPrice] = useState({}as{open:string|number, close:string|number})
     const [period, setPeriod] = useState<IGetDayPriceTicker["period"]>("1d")
-    const {store} = useContext(Context)
-
-
-    useEffect(()=>{
-        if (store.isLoading)return;
-
-       store.firstSetDashboard().then((val)=>{
-           setDashboardElems(val)
-       })
-    },[store.isLoading])
+    const {UserStore, StockStore} = useStores();
 
     useEffect(()=>{
+        if (UserStore.isLoading)return;
+
+        const callback = async ()=>{
+            const data = await StockStore.firstSetDashboard()
+
+            setDashboardElems(data)
+        }
+        callback()
+
+    },[UserStore.isLoading])
+
+    useEffect(()=>{
+
+        if (UserStore.isLoading)return;
         setDashboardElemsLen(dashboardElems.length)
-    },[dashboardElems])
+        StockStore.syncDashboard(dashboardElems)
+    },[dashboardElems, stockAmountState])
 
     const {isLoadingPrice, dayPrice} = useFetchDayPrice(dashboardElems, period, false, dashboardElemsLen)
 
 
     useEffect(()=>{
+        // console.log(dayPrice)
+    }, [dayPrice])
+
+
+
+    useEffect(()=>{
+        if(isLoadingPrice)return
+        if(dashboardElems.length<1){
+            setDashboardFullPrice({"open":0, "close": 0})
+            return;
+        };
         let open = 0
         let close = 0
+
         dashboardElems.map((val)=>{
+
             open += dayPrice[val.ticker]["open"] * val.amount
             close += dayPrice[val.ticker]["close"] * val.amount
         })
-        setDashboardFullPrice({"open":open, "close": close})
-    }, [dayPrice])
+        setDashboardFullPrice({"open":open.toFixed(2), "close": close.toFixed(2)})
+    }, [dayPrice, stockAmountState, dashboardElemsLen])
+
 
     return (
         <div className={classes.main_container}>
             <div className={classes.content_container}>
                 <Selector initState={"day"} options={periodOptions} setFc={setPeriod}/>
                 <PriceLabel price={dashboardFullPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice}/>
-                <div className={classes.card_container}>
+
+
+                <Reorder.Group as="div" className={"cards_active_container"} axis="y" values={dashboardElems} onReorder={setDashboardElems}>
                     {
-                        dashboardElems.map((val)=>{
-                            return (
-                                <PriceLabel key={val.ticker} price={dayPrice[val.ticker]} isLoading={isLoadingPrice} setIsPercent={setIsPercent} isPercent={isPercent}/>
-                            )
-                        })
+                        dashboardElems.map((value, id) =>{
+                            return(
+                            <CardExemplar
+                                toggles={isToggles}
+                                ticker={value.ticker}
+                                dashboardElem={value}
+                                setDashboardElems={setDashboardElems}
+                                key={value.ticker}
+                                id={id}
+                                setStockAmountState={setStockAmountState}
+                            >
+                                <PriceLabel
+                                    price={dayPrice[value.ticker]}
+                                    isLoading={isLoadingPrice}
+                                    setIsPercent={setIsPercent}
+                                    isPercent={isPercent}
+                                />
+                            </CardExemplar>)
+
+                            }
+                        )
                     }
-                </div>
+                </Reorder.Group>
+
+
             </div>
 
         </div>

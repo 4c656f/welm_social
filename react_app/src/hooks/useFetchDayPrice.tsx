@@ -20,6 +20,7 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
     useEffect(()=>{
         if(tickers.length<1)return;
+        if(!period)return;
 
 
         const GetDayPrice = async () => {
@@ -32,6 +33,7 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
                 return
             }
 
+            console.log(data.data)
             setDayPrice(data.data)
 
 
@@ -39,7 +41,7 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
         GetDayPrice()
         const interval = setInterval(() => {
             GetDayPrice()
-        }, 5000);
+        }, 30000);
 
         return ()=> clearInterval(interval)
 

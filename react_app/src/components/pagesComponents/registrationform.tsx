@@ -1,11 +1,11 @@
 import React, {FC, useContext, useState} from 'react';
-import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
 import ValidationServices from "../../services/userServices/ValidationService";
 import LoginInput from "../ui/LoginInput/LoginInput";
 import Button from "../ui/Button/Button";
 import {observer} from "mobx-react-lite";
 import "../../utils/styles/pages/LoginForm.css"
+import {useStores} from "../../store";
 
 const Registrationform:FC = () => {
 
@@ -24,7 +24,7 @@ const Registrationform:FC = () => {
 
     const [timer, setTimer] = useState(null)
 
-    const {store} = useContext(Context)
+    const {UserStore, StockStore} = useStores();
     const navigator = useNavigate()
 
 
@@ -82,7 +82,7 @@ const Registrationform:FC = () => {
             if(password.length > 5 && nickname && email){
                 try{
                     setIsRegistrationFetching(true)
-                    const res = await store.registration(email, nickname, password);
+                    const res = await UserStore.registration(email, nickname, password);
                     setIsRegistrationFetching(false)
                     if(res.data === true){
                         console.log("registration")

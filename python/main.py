@@ -2,16 +2,18 @@ import flask_cors
 import jwt
 from flask import Flask, request, jsonify
 import flask
-from mysql_methods.mysql import DB
-from models.user_service import UserService
+
 import os
 from middleware.token_private import *
 from middleware.error_handler import *
 from dotenv import load_dotenv
 import json
 from flask_cors import CORS, cross_origin
-from models.stock_service import StockService
 
+from mysql_methods.mysql import DB
+from models.user_service import UserService
+from models.stock_service import StockService
+from models.post_service import PostService
 
 
 
@@ -35,6 +37,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 
+# USERSERVICE
 
 @app.route("/login", methods=["POST"])
 @cross_origin(supports_credentials=True)
@@ -79,66 +82,61 @@ def activate(link):
 def refresh():
     return UserService().refresh(request)
 
+@app.route("/get_check_nickname", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def get_check_nickname():
+    print(request)
+    return UserService().get_check_nickname(request)
+
+# PostService
 @app.route("/add_post", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def add_post():
-    return UserService().add_post(request)
+    return PostService().add_post(request)
 
 @app.route("/add_comment", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def add_comment():
-    return UserService().add_comment(request)
+    return PostService().add_comment(request)
 
 
 @app.route("/like", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def like():
-    return UserService().like(request)
+    return PostService().like(request)
 
 @app.route("/get_posts", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def get_posts():
-    return UserService().get_posts(request)
+    return PostService().get_posts(request)
 
-@app.route("/get_posts_by_ticker", methods=["POST"])
+
+
+
+@app.route("/get_full_post", methods=["POST"])
 @cross_origin(supports_credentials=True)
-def get_posts_by_ticker():
-    return UserService().get_posts_by_ticker(request)
-
-@app.route("/ticker_search", methods=["POST"])
-@cross_origin(supports_credentials=True)
-def ticker_search():
-    return StockService().search(request)
-
-@app.route("/sync_dashboard", methods=["POST"])
-@cross_origin(supports_credentials=True)
-@private()
-def sync_dashboard():
-    return StockService().sync_dashboard(request)
+def get_full_post():
+    return PostService().get_full_post(request)
 
 
-@app.route("/get_dashboard", methods=["POST"])
-@cross_origin(supports_credentials=True)
-@private()
-def get_dashboard():
-    return StockService().get_dashboard(request)
+
 
 @app.route("/save_post", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def save_post():
-    return UserService().save_post(request)
+    return PostService().save_post(request)
 
-@app.route("/get_save_posts", methods=["GET"])
+@app.route("/get_save_posts", methods=["POST"])
 @cross_origin(supports_credentials=True)
 @private()
 def get_save_post():
-    return UserService().get_save_posts(request)
+    return PostService().get_save_posts(request)
 
-
+# StockService
 @app.route("/get_char", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def get_char():
@@ -149,12 +147,52 @@ def get_char():
 def get_day_price():
     return StockService().get_price(request)
 
-
-@app.route("/get_check_nickname", methods=["GET"])
+@app.route("/ticker_search", methods=["POST"])
 @cross_origin(supports_credentials=True)
-def get_check_nickname():
-    print(request)
-    return UserService().get_check_nickname(request)
+def ticker_search():
+    return StockService().search(request)
+
+
+
+@app.route("/sync_dashboard", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def sync_dashboard():
+    return StockService().sync_dashboard(request)
+
+
+@app.route("/change_amount", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def change_amount():
+    return StockService().change_amount(request)
+
+@app.route("/sort_dashboard", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def sort_dashboard():
+    return StockService().sort_dashboard(request)
+
+@app.route("/delete_from_dashboard", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def delete_from_dashboard():
+    return StockService().delete_from_dashboard(request)
+
+@app.route("/add_to_dashboard", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def add_to_dashboard():
+    return StockService().add_to_dashboard(request)
+
+
+@app.route("/get_dashboard", methods=["POST"])
+@cross_origin(supports_credentials=True)
+@private()
+def get_dashboard():
+    return StockService().get_dashboard(request)
+
+
 
 
 

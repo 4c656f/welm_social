@@ -6,13 +6,15 @@ import CommentsCounter from "../CommentsCounter/CommentsCounter";
 import PostsTags from "../PostsTags/PostsTags";
 import SavePostButton from "../SavePostButton/SavePostButton";
 import ReactHtmlParser from "react-html-parser";
+import {IFullPost} from "../../../types/IFullPost";
 interface PostSmallExampleProps{
-    post: IPost;
+    post: IPost|IFullPost;
     navigator: any;
+    isFull:boolean
 }
 
 
-const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator}) => {
+const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator,isFull}) => {
 
     const [isReadMore, setIsReadMore] = useState(false)
 
@@ -26,8 +28,13 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator}) => {
         const url = `/ticker/${tag.slice(1).toLowerCase()}`
         console.log(url)
         navigator(url)
-
     }
+
+    const commentRedirect = (e) => {
+
+        navigator(`/post/${post.post_link}`)
+    }
+
     let id:number = 0
 
     return (
@@ -61,7 +68,7 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator}) => {
             <PostsTags tags={post.tags} tagRedirect={tagRedirect}/>
             <div className={classes.buttons_bottom_container}>
                 <div className={classes.buttons_bottom_right_container}>
-                    <CommentsCounter CommentCount={post.comments}/>
+                    <CommentsCounter CommentCount={post.comments} commentRedirect={commentRedirect}/>
                     <SavePostButton postId={post.id} isSaved={post.is_saved}/>
                 </div>
                 <div>
