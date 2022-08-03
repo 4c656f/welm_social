@@ -1,4 +1,4 @@
-import React, {memo, useContext, useEffect} from 'react';
+import React, {memo} from 'react';
 import classes from "./TopBar.module.css";
 import Button from "../../components/ui/Button/Button";
 import {useNavigate} from "react-router-dom";
@@ -10,7 +10,7 @@ import {useStores} from "../../store";
 const TopBar = () => {
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
     const navigator = useNavigate()
 

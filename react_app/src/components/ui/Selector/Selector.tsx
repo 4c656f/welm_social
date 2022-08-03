@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import classes from "./Selector.module.css";
 
 

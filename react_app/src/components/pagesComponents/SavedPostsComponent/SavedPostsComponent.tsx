@@ -1,16 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {IPost} from "../../../types/IPost";
 import PostsService from "../../../services/postsServices/PostsService";
 import PostSmallExample from "../../ui/PostSmallExampl/PostSmallExample";
 import {observer} from "mobx-react-lite";
-import classes from "./SavedPostsComponent.module.css"
 import {useStores} from "../../../store";
 
 const SavedPostsComponent = () => {
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
     const navigator = useNavigate()
 

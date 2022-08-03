@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useState} from 'react';
 import classes from "./LeftBar.module.css";
-import { ReactComponent as BookMark } from "../../utils/svg/bookmark.svg"
+import {ReactComponent as BookMark} from "../../utils/svg/bookmark.svg"
 import LeftBarItem from "../../components/ui/LeftBarItem/LeftBarItem";
 import {useLocation, useNavigate} from "react-router-dom";
 

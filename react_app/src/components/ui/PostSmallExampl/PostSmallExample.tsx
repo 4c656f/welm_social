@@ -7,6 +7,7 @@ import PostsTags from "../PostsTags/PostsTags";
 import SavePostButton from "../SavePostButton/SavePostButton";
 import ReactHtmlParser from "react-html-parser";
 import {IFullPost} from "../../../types/IFullPost";
+
 interface PostSmallExampleProps{
     post: IPost|IFullPost;
     navigator: any;

@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import classes from "./LikeCounter.module.css"
-import { ReactComponent as LikeSvg } from "../../../utils/svg/like.svg"
+import {ReactComponent as LikeSvg} from "../../../utils/svg/like.svg"
 import {observer} from "mobx-react-lite";
 import PostsServices from "../../../services/postsServices/PostsService"
 import {useStores} from "../../../store";
@@ -17,7 +17,7 @@ const LikeCounter = ({count, postId, LikeInit}) => {
 
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
     const likeWrap = (type) => {
@@ -51,7 +51,7 @@ const LikeCounter = ({count, postId, LikeInit}) => {
             <div className={`${classes.like_number} ${(likeCount + likeType)>0?classes.like_number_positive:(likeCount + likeType)<0?classes.like_number_negative:""}`}>
                 {likeCount + likeType}
             </div>
-            <div className={`${classes.like_button} ${likeType===1?classes.active_button:""}`} onClick={()=>store.privateModalWrapper(likeWrap(1))}>
+            <div className={`${classes.like_button} ${likeType===1?classes.active_button:""}`} onClick={()=>UserStore.privateModalWrapper(likeWrap(1))}>
                 <LikeSvg/>
             </div>
         </div>

@@ -4,13 +4,10 @@ import {useNavigate} from "react-router-dom";
 import {useStores} from "../../../store";
 
 
-
-
-
 const PrivateAuthTrue = ({children, redirectTo}) => {
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
     const navigator = useNavigate()
 
     useEffect(()=>{

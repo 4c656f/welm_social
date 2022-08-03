@@ -93,16 +93,17 @@ class StockService:
             return flask.jsonify(False), 400
 
 
-        sql_selection = f"SELECT * FROM user_dashboard WHERE user_id = {user_id} ORDER BY sort_id DESC"
-
+        sql_selection = f"SELECT * FROM user_dashboard WHERE user_id = {user_id} ORDER BY sort_id ASC"
+        print(sql_selection)
         selection = self.db.fetch(sql_selection)
 
         if not selection:
-            sql = f"INSERT INTO `user_dashboard` (`sort_id`, `user_id`, `ticker`, `amount`) VALUES ({0}, {user_id}, {ticker}, {amount})"
+            sql = f"INSERT INTO `user_dashboard` (`sort_id`, `user_id`, `ticker`, `amount`) VALUES ({0}, {user_id}, '{ticker}', {amount})"
         else:
-            sort_id = selection[0]["sort_id"] + 1
-            sql = f"INSERT INTO `user_dashboard` (`sort_id`, `user_id`, `ticker`, `amount`) VALUES ({sort_id}, {user_id}, {ticker}, {amount})"
+            sort_id = selection[0]["sort_id"] - 1
+            sql = f"INSERT INTO `user_dashboard` (`sort_id`, `user_id`, `ticker`, `amount`) VALUES ({sort_id}, {user_id}, '{ticker}', {amount})"
 
+        print(sql)
 
         selection = self.db.execute_commit(sql)
 
@@ -146,7 +147,7 @@ class StockService:
                     i["sort_id"],
                     i["ticker"]
                 ))
-
+            print(sort_arr, commit_list)
 
 
 
@@ -160,7 +161,7 @@ class StockService:
 
         sql = f"UPDATE user_dashboard SET sort_id = %s WHERE user_id = {user_id} AND ticker = %s"
 
-        self.db.execute_commit_many(sql, sort_arr)
+        self.db.execute_commit_many(sql, commit_list)
 
 
 
@@ -173,14 +174,14 @@ class StockService:
             user_id = req_data["user"]["user_id"]
             amount = req_data["amount"]
             ticker = req_data["ticker"]
-
+            print(user_id, amount, ticker)
         except Exception as e:
             print(e)
             return flask.jsonify(False), 400
 
 
-        sql = f"UPDATE user_dashboard SET amount = {amount} WHERE user_id = {user_id} AND ticker = {ticker}"
-
+        sql = f"UPDATE user_dashboard SET amount = {amount} WHERE user_id = {user_id} AND ticker = '{ticker}'"
+        print(sql)
         self.db.execute_commit(sql)
 
 

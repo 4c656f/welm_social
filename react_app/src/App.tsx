@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -7,7 +7,6 @@ import SignUp from "./pages/SignUp";
 import TickerPage from "./pages/TickerPage";
 import "./utils/styles/pages/index.css"
 import {observer} from "mobx-react-lite";
-import {toJS} from "mobx";
 import TopBar from "./layouts/TopBar/TopBar";
 import LeftBar from "./layouts/LeftBar/LeftBar";
 import Dashboard from "./pages/Dashboard";
@@ -21,7 +20,7 @@ import {useStores} from "./store";
 
 const App: FC  = () => {
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
 

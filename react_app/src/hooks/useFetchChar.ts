@@ -1,7 +1,6 @@
-import {ITickerChar, ITickerCharData} from "../types/ITickerChar";
+import {ITickerCharData} from "../types/ITickerChar";
 import StocksServices from "../services/stocksServices/StocksServices";
 import {useEffect, useState} from "react";
-
 
 
 const useFetchChar = (ticker:string, interval:string, period:string) =>{

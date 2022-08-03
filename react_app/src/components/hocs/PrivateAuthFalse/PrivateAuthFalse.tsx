@@ -1,16 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {observer} from "mobx-react-lite";
 import {useNavigate} from "react-router-dom";
 import {useStores} from "../../../store";
 
 
-
-
-
 const PrivateAuthFalse = ({children, redirectTo}) => {
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
     const navigator = useNavigate()
 
 

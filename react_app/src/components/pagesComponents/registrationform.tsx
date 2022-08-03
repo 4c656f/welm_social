@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import ValidationServices from "../../services/userServices/ValidationService";
 import LoginInput from "../ui/LoginInput/LoginInput";
@@ -24,7 +24,7 @@ const Registrationform:FC = () => {
 
     const [timer, setTimer] = useState(null)
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
     const navigator = useNavigate()
 
 

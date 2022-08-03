@@ -1,12 +1,12 @@
-import React, {ChangeEvent, FC, ReactNode, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, ReactNode, useState} from 'react';
 import {Reorder, useDragControls} from "framer-motion"
 import classes from "./CardExemplar.module.css"
 import {IDashboardElem} from "../../../../types/IDashboardElem";
+import {useStores} from "../../../../store";
 
 interface CardExemplarProps {
 
     ticker:string;
-    setDashboardElems:any;
     dashboardElem:IDashboardElem;
     toggles: boolean;
     children: ReactNode;
@@ -17,7 +17,6 @@ interface CardExemplarProps {
 
 const CardExemplar:FC<CardExemplarProps> = ({
                                                 ticker,
-                                                setDashboardElems,
                                                 dashboardElem,
                                                 toggles,
                                                 id,
@@ -26,15 +25,10 @@ const CardExemplar:FC<CardExemplarProps> = ({
 
 
     const [stockAmount, setStockAmount]= useState(dashboardElem["amount"])
+    const {StockStore}= useStores()
 
     const remove_card = () => {
-        setDashboardElems((prev)=> {
-            return prev.filter((item, id_arr) => {
-                return id !== id_arr
-            })
-        }
-        )
-        ;
+        StockStore.deleteFromDashboard(id)
     };
 
 
@@ -44,6 +38,7 @@ const CardExemplar:FC<CardExemplarProps> = ({
             return e.target.validity.valid ? Number(e.target.value) : prev
         })
 
+
     }
     const enterPress = (e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === "Enter"){
@@ -51,12 +46,8 @@ const CardExemplar:FC<CardExemplarProps> = ({
                 remove_card()
                 return
             }
-            setDashboardElems((prev)=>{
-                const wrap = prev
-                wrap[id]["amount"] = stockAmount
-
-                return wrap
-            })
+            console.log(stockAmount)
+            StockStore.changeAmount(id, stockAmount)
             setStockAmountState(prev=>!prev)
         }
     }
@@ -100,4 +91,4 @@ const CardExemplar:FC<CardExemplarProps> = ({
     );
 };
 
-export default CardExemplar;
+export default memo(CardExemplar);

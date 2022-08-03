@@ -19,7 +19,7 @@ const FullPostComponent:FC<FullPostComponentProps> = ({postLink}) => {
     const [post, setPost] = useState<IFullPost[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
     useEffect(()=>{

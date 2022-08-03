@@ -1,8 +1,9 @@
-import React, {FC, useContext, useState} from 'react';
-import { ReactComponent as SaveIcon } from "../../../utils/svg/bookmark.svg";
+import React, {FC, useState} from 'react';
+import {ReactComponent as SaveIcon} from "../../../utils/svg/bookmark.svg";
 import PostsServices from "../../../services/postsServices/PostsService";
 import classes from "./SavePostButton.module.css";
 import {useStores} from "../../../store";
+
 interface SavePostButtonProps{
     postId: number;
     isSaved:number;
@@ -12,7 +13,7 @@ const SavePostButton:FC<SavePostButtonProps> = ({postId, isSaved}) => {
 
     const [isSavedState, setIsSavedState]= useState(isSaved>0)
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
     const save = async () => {

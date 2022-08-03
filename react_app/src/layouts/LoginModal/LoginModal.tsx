@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import classes from "./LoginModal.module.css"
 import Button from "../../components/ui/Button/Button";
 import {useNavigate} from "react-router-dom";
@@ -8,7 +8,7 @@ import {useStores} from "../../store";
 const LoginModal = () => {
 
     const navigator = useNavigate()
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
 

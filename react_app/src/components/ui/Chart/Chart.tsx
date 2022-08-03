@@ -1,5 +1,5 @@
 import React, {FC, memo, useEffect, useState} from 'react';
-import {Tooltip, YAxis, XAxis, Line, LineChart, ResponsiveContainer} from "recharts";
+import {Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import {ITickerCharData} from "../../../types/ITickerChar";
 import CustomTooltip from "../CustomTooltip/CustomTooltip";
 import classes from "./Chart.module.css";

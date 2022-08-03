@@ -55,7 +55,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
 
     const {isLoading, data} = useFetchChar(ticker, intervalVal, periodVal)
 
-    const {UserStore, StockStore} = useStores();
+    const {StockStore} = useStores();
 
     const [isPercent, setIsPercent] = useState(false)
 

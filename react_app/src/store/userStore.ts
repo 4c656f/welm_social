@@ -7,7 +7,6 @@ import {API_URL} from "../http";
 import {IRootStore} from "../types/IRotStore";
 
 
-
 class UserStore{
 
     user = {} as IUser;

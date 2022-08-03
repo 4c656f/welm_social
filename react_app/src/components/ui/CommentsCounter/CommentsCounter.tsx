@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import classes from "./CommentsCounter.module.css";
-import { ReactComponent as CommentIcon } from "../../../utils/svg/message-circle-01.svg"
-
+import {ReactComponent as CommentIcon} from "../../../utils/svg/message-circle-01.svg"
 
 
 const CommentsCounter:FC<{CommentCount:number, commentRedirect:any}> = ({CommentCount, commentRedirect}) => {

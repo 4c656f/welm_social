@@ -1,11 +1,10 @@
-import React, {FC, useCallback, useContext, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import LoginInput from "../ui/LoginInput/LoginInput";
 import Button from "../ui/Button/Button";
 import {observer} from "mobx-react-lite";
 import "../../utils/styles/pages/LoginForm.css"
 import {useStores} from "../../store";
-
 
 
 const Loginform:FC = () => {
@@ -20,7 +19,7 @@ const Loginform:FC = () => {
     const [isLoginFetching, setIsLoginFetching] = useState(false)
 
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
     const navigator = useNavigate()
 

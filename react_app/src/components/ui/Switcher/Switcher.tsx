@@ -1,4 +1,4 @@
-import React, {FC,memo} from 'react';
+import React, {FC, memo} from 'react';
 import classes from "./Switcher.module.css"
 import SwitcherButton from "./SwitcherButton";
 

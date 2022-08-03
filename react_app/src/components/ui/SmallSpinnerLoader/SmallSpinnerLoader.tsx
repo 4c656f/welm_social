@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as LoaderSvg } from "../../../utils/svg/spinnerloader.svg"
+import {ReactComponent as LoaderSvg} from "../../../utils/svg/spinnerloader.svg"
 import classes from "./Small.SpinnerLoader.module.css"
 
 const SmallSpinnerLoader = () => {

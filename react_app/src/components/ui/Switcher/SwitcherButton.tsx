@@ -1,9 +1,6 @@
-import React, {FC, memo} from 'react';
+import React, {FC} from 'react';
 import classes from "./SwitcherButton.module.css";
-import SmallSpinnerLoader from "../SmallSpinnerLoader/SmallSpinnerLoader";
 import {IButtonProps} from "../../../types/IButtonProps";
-
-
 
 
 const SwitcherButton:FC<IButtonProps> = ({content, onClick, width, isFetching, isDisabled, isActive}) => {

@@ -1,5 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import classes from './CommentsFullBlock.module.css'
+import React, {FC, useEffect, useState} from 'react';
 import {IComment} from "../../../types/IFullPost";
 import CommentExemplar from "./CommentExemplar/CommentExemplar";
 import Button from "../Button/Button";
@@ -18,7 +17,7 @@ const CommentsFullBlock:FC<CommentsFullBlockProps> = ({comments, postId}) => {
     const [commentsState, setCommentsState] = useState<IComment[]>(comments)
     const [inputComment, setInputComment] = useState("")
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
     const addComment = async () => {
         if(inputComment.length<1)return

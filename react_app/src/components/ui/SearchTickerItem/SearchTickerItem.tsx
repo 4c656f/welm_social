@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {ITickerDescription} from "../../../types/ITickerDescription";
 import classes from "./SearchTickerItem.module.css";
-import {useNavigate} from "react-router-dom";
 
 
 interface SearchTickerItemProps extends  ITickerDescription{

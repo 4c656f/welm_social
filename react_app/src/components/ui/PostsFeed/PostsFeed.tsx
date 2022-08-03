@@ -1,4 +1,4 @@
-import React, {FC, memo, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {FC, memo, useEffect, useRef, useState} from 'react';
 import useFetchFeed from "../../../hooks/useFetchFeed";
 import PostCategorySwitcher from "../PostCategorySwitcher/PostCategorySwitcher";
 import PostSmallExample from "../PostSmallExampl/PostSmallExample";
@@ -24,7 +24,7 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
     const [sort, setSort]= useState<"new" | "popular">("new")
     const [interval, setInterval]= useState<1 | 7 | 30 | 365>(1)
 
-    const {UserStore, StockStore} = useStores();
+    const {UserStore} = useStores();
 
 
 

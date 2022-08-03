@@ -1,5 +1,4 @@
-import React, {FC, memo, useState} from 'react';
-import classes from "./PostCategorySwitcher.module.css";
+import React, {FC, memo} from 'react';
 import Selector from "../Selector/Selector";
 
 interface PostCategorySwitcherProps{
