@@ -8,6 +8,7 @@ import {toJS} from "mobx";
 import {observer} from "mobx-react-lite";
 import {useNavigate} from "react-router-dom";
 import {useStores} from "../../../store";
+import PostTextArea from "../PostTextArea/PostTextArea";
 
 interface FeedProps{
     ticker: string|boolean;
@@ -78,7 +79,7 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
     return (
         <div className={classes.feed_container}>
 
-
+            <PostTextArea ticker={ticker}/>
             <div className={classes.post_container}>
                 <PostCategorySwitcher sort={sort} setSort={setSort} setInterval={setInterval}/>
                 {posts.map((value) => {

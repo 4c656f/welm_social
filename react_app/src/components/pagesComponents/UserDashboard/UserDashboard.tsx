@@ -76,9 +76,7 @@ const UserDashboard = () => {
     const {isLoadingPrice, dayPrice} = useFetchDayPrice(StockStore.dashboardElems, period, false, dashboardElemsLen)
 
 
-    useEffect(()=>{
-        // console.log(dayPrice)
-    }, [dayPrice])
+
 
 
 

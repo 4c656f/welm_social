@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, memo, useCallback, useEffect, useState} from 'react';
 import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
@@ -34,7 +34,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
                 "isDisabled":false,
                 "isActive":false,
         }])
-    const [periodVal, setPeriodVal] = useState<string>("1mo")
+    const [periodVal, setPeriodVal] = useState<boolean|"1d"|"1mo"|"1y">("1mo")
     const [intervalSwitcher, setIntervalSwitcher] = useState([
         {
             "content": "1h",
@@ -61,26 +61,38 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
 
     const [tickerArr, setTickerArr]= useState([{"ticker": ticker}])
 
+    const [tooltipOpen, setTooltipOpen] = useState()
+
+    const [isTooltip, setIsTooltip] = useState<boolean>(false)
+
+
+
+
     useEffect(()=>{
         setTickerArr([{"ticker": ticker}])
     },[ticker])
 
-    const{isLoadingPrice, dayPrice} = useFetchDayPrice(tickerArr, "1d", true)
+    const{isLoadingPrice, dayPrice, setDayPrice} = useFetchDayPrice(tickerArr, periodVal, true)
 
 
+    useEffect(()=>{
+        console.log(dayPrice)
+    },[dayPrice])
 
+
+    const storeUpdate = useCallback(()=>StockStore.addDashboardElem(ticker),[ticker])
 
     return (
         <div className={"scroll_container"}>
             <div className={classes.name_price_wrapper}>
                 <div>name</div>
-                <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice}/>
+                <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice} isTooltip={isTooltip} tooltipOpen={tooltipOpen}/>
             </div>
-            <Chart char_data={data} isLoading={isLoading} />
+            <Chart char_data={data} isLoading={isLoading} setTooltipOpen={setTooltipOpen} setIsTooltip={setIsTooltip} />
             <div className={classes.switcher_container}>
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
-                <Button onClick={()=>{StockStore.addDashboardElem(ticker)}} content={"add to dashboard"}/>
+                <Button onClick={storeUpdate} content={"add to dashboard"}/>
             </div>
             <PostsFeed ticker={ticker}/>
         </div>

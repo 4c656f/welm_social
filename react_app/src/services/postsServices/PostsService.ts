@@ -25,6 +25,17 @@ export default class PostsService{
             "user": user,
         })
     }
+    static async AddPost(user: IUser, content:string): Promise<AxiosResponse<boolean>>{
+
+
+        return api.post<boolean>("/add_post",
+        {"user": user,
+            "post":{
+            "content":content
+            }
+            }
+        )
+    }
     static async AddLike(user: IUser, likeType:number, postId:number): Promise<AxiosResponse<boolean>>{
 
         const data = {"user": user,

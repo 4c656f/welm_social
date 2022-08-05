@@ -48,7 +48,7 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
     },[tickersLen?tickersLen:tickers, period])
 
 
-    return {isLoadingPrice, dayPrice}
+    return {isLoadingPrice, dayPrice, setDayPrice}
 
 }
 

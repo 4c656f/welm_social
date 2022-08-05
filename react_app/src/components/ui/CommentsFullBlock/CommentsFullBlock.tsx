@@ -20,19 +20,21 @@ const CommentsFullBlock:FC<CommentsFullBlockProps> = ({comments, postId}) => {
     const {UserStore} = useStores();
 
     const addComment = async () => {
-        if(inputComment.length<1)return
+        if (inputComment.length < 1) return
         const resp = await PostsService.AddComment(UserStore.user, inputComment, postId)
-        if(resp.data !== true){return}
-        setCommentsState((prev)=>{
+        if (resp.data !== true) {
+            return
+        }
+        setCommentsState((prev) => {
 
 
-            if(prev.length<1){
+            if (prev.length < 1) {
                 return [{
                     "author_nickname": UserStore.user.user_nickname,
                     "author_id": UserStore.user.user_id,
                     "content": inputComment,
                     "post_id": postId,
-                    "creation_date":  Date.now(),
+                    "creation_date": Date.now(),
                     "id": 0
 
                 }]
@@ -43,20 +45,20 @@ const CommentsFullBlock:FC<CommentsFullBlockProps> = ({comments, postId}) => {
                 "author_id": UserStore.user.user_id,
                 "content": inputComment,
                 "post_id": postId,
-                "creation_date":  Date.now(),
+                "creation_date": Date.now(),
                 "id": prevId + 1
 
             }, ...prev]
 
         })
     }
-    useEffect(()=>{
+    useEffect(() => {
         console.log(commentsState)
-    },[commentsState])
+    }, [commentsState])
 
     return (
         <div>
-            <input value={inputComment} onChange={(e)=>{setInputComment(e.target.value)}}/>
+            <input className={`default_input`} placeholder={"input comment"} value={inputComment} onChange={(e)=>{setInputComment(e.target.value)}}/>
             <Button content={"send"} onClick={()=>UserStore.privateModalWrapper(addComment)}/>
             {commentsState.map((val)=>{
                 return(<CommentExemplar key={val.id} comment={val}/>)

@@ -14,7 +14,7 @@ interface IButtonSwitcherProps{
 interface switcherProps{
     buttonObject: IButtonSwitcherProps[] | any;
     setButtonsFc:(value: IButtonSwitcherProps[] | ((prevVar: IButtonSwitcherProps[]) => IButtonSwitcherProps[])) => IButtonSwitcherProps[]| any;
-    setValFc:(value: string | ((prevVar: string) => string)) => string | any;
+    setValFc:(value: string|number|boolean | ((prevVar: string|number|boolean) => string|number|boolean)) => string|number|boolean | any;
     placeholder:string | any;
 }
 const Switcher:FC<switcherProps> = ({buttonObject, setButtonsFc, setValFc, placeholder}) => {

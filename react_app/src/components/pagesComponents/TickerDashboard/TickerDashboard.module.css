@@ -3,6 +3,7 @@
     flex-direction: row;
     width: 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
     margin-top: 380px;
     grid-gap: 20px;
 }

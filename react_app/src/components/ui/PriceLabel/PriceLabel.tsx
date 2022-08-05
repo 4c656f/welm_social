@@ -3,14 +3,16 @@ import classes from "./PriceLabel.module.css";
 import {IDayPrice} from "../../../types/IDayPrice";
 
 interface PriceLabelProps{
-    price:IDayPrice[string]|IDayPrice;
+    price:IDayPrice[string];
     isPercent:boolean;
     setIsPercent:any;
     isLoading:boolean;
+    isTooltip?:boolean;
+    tooltipOpen?:number;
 }
 
 
-const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoading}) => {
+const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoading,isTooltip,tooltipOpen}) => {
 
 
 
@@ -18,7 +20,7 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
 
     const [lightClass, setLightClass] = useState(0)
     const [isPositive, setIsPositive] = useState("")
-
+    const [priceChange, setPriceChange] = useState<any>()
 
 
 
@@ -41,7 +43,35 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
 
     },[price])
 
+    useEffect(()=>{
+        if(isLoading)return
+        console.log(isTooltip, tooltipOpen)
+        if(isTooltip){
+            if(price["close"]>tooltipOpen){
+                setIsPositive("+")
 
+            }
+            if(price["close"]<tooltipOpen){
+                setIsPositive("")
+
+            }
+            if(isPercent){
+                setPriceChange((price["close"]/tooltipOpen*100-100).toFixed(2))
+                return;
+            }
+            setPriceChange((price["close"]-tooltipOpen).toFixed(2))
+            return;
+        }
+
+        if(isPercent){
+
+            setPriceChange((price["close"]/price["open"]*100-100).toFixed(2))
+            return;
+        }
+        setPriceChange((price["close"]-price["open"]).toFixed(2))
+        return;
+
+    },[price,isPercent, tooltipOpen, isTooltip])
 
 
 
@@ -59,13 +89,13 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
                     </div>
                     <div className={`${classes.price_change}
                     ${lightClass>0?classes.light_positive:lightClass<0?classes.light_negative:""}
-                    ${price["close"]>price["open"]?classes.price_change_positive:classes.price_change_negative}`}
+                    ${isPositive==="+"?classes.price_change_positive:classes.price_change_negative}`}
                          onClick={()=> setIsPercent((prev)=>!prev)}
 
                     >{
-                        isPercent?`${isPositive} ${(price["close"]/price["open"]*100-100).toFixed(2)}%`
+                        isPercent?`${isPositive} ${priceChange}%`
                             :
-                            `${isPositive} ${(price["close"]-price["open"]).toFixed(2)}$`
+                            `${isPositive} ${priceChange}$`
                     }</div>
                 </div>
         }

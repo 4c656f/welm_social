@@ -5,3 +5,12 @@
 .left_bar_item_active{
     background-color: var(--button_bg);
 }
+
+
+@media (max-width: 600px) {
+    .left_bar_item_text{
+
+        display: none;
+    }
+
+}
