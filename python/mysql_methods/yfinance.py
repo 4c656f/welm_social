@@ -11,10 +11,10 @@ period_cases={
     },
     "1mo":{
         "period":"1mo",
-        "interval":"1wk"
+        "interval":"1d"
     },"1y":{
         "period":"1y",
-        "interval":"1mo"
+        "interval":"1d"
     },"max":{
         "period":"max",
         "interval":"3mo"
@@ -32,9 +32,9 @@ def get_current_price(request_data):
                 history_period = "2d"
                 history_interval = "1d"
 
-            print(history_period, history_interval)
+            print(history_period, history_interval, "---------interval")
 
-            data2 = yf.download(ticker,  period=history_period, interval=history_interval)
+            data2 = yf.download(ticker,  period=history_period)
 
 
 
@@ -46,10 +46,15 @@ def get_current_price(request_data):
         except Exception as e:
             print(e)
 
-    if len(request_data) == 1:
+    if len(request_data["tickers"]) == 1:
         response_dict = {}
+
         request_thread(response_dict, request_data["tickers"][0]["ticker"], request_data["period"])
+
         return response_dict
+
+
+
 
 
 

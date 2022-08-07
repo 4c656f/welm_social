@@ -5,6 +5,8 @@ import PostsService from "../../../services/postsServices/PostsService";
 import PostSmallExample from "../../ui/PostSmallExampl/PostSmallExample";
 import {observer} from "mobx-react-lite";
 import {useStores} from "../../../store";
+import classes from "./SavedPostsComponent.module.css"
+
 
 const SavedPostsComponent = () => {
 
@@ -29,15 +31,17 @@ const SavedPostsComponent = () => {
 
     return (
         <div className={"scroll_container"}>
+            <div className={classes.main_container}>
             {isLoading?
                 null
                 :
                 posts.map((val)=>{
-                    console.log(posts)
+
                     return (
                         <PostSmallExample key = {val.post_link} post={val} isFull={false} navigator={navigator}/>
                     )
                 })}
+            </div>
         </div>
     );
 };

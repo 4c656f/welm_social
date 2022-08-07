@@ -57,7 +57,7 @@ const UserDashboard = () => {
         if (UserStore.isLoading)return;
 
         const callback = async ()=>{
-            console.log(UserStore.isAuth)
+
             const data = await StockStore.firstSetDashboard()
 
         }

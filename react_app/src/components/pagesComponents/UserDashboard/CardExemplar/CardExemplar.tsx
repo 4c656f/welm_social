@@ -46,7 +46,6 @@ const CardExemplar:FC<CardExemplarProps> = ({
                 remove_card()
                 return
             }
-            console.log(stockAmount)
             StockStore.changeAmount(id, stockAmount)
             setStockAmountState(prev=>!prev)
         }

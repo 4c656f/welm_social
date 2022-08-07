@@ -18,6 +18,10 @@
     background-color: var(--button_hover);
 }
 .disabled{
+    cursor: initial;
+    background-color: #353535;
+}
+.disabled:hover{
     background-color: #353535;
 }
 .active{

@@ -42,7 +42,12 @@ const Button:FC<IButtonProps> = ({
                     </div>
                     :null
             }
-            {content}
+            {
+                content?
+                    content
+                    :null
+            }
+
         </div>
     );
 };

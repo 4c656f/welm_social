@@ -28,6 +28,7 @@ export default class StocksServices{
 
     static async GetDayPrice(tickerArr:IGetDayPriceTicker): Promise<AxiosResponse<IDayPrice>>{
         const resp = await api.post<IDayPrice>("/get_price", tickerArr)
+
         return resp
     }
 

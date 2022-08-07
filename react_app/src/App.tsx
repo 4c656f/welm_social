@@ -20,7 +20,7 @@ import {useStores} from "./store";
 
 const App: FC  = () => {
 
-    const {UserStore} = useStores();
+    const {UserStore, StockStore} = useStores();
 
 
 
@@ -33,7 +33,17 @@ const App: FC  = () => {
 
     },[])
 
+    useEffect(()=>{
+        if (UserStore.isLoading)return;
 
+        const callback = async ()=>{
+
+            const data = await StockStore.firstSetDashboard()
+
+        }
+        callback()
+
+    },[UserStore.isLoading])
 
     return (
 

@@ -22,9 +22,11 @@ const Chart:FC<ChartProps> = ({char_data,isLoading,setTooltipOpen, setIsTooltip}
     }
 
     useEffect(()=>{
+        console.log(char_data)
         if(isLoading)return;
         if(!isFirstLoading)return;
         setIsFirstLoading(false)
+
     },[isLoading])
 
     return (
@@ -43,7 +45,7 @@ const Chart:FC<ChartProps> = ({char_data,isLoading,setTooltipOpen, setIsTooltip}
                                 <Line dot={false} isAnimationActive={true} type="basis" dataKey="price" stroke="#fff" />
 
                                 <XAxis tickLine={false} dataKey="date" interval={get_len()} className={"x_axis"} padding={{right: 50 , left: 50 }} axisLine={false}/>
-                                <YAxis tickLine={false} dataKey="price" interval={0} className={"x_axis"} padding={{top: 50 , bottom: 50 }} axisLine={false}/>
+                                <YAxis tickLine={false} dataKey="price" interval={0} className={"x_axis"} padding={{top: 50 , bottom: 50 }} axisLine={false} domain={['dataMin', 'dataMax']}/>
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
@@ -54,8 +56,8 @@ const Chart:FC<ChartProps> = ({char_data,isLoading,setTooltipOpen, setIsTooltip}
                             <Tooltip isAnimationActive={false} allowEscapeViewBox={{x: true, y: true}} position={{y: 0}} content={<CustomTooltip setTooltipOpen={setTooltipOpen} setIsTooltip={setIsTooltip}/>} />
                             <Line dot={false} isAnimationActive={true} type="basis" dataKey="price" stroke="#fff" />
 
-                            <XAxis tickLine={false} dataKey="date" interval={get_len()} className={"x_axis"} padding={{right: 50 , left: 50 }} axisLine={false}/>
-                            <YAxis tickLine={false} dataKey="price" interval={0} className={"x_axis"} padding={{top: 50 , bottom: 50 }} axisLine={false}/>
+                            <XAxis tickLine={false} dataKey="date" interval={get_len()} className={"x_axis"} padding={{right: 50 , left: 50 }} axisLine={false} />
+                            <YAxis tickLine={false} dataKey="price" className={"x_axis"} padding={{top: 50 , bottom: 50 }} axisLine={false} domain={['dataMin', 'dataMax']}/>
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

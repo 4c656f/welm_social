@@ -26,8 +26,6 @@ class StockStore{
 
     addDashboardElem(ticker:string){
         if (this.dashboardElems.some((elem) => elem["ticker"] === ticker))return
-
-
         console.log("добавление")
         const curAdd = {"id": null, "sort_id":null, "user_id": null, "ticker": ticker, "amount": 1}
         this.dashboardElems = [curAdd, ...this.dashboardElems]

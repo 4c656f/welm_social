@@ -92,6 +92,7 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
                     </div>
                     :null
                 }
+
                 {isLast?
                     <div className={classes.breaker}>
                         that all

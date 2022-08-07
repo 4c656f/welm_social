@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 
 export interface IButtonProps{
-    content: string;
+    content?: string;
     onClick: (params:any)=>any;
     width?:string;
     isFetching?:boolean;

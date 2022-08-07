@@ -1,17 +1,17 @@
 .main_container{
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0%;
     left: 0%;
-    z-index: 2;
+    z-index: 20;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .form_container{
     z-index: 4;
-    background-color: blue;
+    background-color: var(--button_bg);
     width: 50%;
     height: 70%;
     border-radius: var(--button_border_radius);
@@ -27,7 +27,8 @@
     height: 100%;
     width: 100%;
     background-color: black;
-    opacity: 0.4;
+    opacity: 0.8;
+    backdrop-filter: blur(20);
 }
 .close_bt{
     position: absolute;

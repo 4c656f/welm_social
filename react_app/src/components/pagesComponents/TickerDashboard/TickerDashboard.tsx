@@ -1,4 +1,4 @@
-import React, {FC, memo, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import useFetchChar from "../../../hooks/useFetchChar";
 import Chart from "../../ui/Chart/Chart";
 import Switcher from "../../ui/Switcher/Switcher";
@@ -9,7 +9,7 @@ import {observer} from "mobx-react-lite";
 import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
 import PriceLabel from "../../ui/PriceLabel/PriceLabel";
 import {useStores} from "../../../store";
-
+import {ReactComponent as FolderSvg} from "../../../utils/svg/Folder.svg"
 
 interface TickerDashboardProps{
     ticker:string
@@ -65,12 +65,14 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
 
     const [isTooltip, setIsTooltip] = useState<boolean>(false)
 
-
+    const [isInStore, setIsInStore] = useState<boolean>(false)
 
 
     useEffect(()=>{
         setTickerArr([{"ticker": ticker}])
-    },[ticker])
+        console.log(StockStore.dashboardElems.some((elem) => elem["ticker"] === ticker))
+        setIsInStore(StockStore.dashboardElems.some((elem) => elem["ticker"] === ticker))
+    },[ticker, StockStore.dashboardElems])
 
     const{isLoadingPrice, dayPrice, setDayPrice} = useFetchDayPrice(tickerArr, periodVal, true)
 
@@ -92,7 +94,13 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
             <div className={classes.switcher_container}>
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
-                <Button onClick={storeUpdate} content={"add to dashboard"}/>
+                <Button onClick={storeUpdate}
+
+                        isActive={isInStore}
+
+                        isDisabled={isInStore}>
+                    <FolderSvg></FolderSvg>
+                </Button>
             </div>
             <PostsFeed ticker={ticker}/>
         </div>
