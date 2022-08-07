@@ -145,3 +145,27 @@ class UserService:
         except Exception as e:
             print(e)
             return "invalid refresh_token", 401
+
+
+    def get_check_nickname(self, request):
+        try:
+            data = request.get_json()
+            email = data["email"]
+            nickname = data["nickname"]
+            print(data)
+        except Exception as e:
+            print(e)
+            return flask.jsonify(), 400
+
+        sql = f"SELECT * FROM users WHERE users.nickname = '{nickname}' OR users.email = '{email}'"
+
+
+
+        selection = self.db.fetch(sql)
+        print(selection)
+
+        if selection:
+            print("rjewojrioewjr")
+            return flask.jsonify(True)
+
+        return flask.jsonify(False)

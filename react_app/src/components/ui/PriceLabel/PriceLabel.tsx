@@ -29,45 +29,54 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
 
     useEffect(()=>{
         if(isLoading)return
-        if(price["close"]>price["open"]){
-            setIsPositive("+")
-            setLightClass(1)
-        }else if(price["close"]<price["open"]){
-            setIsPositive("")
-            setLightClass(-1)
-        }
         setTimeout(() => {
             setLightClass(0)
         }, 500)
+        if(price["close"]>price["open"]){
+            setIsPositive("+")
+            setLightClass(1)
+            return;
+        }
+        setIsPositive("")
+        setLightClass(-1)
 
 
     },[price])
 
     useEffect(()=>{
         if(isLoading)return
-        console.log(isTooltip, tooltipOpen)
+
         if(isTooltip){
             if(price["close"]>tooltipOpen){
                 setIsPositive("+")
 
-            }
-            if(price["close"]<tooltipOpen){
+            }else{
                 setIsPositive("")
 
             }
             if(isPercent){
+                // @ts-ignore
                 setPriceChange((price["close"]/tooltipOpen*100-100).toFixed(2))
                 return;
             }
+            // @ts-ignore
             setPriceChange((price["close"]-tooltipOpen).toFixed(2))
             return;
         }
+        if(price["close"]>price["open"]){
+            setIsPositive("+")
+
+        }else{
+            setIsPositive("")
+
+        }
 
         if(isPercent){
-
+            // @ts-ignore
             setPriceChange((price["close"]/price["open"]*100-100).toFixed(2))
-            return;
+            return
         }
+        // @ts-ignore
         setPriceChange((price["close"]-price["open"]).toFixed(2))
         return;
 

@@ -1,0 +1,24 @@
+
+@keyframes show-hide {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+
+}
+
+.main{
+    animation-name: show-hide;
+    animation-duration: 500ms;
+    animation-iteration-count: 1;
+}
+
+
+
+.main>svg>path{
+    stroke: white;
+
+}
+

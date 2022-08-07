@@ -82,7 +82,7 @@ def activate(link):
 def refresh():
     return UserService().refresh(request)
 
-@app.route("/get_check_nickname", methods=["GET"])
+@app.route("/get_check_nickname", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def get_check_nickname():
     print(request)

@@ -1,8 +1,7 @@
 import React, {FC, memo, useEffect, useState} from 'react';
 import {format} from 'date-fns';
 import {ITickerCharData} from "../../../types/ITickerChar";
-import StocksServices from "../../../services/stocksServices/StocksServices";
-import {IDayPrice} from "../../../types/IDayPrice";
+import classes from "./CustomTooltip.module.css"
 
 
 interface payload{
@@ -72,9 +71,9 @@ const CustomTooltip:FC<CustomTooltipProps> = ({active, payload, label, setToolti
 
 
     return (
-        <div className={"custom_tooltip"}>
-            <div className={"tooltip_date"}>{date()}</div>
-            <div className={"tooltip_price"}>{`${payload[0]["payload"]["price"]} $`}</div>
+        <div className={classes.main_container}>
+            <div className={classes.text}>{date()}</div>
+            <div className={classes.text}>{`${payload[0]["payload"]["price"]} $`}</div>
         </div>
 
     )

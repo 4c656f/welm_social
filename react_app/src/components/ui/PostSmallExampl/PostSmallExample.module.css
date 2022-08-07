@@ -7,8 +7,12 @@
 }
 .post_text{
     font-family: var(--inter_font);
+
+
     font-weight: 300;
+    /*width: 20%;*/
     color: var(--font_color);
+    word-break: break-word;
 }
 .read_more{
     font-family: var(--inter_font);

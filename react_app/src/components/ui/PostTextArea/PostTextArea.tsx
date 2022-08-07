@@ -6,6 +6,7 @@ import {ITickerDescription} from "../../../types/ITickerDescription";
 import Button from "../Button/Button";
 import {useStores} from "../../../store";
 import PostsService from "../../../services/postsServices/PostsService";
+import autosize from 'autosize';
 
 
 
@@ -45,12 +46,26 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
 
     const [searchResults, setSearchResults] = useState([] as ITickerDescription[])
 
-    const [textAreaHeight, setTextAreaHeight] = useState("57px");
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
 
     const textAreaRef = useRef(null);
 
     const {UserStore} = useStores()
 
+
+    const restart = () => {
+        setIsSuggestor(false)
+        setLeft(0)
+        setTop(0)
+        setSuggestionText("")
+        setStartSug(0)
+        setCurSelection(0)
+        setTextVal("")
+        setSearchResults([])
+        endHandlerFc()()
+    }
 
     useEffect(()=>{
         if(!ticker)return
@@ -58,24 +73,26 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
     },[ticker])
 
     useEffect(()=>{
+
         if(!ticker)return
         if(!isTextAreaActive)return
         setTextVal(`$${ticker}`)
-        setTextAreaHeight("70px")
     },[isTextAreaActive])
 
     useEffect(()=>{
+        autosize(textAreaRef.current.element)
         if(textVal.length<1) {
+            if(isTextAreaActive)return
             setIsTextAreaActive(false)
             return
         }
         setIsTextAreaActive(true)
-        setTextAreaHeight(`${textAreaRef.current.element!.scrollHeight}px`)
     },[textVal])
 
     const textAreaChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        setTextVal(e.target.value)
+        setTextVal(e.target.value.slice(0, 1000))
     }
+
     const textAreaFocus = () => {
         if(isTextAreaActive)return
         setIsTextAreaActive(true)
@@ -100,6 +117,8 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
 
         }
         if(hookType === "cancel"){
+
+
             setIsSuggestor(false)
             setLeft(0)
             setTop(0)
@@ -146,7 +165,7 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
             endHandlerFc()()
         }
 
-        if (which === 13) {
+        if (which === 9) {
             if(!isSuggestor)return;
             event.preventDefault();
 
@@ -170,7 +189,16 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
     const publishPost = () => {
         if(textVal.length<1)return
         const wrapper = async () => {
-          PostsService.AddPost(UserStore.user, textVal)
+            setIsSubmitLoading(true)
+            const resp = await PostsService.AddPost(UserStore.user, textVal)
+            setIsSubmitLoading(false)
+
+            if(resp) {
+                setIsSubmitSuccess(true)
+                restart()
+                setTimeout(()=>setIsSubmitSuccess(false), 900)
+            }
+
         }
         UserStore.privateModalWrapper(wrapper)
 
@@ -181,8 +209,15 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
     return (
         <div className={classes.main_container}
              onKeyDown={handleKeyDown}
-             style={{height: textAreaHeight}}
         >
+
+
+            {isTextAreaActive?
+                <div className={classes.counter}>
+                    {`${textVal.length}/1000`}
+                </div>
+                :null
+            }
             <InputTrigger
                 trigger={{
                     keyCode: 52,
@@ -209,7 +244,7 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
 
 
                 <div className={classes.bottom_bar}>
-                    <Button onClick={publishPost}  content={"submit"}/>
+                    <Button onClick={publishPost}  content={"submit"} isFetching={isSubmitLoading} isSuccess={isSubmitSuccess}/>
                 </div>
 
                 :null

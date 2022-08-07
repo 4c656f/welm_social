@@ -31,7 +31,7 @@ const TopBarSearch = () => {
 
     return (
         <div>
-            <input value={searchText} onChange={inputSearch}/>
+            <input className={`default_input`} placeholder={"search"} value={searchText} onChange={inputSearch}/>
             {results.length>0&&searchText.length>0?
                 <div className={classes.search_results_wrapper}>
                     {

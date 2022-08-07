@@ -10,7 +10,7 @@
     align-items: center;
 }
 .post_container{
-
+    width: 100%;
     flex-direction: column;
     flex-wrap: wrap;
     display: flex;

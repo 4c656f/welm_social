@@ -1,3 +1,5 @@
+import {ReactNode} from "react";
+
 export interface IButtonProps{
     content: string;
     onClick: (params:any)=>any;
@@ -5,4 +7,6 @@ export interface IButtonProps{
     isFetching?:boolean;
     isDisabled?:boolean
     isActive?:boolean
+    isSuccess?:boolean
+    children?: ReactNode;
 }

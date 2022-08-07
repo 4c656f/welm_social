@@ -55,7 +55,7 @@ body{
     background-color: var(--button_bg);
     transition: 0.2s;
     border: none;
-
+    padding: 13px 5px 13px 10px;
     color: var(--font_color);
 }
 .default_input:focus{

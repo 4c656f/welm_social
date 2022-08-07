@@ -10,11 +10,11 @@ import {useStores} from "../../store";
 const Registrationform:FC = () => {
 
     const [email, setEmail] = useState("")
-    const [validateEmail, setValidateEmail] = useState(true)
+    const [validateEmail, setValidateEmail] = useState("")
     const [validateEmailFetching, setValidateEmailFetching] = useState(false)
 
     const [nickname, setNickname] = useState("")
-    const [validateNickname, setValidateNickname] = useState(true)
+    const [validateNickname, setValidateNickname] = useState("")
     const [validateNicknameFetching, setValidateNicknameFetching] = useState(false)
 
     const [password, setPassword] = useState("")
@@ -34,28 +34,36 @@ const Registrationform:FC = () => {
 
         clearTimeout(timer)
 
-        const newTimer = setTimeout(() => {
+        const newTimer = setTimeout(async () => {
             setValidateEmailFetching(true)
-            ValidationServices.validate(e.target.value, "").then((res) => {
-                setValidateEmail(res.data)
-                setValidateEmailFetching(false)
-            })
+            const resp = await ValidationServices.validate(e.target.value, "")
+
+            if(resp.data){
+                setValidateEmail("email taken")
+            }else{
+                setValidateEmail("")
+            }
+            setValidateEmailFetching(false)
         }, 500)
 
         setTimer(newTimer)
     }
 
-    const inputNickname = async e => {
+    const inputNickname = async (e) => {
         setNickname(e.target.value)
 
         clearTimeout(timer)
 
-        const newTimer = setTimeout(() => {
+        const newTimer = setTimeout(async () => {
             setValidateNicknameFetching(true)
-            ValidationServices.validate("", e.target.value).then((res) => {
-                setValidateNickname(res.data)
-                setValidateNicknameFetching(false)
-            })
+            const resp = await ValidationServices.validate("", e.target.value)
+
+            if(resp.data){
+                setValidateNickname("nickname taken")
+            }else{
+                setValidateNickname("")
+            }
+            setValidateNicknameFetching(false)
         }, 500)
 
         setTimer(newTimer)
@@ -106,8 +114,8 @@ const Registrationform:FC = () => {
 
     return (
         <div className={"form_container"}>
-            <LoginInput value={email} onChangeFc={inputEmail} placeholder={"email"} message={!validateEmail?"email taken":null} isFetching={validateEmailFetching}/>
-            <LoginInput value={nickname} onChangeFc={inputNickname} placeholder={"nickname"} message={!validateNickname?"nickname taken":null} isFetching={validateNicknameFetching}/>
+            <LoginInput value={email} onChangeFc={inputEmail} placeholder={"email"} message={validateEmail} isFetching={validateEmailFetching}/>
+            <LoginInput value={nickname} onChangeFc={inputNickname} placeholder={"nickname"} message={validateNickname} isFetching={validateNicknameFetching}/>
             <LoginInput value={password} onChangeFc={inputPassword} placeholder={"password"} type={"password"} message={!validatePassword?"password to week":null}/>
             <Button onClick={registration} content={"register"} isFetching={isRegistrationFetching} width={"100%"}/>
         </div>
