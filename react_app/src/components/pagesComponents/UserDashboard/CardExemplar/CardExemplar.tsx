@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, KeyboardEvent, memo, ReactNode, useState} from 'react';
+import React, {ChangeEvent, FocusEvent, FC, KeyboardEvent, memo, ReactNode, useRef, useState, useEffect} from 'react';
 import {Reorder, useDragControls} from "framer-motion"
 import classes from "./CardExemplar.module.css"
 import {IDashboardElem} from "../../../../types/IDashboardElem";
@@ -27,21 +27,35 @@ const CardExemplar:FC<CardExemplarProps> = ({
     const [stockAmount, setStockAmount]= useState(dashboardElem["amount"])
     const {StockStore}= useStores()
 
+    const [width, setWidth] = useState(20)
+
     const remove_card = () => {
         StockStore.deleteFromDashboard(id)
     };
 
 
+
+
+    useEffect(()=>{
+        console.log(stockAmount.toString().length)
+        setWidth(stockAmount.toString().length*9 + 17)
+    }, [stockAmount])
+
     const changeStockAmount = (e: ChangeEvent<HTMLInputElement>) => {
 
-        setStockAmount((prev)=>{
-            return e.target.validity.valid ? Number(e.target.value) : prev
-        })
+        const num = Number(e.target.value.replace(/\s/g, ""))
+        if(isNaN(num))return
+
+        setStockAmount(num)
+
+
 
 
     }
+
     const enterPress = (e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === "Enter"){
+            e.preventDefault()
             if(stockAmount < 1){
                 remove_card()
                 return
@@ -51,6 +65,9 @@ const CardExemplar:FC<CardExemplarProps> = ({
         }
     }
 
+    const onBlur = (e:FocusEvent<HTMLInputElement>)=>{
+        setStockAmount(dashboardElem["amount"])
+    }
 
     const controls = useDragControls()
 
@@ -67,7 +84,14 @@ const CardExemplar:FC<CardExemplarProps> = ({
 
             </div>
             <div>
-                <input value={stockAmount} pattern="[0-9]*" onChange={changeStockAmount} onKeyDown={enterPress}/>
+                <input
+                    className={`default_input ${classes.amount_input}`}
+                    style={{width: `${width}px`}}
+                    value={stockAmount.toLocaleString('ru-RU',{maximumFractionDigits:0})}
+                    pattern="[0-9]*" onChange={changeStockAmount}
+                    onKeyDown={enterPress}
+                    onBlur={onBlur}
+                />
             </div>
             {children}
 

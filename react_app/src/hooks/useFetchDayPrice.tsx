@@ -19,7 +19,10 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
 
     useEffect(()=>{
-        if(tickers.length<1)return;
+        if(tickers.length<1) {
+            setIsisLoadingPrice(false)
+            return
+        };
         if(!period)return;
 
 

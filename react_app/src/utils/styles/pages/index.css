@@ -57,9 +57,11 @@ body{
     border: none;
     padding: 13px 5px 13px 10px;
     color: var(--font_color);
+    outline-color: #4b4b4b;
 }
 .default_input:focus{
-    outline: none;
+    outline: 1px solid #4b4b4b;
+
 
 }
 .default_input::placeholder{

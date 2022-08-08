@@ -75,3 +75,7 @@
     height: 3px;
     background-color: white;
 }
+.amount_input{
+    transition: 0s;
+    overflow: scroll;
+}

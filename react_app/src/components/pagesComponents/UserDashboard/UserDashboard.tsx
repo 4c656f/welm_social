@@ -47,7 +47,7 @@ const UserDashboard = () => {
     const [reorderTimer, setReorderTimer] = useState<any>()
     const [isPercent, setIsPercent]= useState(false)
 
-    const [dashboardFullPrice, setDashboardFullPrice] = useState({}as{open:string|number, close:string|number})
+    const [dashboardFullPrice, setDashboardFullPrice] = useState({"open":0, "close":0}as{open:string|number, close:string|number})
 
     const [period, setPeriod] = useState<IGetDayPriceTicker["period"]>("1d")
 
@@ -82,19 +82,18 @@ const UserDashboard = () => {
 
     useEffect(()=>{
         if(isLoadingPrice)return
-        if(StockStore.dashboardElems.length<1){
-            setDashboardFullPrice({"open":0, "close": 0})
+        if(dashboardElemsLen<1){
+            setDashboardFullPrice({"open":0, "close":0})
             return;
         };
         let open = 0
         let close = 0
 
         StockStore.dashboardElems.map((val)=>{
-
             open += dayPrice[val.ticker]["open"] * val.amount
             close += dayPrice[val.ticker]["close"] * val.amount
         })
-        setDashboardFullPrice({"open":open.toFixed(2), "close": close.toFixed(2)})
+        setDashboardFullPrice({"open":Number(open.toFixed(2)), "close": Number(close.toFixed(2))})
     }, [dayPrice, stockAmountState, dashboardElemsLen])
 
 
@@ -128,6 +127,10 @@ const UserDashboard = () => {
                 <Reorder.Group as="div" className={"cards_active_container"} axis="y" values={dashboardElems} onReorder={reorderDashboard}>
                     {
                         dashboardElems.map((value, id) =>{
+
+
+
+
                             return(
                             <CardExemplar
                                 toggles={isToggles}
@@ -137,6 +140,7 @@ const UserDashboard = () => {
                                 id={id}
                                 setStockAmountState={setStockAmountState}
                             >
+
                                 <PriceLabel
                                     price={dayPrice[value.ticker]}
                                     isLoading={isLoadingPrice}
