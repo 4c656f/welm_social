@@ -14,7 +14,7 @@ const LeftBarItem:FC<LeftBarItemProps> = ({active,content,children}) => {
             <>
                 {children}
             </>
-            <div className={classes.left_bar_item_text}>
+            <div className={`no_select ${classes.left_bar_item_text}`}>
                 {content}
             </div>
         </>

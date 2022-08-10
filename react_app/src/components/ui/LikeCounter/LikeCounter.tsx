@@ -48,7 +48,7 @@ const LikeCounter = ({count, postId, LikeInit}) => {
                 <LikeSvg/>
             </div>
 
-            <div className={`${classes.like_number} ${(likeCount + likeType)>0?classes.like_number_positive:(likeCount + likeType)<0?classes.like_number_negative:""}`}>
+            <div className={`${classes.like_number} no_select ${(likeCount + likeType)>0?classes.like_number_positive:(likeCount + likeType)<0?classes.like_number_negative:""}`}>
                 {likeCount + likeType}
             </div>
             <div className={`${classes.like_button} ${likeType===1?classes.active_button:""}`} onClick={()=>UserStore.privateModalWrapper(likeWrap(1))}>

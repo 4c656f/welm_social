@@ -39,6 +39,7 @@ body{
     justify-items: center;
     transform: translate(-50%, 0);
     flex-wrap: nowrap;
+
 }
 
 .loader_bg{
@@ -47,8 +48,10 @@ body{
     animation-iteration-count: infinite;
     animation-name: placeHolderShimmer;
     animation-timing-function: linear;
-    background: linear-gradient(to right, #1a1a1a 8%, #1c1c1c 38%, #151515 54%);
+    background: #232323FF;
+    background: linear-gradient(to right, #232323FF 8%, #484848 38%, #232323FF 54%);
     background-size: 1000px 640px;
+
 }
 .default_input{
     border-radius: var(--button_border_radius);
@@ -74,7 +77,44 @@ body{
 .default_input:focus::placeholder{
     opacity: 0;
 }
+.recharts-cartesian-axis-tick {
+    color: gray;
+    font-size: 11px;
+    font-weight: 200;
 
+    font-family: var(--inter_font)
+}
+.no_select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.xAxis{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.yAxis{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.card_container{
+    width: 100%;
+    display: flex;
+    grid-gap: 10px;
+    flex-direction: column;
+
+}
 @media (max-width: 600px) {
     .scroll_container{
         width: 100vw;

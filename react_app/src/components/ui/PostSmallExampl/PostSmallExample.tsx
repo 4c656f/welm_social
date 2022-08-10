@@ -17,17 +17,10 @@ interface PostSmallExampleProps{
 
 const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator,isFull}) => {
 
-    const [isReadMore, setIsReadMore] = useState(false)
 
-    useEffect(()=>{
-        if(post.content.length>800){
-            setIsReadMore(true)
-        }
-    }, [])
 
     const tagRedirect = (tag:string) => {
         const url = `/ticker/${tag.slice(1).toLowerCase()}`
-        console.log(url)
         navigator(url)
     }
 
@@ -37,6 +30,7 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator,isFull}) =>
     }
 
     let id:number = 0
+
 
     return (
 
@@ -67,6 +61,12 @@ const PostSmallExample:FC<PostSmallExampleProps> = ({post, navigator,isFull}) =>
                 {/*{isReadMore?<div className={classes.read_more} onClick={()=>setIsReadMore(false)}>read more</div>:null}*/}
             </div>
             <PostsTags tags={post.tags} tagRedirect={tagRedirect}/>
+            <div className={`no_select ${classes.author}`}>
+                <div className={classes.by}>
+                    by
+                </div>
+                {post.author_nickname}
+            </div>
             <div className={classes.buttons_bottom_container}>
                 <div className={classes.buttons_bottom_right_container}>
                     <CommentsCounter CommentCount={post.comments} commentRedirect={commentRedirect}/>

@@ -70,16 +70,14 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
 
     useEffect(()=>{
         setTickerArr([{"ticker": ticker}])
-        console.log(StockStore.dashboardElems.some((elem) => elem["ticker"] === ticker))
+
         setIsInStore(StockStore.dashboardElems.some((elem) => elem["ticker"] === ticker))
     },[ticker, StockStore.dashboardElems])
 
     const{isLoadingPrice, dayPrice, setDayPrice} = useFetchDayPrice(tickerArr, periodVal, true)
 
 
-    useEffect(()=>{
-        console.log(dayPrice)
-    },[dayPrice])
+
 
 
     const storeUpdate = useCallback(()=>StockStore.addDashboardElem(ticker),[ticker])
@@ -87,7 +85,7 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
     return (
         <div className={"scroll_container"}>
             <div className={classes.name_price_wrapper}>
-                <div>name</div>
+                <div className={classes.ticker}>{ticker}</div>
                 <PriceLabel price={dayPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice} isTooltip={isTooltip} tooltipOpen={tooltipOpen}/>
             </div>
             <Chart char_data={data} isLoading={isLoading} setTooltipOpen={setTooltipOpen} setIsTooltip={setIsTooltip} />

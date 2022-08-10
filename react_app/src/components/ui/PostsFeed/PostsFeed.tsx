@@ -94,8 +94,8 @@ const PostsFeed:FC<FeedProps> = ({ticker}) => {
                 }
 
                 {isLast?
-                    <div className={classes.breaker}>
-                        that all
+                    <div className={`no_select ${classes.breaker}`}>
+                        that's all for now
                     </div>:null
                 }
 

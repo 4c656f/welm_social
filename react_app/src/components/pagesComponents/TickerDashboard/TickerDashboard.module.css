@@ -8,10 +8,18 @@
     grid-gap: 20px;
     margin-bottom: 20px;
 }
+
+.ticker{
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    font-size: 30px;
+}
 .name_price_wrapper{
     width: 100%;
     display: flex;
     flex-direction: row;
+    padding-left: 60px;
+    align-items: center;
     justify-content: space-between;
 }
 .add_to_dashboard{

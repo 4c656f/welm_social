@@ -38,3 +38,22 @@
     color: #c5d5ff;
     cursor: pointer;
 }
+.author{
+    margin-top: 20px;
+    width: max-content;
+    height: max-content;
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    font-size: 15px;
+}
+.by{
+
+    display: inline-block;
+    margin-right: 7px;
+    width: max-content;
+    height: max-content;
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    font-weight: 200;
+    font-size: 15px;
+}

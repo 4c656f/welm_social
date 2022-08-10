@@ -8,6 +8,10 @@ class StockStore{
 
 
     dashboardElems = [] as IDashboardElem[]
+
+    isDashboardFetch:boolean = true
+
+
     RootStore:IRootStore
 
     constructor(RootStore) {
@@ -48,14 +52,18 @@ class StockStore{
             if(JSON.parse(localStorage.getItem("dashboard"))){
                 const local = JSON.parse(localStorage.getItem("dashboard"))
                 this.dashboardElems = local
+                this.isDashboardFetch = false
                 return local
             }
+            this.isDashboardFetch = false
+            return
 
         }
         const dashboardFromCloud = async () =>{
             const resp = await StocksServices.GetUserDashboard(this.RootStore.UserStore.user);
             localStorage.setItem("dashboard", JSON.stringify(resp.data));
             this.dashboardElems = resp.data
+            this.isDashboardFetch = false
             return resp.data
         }
         return dashboardFromCloud()
@@ -74,7 +82,7 @@ class StockStore{
 
     deleteFromDashboard(id){
         let ticker = this.dashboardElems[id]["ticker"]
-        console.log(id)
+
 
 
         this.dashboardElems = toJS(this.dashboardElems).filter((val, index)=>index !== id)

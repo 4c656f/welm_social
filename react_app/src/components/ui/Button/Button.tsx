@@ -21,7 +21,7 @@ const Button:FC<IButtonProps> = ({
 
     return (
 
-        <div className={`${classes.button} ${isDisabled?classes.disabled:""} ${isActive?classes.active:""}`} style={{width: width}} onClick={onClick}>
+        <div className={`${classes.button} no_select ${isDisabled?classes.disabled:""} ${isActive?classes.active:""}`} style={{width: width}} onClick={onClick}>
             {children?
                 children
                 :

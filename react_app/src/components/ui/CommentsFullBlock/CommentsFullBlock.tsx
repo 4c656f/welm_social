@@ -1,10 +1,11 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {IComment} from "../../../types/IFullPost";
 import CommentExemplar from "./CommentExemplar/CommentExemplar";
 import Button from "../Button/Button";
 import PostsService from "../../../services/postsServices/PostsService";
 import {useStores} from "../../../store";
-
+import classes from "./CommentsFullBlock.module.css"
+import autosize from 'autosize';
 
 interface CommentsFullBlockProps {
     comments:IComment[];
@@ -17,14 +18,26 @@ const CommentsFullBlock:FC<CommentsFullBlockProps> = ({comments, postId}) => {
     const [commentsState, setCommentsState] = useState<IComment[]>(comments)
     const [inputComment, setInputComment] = useState("")
 
+    const [isFetching, setIsFetching] = useState(false)
+    const [isSuc, setIsSuc] = useState(false)
+
     const {UserStore} = useStores();
+
+
+    const inputRef = useRef()
 
     const addComment = async () => {
         if (inputComment.length < 1) return
+        setIsFetching(true)
         const resp = await PostsService.AddComment(UserStore.user, inputComment, postId)
+        setIsFetching(false)
+
         if (resp.data !== true) {
             return
         }
+        setIsSuc(true)
+        setTimeout(()=>setIsSuc(false), 1000)
+        setInputComment("")
         setCommentsState((prev) => {
 
 
@@ -52,17 +65,34 @@ const CommentsFullBlock:FC<CommentsFullBlockProps> = ({comments, postId}) => {
 
         })
     }
-    useEffect(() => {
-        console.log(commentsState)
-    }, [commentsState])
+
+    useEffect(()=>{
+        autosize(inputRef.current)
+    },[inputComment])
+
 
     return (
-        <div>
-            <input className={`default_input`} placeholder={"input comment"} value={inputComment} onChange={(e)=>{setInputComment(e.target.value)}}/>
-            <Button content={"send"} onClick={()=>UserStore.privateModalWrapper(addComment)}/>
-            {commentsState.map((val)=>{
-                return(<CommentExemplar key={val.id} comment={val}/>)
-            })}
+        <div className={classes.main_container}>
+
+            <div className={classes.input_container}>
+                <textarea
+                    ref={inputRef}
+                    placeholder={"input comment"}
+                    className={`default_input ${classes.text_area}`}
+
+                    value={inputComment}
+                    onChange={(e)=>{setInputComment(e.target.value)}}
+
+                />
+                {/*<input className={`default_input`} placeholder={"input comment"} value={inputComment} onChange={(e)=>{setInputComment(e.target.value)}}/>*/}
+                <Button content={"send"} onClick={()=>UserStore.privateModalWrapper(addComment)} isFetching={isFetching} isSuccess={isSuc}/>
+            </div>
+
+            <div className={classes.comments_container}>
+                {commentsState.map((val)=>{
+                    return(<CommentExemplar key={val.id} comment={val}/>)
+                })}
+            </div>
         </div>
     );
 };

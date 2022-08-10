@@ -11,7 +11,7 @@ interface ticker {
 
 
 
-const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPriceTicker["period"], isOneElem:boolean, tickersLen?:number) => {
+const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPriceTicker["period"], isOneElem:boolean, tickersLen?:number, isDashboardFetching?:boolean) => {
 
     const [isLoadingPrice, setIsisLoadingPrice] = useState<boolean>(true)
     const [dayPrice, setDayPrice] = useState<IDayPrice|IDayPrice[string]>({} as IDayPrice|IDayPrice[string])
@@ -19,7 +19,10 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
 
     useEffect(()=>{
+
+        if(isDashboardFetching)return
         if(tickers.length<1) {
+
             setIsisLoadingPrice(false)
             return
         };
@@ -27,12 +30,13 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
 
         const GetDayPrice = async () => {
-            console.log("hook_fetch---------")
+            console.log("hook_GetDayPrice_fetch---------")
             const data = await StocksServices.GetDayPrice({"tickers": tickers, "period":period})
-            setIsisLoadingPrice(false)
+
 
             if(isOneElem){
                 const keys = Object.keys(data.data)
+                setIsisLoadingPrice(false)
                 setDayPrice(data.data[keys[0]])
                 return
             }
@@ -40,6 +44,9 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
             setDayPrice(data.data)
 
+
+
+            setIsisLoadingPrice(false)
 
         }
         GetDayPrice()
@@ -49,7 +56,7 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
         return ()=> clearInterval(interval)
 
-    },[tickersLen?tickersLen:tickers, period])
+    },[tickersLen?tickersLen:tickers, period, isDashboardFetching])
 
 
     return {isLoadingPrice, dayPrice, setDayPrice}

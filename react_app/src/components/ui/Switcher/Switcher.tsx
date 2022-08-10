@@ -44,7 +44,7 @@ const Switcher:FC<switcherProps> = ({buttonObject, setButtonsFc, setValFc, place
 
     return (
         <div className={classes.container}>
-            <div className={classes.placeholder}>
+            <div className={`no_select ${classes.placeholder}`}>
                 {placeholder}
             </div>
             {

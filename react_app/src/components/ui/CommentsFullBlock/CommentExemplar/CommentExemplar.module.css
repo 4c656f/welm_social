@@ -1,12 +1,27 @@
 .container{
     background-color: var(--button_bg);
+    border-radius: var(--button_border_radius);
+    padding: 18px 20px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .author{
+
+    width: max-content;
+    height: max-content;
     color: var(--font_color);
     font-family: var(--inter_font);
+    font-size: 15px;
 }
+
 .content{
     color: var(--font_color);
     font-family: var(--inter_font);
+    font-weight: 200;
+    word-break: break-word;
 }

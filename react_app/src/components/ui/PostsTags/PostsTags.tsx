@@ -10,11 +10,11 @@ interface PostsTagsProps{
 const PostsTags:FC<PostsTagsProps> = ({tags,tagRedirect}) => {
     return (
         <>
-        {tags.length>1?
+        {tags.length>0?
                 <div className={classes.tags_wrapper}>
                 {tags.map((val)=>{
                     return(
-                        <div onClick={()=>tagRedirect(val.ticker_tag)} key={val.id} className={classes.tag}>
+                        <div onClick={()=>tagRedirect(val.ticker_tag)} key={val.id} className={`no_select ${classes.tag}`}>
                             {val.ticker_tag}
                         </div>
                     )

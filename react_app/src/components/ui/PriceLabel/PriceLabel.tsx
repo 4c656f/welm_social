@@ -9,10 +9,19 @@ interface PriceLabelProps{
     isLoading:boolean;
     isTooltip?:boolean;
     tooltipOpen?:number;
+    type?:string
 }
 
 
-const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoading,isTooltip,tooltipOpen}) => {
+const PriceLabel:FC<PriceLabelProps> = ({
+                                            price,
+                                            isPercent,
+                                            setIsPercent,
+                                            isLoading,
+                                            isTooltip,
+                                            tooltipOpen,
+                                            type
+                                        }) => {
 
 
 
@@ -25,28 +34,36 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
 
 
 
-    console.log(price)
+
 
     useEffect(()=>{
         if(isLoading)return
+        if(!price || !price["close"] || !price["open"]){
+            return;
+        }
         setTimeout(() => {
             setLightClass(0)
         }, 500)
         if(price["close"]>price["open"]){
-            setIsPositive("+")
             setLightClass(1)
             return;
         }
-        setIsPositive("")
         setLightClass(-1)
 
 
     },[price])
 
     useEffect(()=>{
-        if(isLoading)return
-        if(!price["close"])return;
-        if(!price["open"])return;
+        if(isLoading){
+            setPriceChange(0)
+            return;
+        }
+        if(!price || !price["close"] || !price["open"]){
+            setPriceChange(0)
+            return;
+        }
+
+
         if(isTooltip){
             if(!tooltipOpen)return;
             if(price["close"]>tooltipOpen){
@@ -82,7 +99,7 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
         setPriceChange((price["close"]-price["open"]).toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2}))
         return;
 
-    },[price,isPercent, tooltipOpen, isTooltip])
+    },[price, isPercent, tooltipOpen, isTooltip])
 
 
 
@@ -101,11 +118,12 @@ const PriceLabel:FC<PriceLabelProps> = ({price, isPercent, setIsPercent, isLoadi
                 </div>
                 :
                 <div className={classes.price_wrapper}>
-                    <div className={classes.current_price} >
-                        {`${!price["close"]?0:price["close"].toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} $`}
+                    <div className={`no_select ${classes.current_price}`} >
+
+                        {`${!price?0:!price["close"]?0:price["close"].toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} $`}
 
                     </div>
-                    <div className={`${classes.price_change}
+                    <div className={`no_select ${classes.price_change}
                     ${lightClass>0?classes.light_positive:lightClass<0?classes.light_negative:""}
                     ${isPositive==="+"?classes.price_change_positive:classes.price_change_negative}`}
                          onClick={()=> setIsPercent((prev)=>!prev)}

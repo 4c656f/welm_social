@@ -1,33 +1,34 @@
 .card{
     color: white;
-    background-color: black;
-    border: white solid 1px;
+    background-color: #171717;
+    border: #383838 solid 1px;
     border-radius: 10px;
-    width: 70vw;
+    width: 100%;
     height: 220px;
     position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
 }
 .property_wrapper{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 200px;
+
     padding-left: 20px;
 }
 .tick_exchange{
     display: flex;
     flex-direction: row;
     width: max-content;
+    align-items: center;
     height: 50px;
     position: relative;
 }
 .cards_text_tick{
     text-align: left;
-
+    cursor: pointer;
     font-family: var(--inter_font);
     font-size: 30px;
 }
@@ -36,7 +37,7 @@
     height: 20px;
     width: 30px;
     position: absolute;
-    right: calc(0% - 60px);
+    right: calc(0% + 10px);
     display: flex;
     flex-direction: column;
     justify-content:space-between;
@@ -58,9 +59,11 @@
     background-color: red;
     height: 20px;
     width: 20px;
+    transform: translate(-50%, -50%);
     border-radius: 10px;
     position: absolute;
-    right: calc(100% + 30px);
+    right: calc(100% + 25px);
+    top: 50%;
     display: flex;
 
     justify-content:center;
@@ -78,4 +81,26 @@
 .amount_input{
     transition: 0s;
     overflow: scroll;
+}
+.change_block{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-shrink: 1;
+    align-items: center;
+    grid-gap: 30px;
+}
+.change_container{
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    row-gap: 5px;
+}
+.change_container > div {
+    padding-left: 10px;
+    padding-right: 10px;
 }

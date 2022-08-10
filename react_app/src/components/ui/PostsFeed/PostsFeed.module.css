@@ -29,5 +29,8 @@
     margin-bottom: 10px;
 }
 .breaker{
-    color: white;
+    color: var(--font_color);
+    font-family: var(--inter_font);
+    font-weight: 200;
+
 }

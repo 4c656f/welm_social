@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, memo, useEffect, useState} from 'react';
 import classes from "./Selector.module.css";
 import {ReactComponent as LikeSvg} from "../../../utils/svg/like.svg"
 
@@ -39,11 +39,11 @@ const Selector:FC<SelectorProps> = ({initState, options, setFc}) => {
 
     return (
         <div>
-            <div className={`${classes.selector} ${isOptions?classes.active_icon:""}`} onClick={()=>setIsOptions((prev)=>!prev)}>
+            <div className={`no_select ${classes.selector} ${isOptions?classes.active_icon:""}`} onClick={()=>setIsOptions((prev)=>!prev)}>
                 {selectorText}
                 <LikeSvg/>
             </div>
-            <div className={classes.option_wrapper}>
+            <div className={`no_select ${classes.option_wrapper}`}>
             {isOptions?options.map((val)=>{
 
                 return(
@@ -58,4 +58,4 @@ const Selector:FC<SelectorProps> = ({initState, options, setFc}) => {
     );
 };
 
-export default Selector;
+export default memo(Selector);

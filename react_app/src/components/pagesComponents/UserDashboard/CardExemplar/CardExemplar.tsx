@@ -3,6 +3,7 @@ import {Reorder, useDragControls} from "framer-motion"
 import classes from "./CardExemplar.module.css"
 import {IDashboardElem} from "../../../../types/IDashboardElem";
 import {useStores} from "../../../../store";
+import Button from "../../../ui/Button/Button";
 
 interface CardExemplarProps {
 
@@ -12,6 +13,7 @@ interface CardExemplarProps {
     children: ReactNode;
     id:number;
     setStockAmountState;
+    navigator:any;
 }
 
 
@@ -21,7 +23,9 @@ const CardExemplar:FC<CardExemplarProps> = ({
                                                 toggles,
                                                 id,
                                                 children,
-                                                setStockAmountState}) => {
+                                                setStockAmountState,
+                                                navigator
+                                            }) => {
 
 
     const [stockAmount, setStockAmount]= useState(dashboardElem["amount"])
@@ -37,7 +41,7 @@ const CardExemplar:FC<CardExemplarProps> = ({
 
 
     useEffect(()=>{
-        console.log(stockAmount.toString().length)
+
         setWidth(stockAmount.toString().length*9 + 17)
     }, [stockAmount])
 
@@ -65,6 +69,29 @@ const CardExemplar:FC<CardExemplarProps> = ({
         }
     }
 
+    const onClickIncriminate = () =>{
+
+        setStockAmount((prev) => {
+            return prev + 1
+        })
+
+        StockStore.changeAmount(id, stockAmount + 1)
+        setStockAmountState(prev=>!prev)
+    }
+
+    const onClickDecriminate = () =>{
+        if(stockAmount < 2){
+            remove_card()
+            return
+        }
+        setStockAmount((prev) => {
+            return prev - 1
+        })
+        StockStore.changeAmount(id, stockAmount - 1)
+        setStockAmountState(prev=>!prev)
+
+    }
+
     const onBlur = (e:FocusEvent<HTMLInputElement>)=>{
         setStockAmount(dashboardElem["amount"])
     }
@@ -77,24 +104,41 @@ const CardExemplar:FC<CardExemplarProps> = ({
 
             <div className={classes.property_wrapper}>
                 <div className={classes.tick_exchange}>
-                    <div className={classes.cards_text_tick}>{ticker}</div>
+                    <div className={`${classes.cards_text_tick} no_select`} onClick={()=>{navigator(`/ticker/${ticker}`)}}>{ticker}</div>
                 </div>
 
+            </div>
 
+
+
+            <div className={classes.change_block}>
+
+
+                <div className={classes.change_container}>
+                    <Button onClick={onClickIncriminate} content={"+"}/>
+
+                    <input
+                        className={`default_input ${classes.amount_input}`}
+                        style={{width: `${width}px`}}
+                        value={stockAmount.toLocaleString('ru-RU',{maximumFractionDigits:0})}
+                        pattern="[0-9]*" onChange={changeStockAmount}
+                        onKeyDown={enterPress}
+                        onBlur={onBlur}
+                    />
+
+                    <Button onClick={onClickDecriminate} content={stockAmount<2?"":"-"} >
+
+                        <div>
+                            {stockAmount < 2 ? "delete" : ""}
+                        </div>
+
+
+                    </Button>
+                </div>
+
+                {children}
 
             </div>
-            <div>
-                <input
-                    className={`default_input ${classes.amount_input}`}
-                    style={{width: `${width}px`}}
-                    value={stockAmount.toLocaleString('ru-RU',{maximumFractionDigits:0})}
-                    pattern="[0-9]*" onChange={changeStockAmount}
-                    onKeyDown={enterPress}
-                    onBlur={onBlur}
-                />
-            </div>
-            {children}
-
             <div className={toggles?classes.reorder_handle_active:classes.disabledEl} onPointerDown={(e) => controls.start(e)}>
                 <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
                 <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>

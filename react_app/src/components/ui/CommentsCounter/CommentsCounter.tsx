@@ -8,7 +8,7 @@ const CommentsCounter:FC<{CommentCount:number, commentRedirect:any}> = ({Comment
 
     return (
         <div className={classes.comment_count_wrapper}>
-            <div className={classes.comment_count_count}>
+            <div className={`no_select ${classes.comment_count_count}`}>
                 {CommentCount}
             </div>
             <div className={classes.comment_count_icon} onClick={commentRedirect}>

@@ -2,7 +2,7 @@
     background-color: var(--button_bg);
     padding: 10px 15px 10px 15px;
     display: flex;
-
+    transform: translate(-60%);
     flex-direction: column;
     justify-content: center;
     align-items: center;

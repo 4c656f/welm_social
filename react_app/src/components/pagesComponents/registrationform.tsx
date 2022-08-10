@@ -86,7 +86,8 @@ const Registrationform:FC = () => {
     }
 
     const registration = async () => {
-        if (validateNickname && validateEmail){
+
+        if (!validateNickname && !validateEmail){
             if(password.length > 5 && nickname && email){
                 try{
                     setIsRegistrationFetching(true)

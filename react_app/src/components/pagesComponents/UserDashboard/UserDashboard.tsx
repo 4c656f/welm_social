@@ -1,4 +1,4 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {IDashboardElem} from "../../../types/IDashboardElem";
 import {IGetDayPriceTicker} from "../../../types/IGetDayPriceTicker";
@@ -10,7 +10,10 @@ import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
 import {Reorder} from "framer-motion";
 import {useStores} from "../../../store";
 import {toJS} from "mobx";
-import StocksServices from "../../../services/stocksServices/StocksServices";
+import {useNavigate} from "react-router-dom";
+
+
+
 
 const periodOptions = [
     {
@@ -56,39 +59,35 @@ const UserDashboard = () => {
     useEffect(()=>{
         if (UserStore.isLoading)return;
 
-        const callback = async ()=>{
+        StockStore.firstSetDashboard()
 
-            const data = await StockStore.firstSetDashboard()
-
-        }
-        callback()
 
     },[UserStore.isLoading])
 
     useEffect(()=>{
-
         if (UserStore.isLoading)return;
+
         console.log("dashboardElems------changed")
         setDashboardElemsLen(StockStore.dashboardElems.length)
         setDashboardElems(toJS(StockStore.dashboardElems))
+
     },[StockStore.dashboardElems, stockAmountState])
 
-    const {isLoadingPrice, dayPrice} = useFetchDayPrice(StockStore.dashboardElems, period, false, dashboardElemsLen)
+    const {isLoadingPrice, dayPrice} = useFetchDayPrice(StockStore.dashboardElems, period, false, dashboardElemsLen, StockStore.isDashboardFetch)
 
 
-
+    const navigator = useNavigate()
 
 
 
     useEffect(()=>{
         if(isLoadingPrice)return
         if(dashboardElemsLen<1){
-            setDashboardFullPrice({"open":0, "close":0})
+            setDashboardFullPrice({"open": 0, "close": 0})
             return;
         };
         let open = 0
         let close = 0
-
         StockStore.dashboardElems.map((val)=>{
             open += dayPrice[val.ticker]["open"] * val.amount
             close += dayPrice[val.ticker]["close"] * val.amount
@@ -117,14 +116,23 @@ const UserDashboard = () => {
     }
 
 
+
+
+    const setIsPercentCallback = useCallback(setIsPercent, [])
+
+
     return (
         <div className={classes.main_container}>
             <div className={classes.content_container}>
-                <Selector initState={"day"} options={periodOptions} setFc={setPeriod}/>
-                <PriceLabel price={dashboardFullPrice} isPercent={isPercent} setIsPercent={setIsPercent} isLoading={isLoadingPrice}/>
+                <div className={classes.top_bar_container}>
 
+                    <PriceLabel price={dashboardFullPrice} isPercent={isPercent} setIsPercent={setIsPercentCallback} isLoading={isLoadingPrice} type={"All_price"}/>
 
-                <Reorder.Group as="div" className={"cards_active_container"} axis="y" values={dashboardElems} onReorder={reorderDashboard}>
+                    <Selector initState={"day"} options={periodOptions} setFc={setPeriod}/>
+
+                </div>
+
+                <Reorder.Group as="div" className={"card_container"} axis="y" values={dashboardElems} onReorder={reorderDashboard}>
                     {
                         dashboardElems.map((value, id) =>{
 
@@ -139,15 +147,19 @@ const UserDashboard = () => {
                                 key={value.ticker}
                                 id={id}
                                 setStockAmountState={setStockAmountState}
+                                navigator={navigator}
                             >
-
                                 <PriceLabel
                                     price={dayPrice[value.ticker]}
+                                    type={value["ticker"]}
                                     isLoading={isLoadingPrice}
-                                    setIsPercent={setIsPercent}
+                                    setIsPercent={setIsPercentCallback}
                                     isPercent={isPercent}
                                 />
-                            </CardExemplar>)
+
+                            </CardExemplar>
+
+                            )
 
                             }
                         )
