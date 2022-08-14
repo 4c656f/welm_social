@@ -22,6 +22,11 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.left_bar_item_wrapper:hover{
+    background-color: #1a1a1a;
 }
 .left_bar_item_wrapper >svg{
 

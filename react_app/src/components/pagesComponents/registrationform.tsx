@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import ValidationServices from "../../services/userServices/ValidationService";
 import LoginInput from "../ui/LoginInput/LoginInput";
@@ -29,7 +29,10 @@ const Registrationform:FC = () => {
 
 
 
-    const  inputEmail = async e => {
+    const  inputEmail = useCallback(async e => {
+
+
+
         setEmail(e.target.value)
 
         clearTimeout(timer)
@@ -45,11 +48,10 @@ const Registrationform:FC = () => {
             }
             setValidateEmailFetching(false)
         }, 500)
-
         setTimer(newTimer)
-    }
+    }, [timer])
 
-    const inputNickname = async (e) => {
+    const inputNickname = useCallback(async (e) => {
         setNickname(e.target.value)
 
         clearTimeout(timer)
@@ -67,8 +69,8 @@ const Registrationform:FC = () => {
         }, 500)
 
         setTimer(newTimer)
-    }
-    const inputPassword = e => {
+    }, [timer])
+    const inputPassword = useCallback((e) => {
         setPassword(e.target.value)
         clearTimeout(timer)
 
@@ -83,7 +85,7 @@ const Registrationform:FC = () => {
         }, 500)
 
         setTimer(newTimer)
-    }
+    }, [timer])
 
     const registration = async () => {
 

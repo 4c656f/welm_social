@@ -1,17 +1,21 @@
 .search_card{
     flex-shrink: 0;
-    color: white;
+    color: var(--font_color);
     display: flex;
     height: 70px;
     width: 300px;
-    background-color: black;
+    background-color: var(--button_bg);
     border-radius: 10px;
-    border: white solid 1px;
+    border: #414141 solid 1px;
     transition: 0.2s;
+    cursor: pointer;
+}
+.active{
+    background-color: #343434;
 }
 .search_card:hover{
-    background-color: #c1ff57;
-    color: black;
+    background-color: #343434;
+
 }
 .search_card:hover>.right_container>.search_text_name{
 

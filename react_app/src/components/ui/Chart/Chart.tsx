@@ -10,7 +10,7 @@ interface ChartProps{
     char_data: ITickerCharData[];
     isLoading: boolean;
     setTooltipOpen:(value: number | ((prevVar: number) => number)) => number | any;
-    setIsTooltip:(value: boolean | ((prevVar: boolean) => boolean)) => boolean | boolean;
+    setIsTooltip:(value: boolean | ((prevVal: boolean) => boolean)) => boolean;
 }
 
 const Chart:FC<ChartProps> = ({char_data,isLoading,setTooltipOpen, setIsTooltip}) => {

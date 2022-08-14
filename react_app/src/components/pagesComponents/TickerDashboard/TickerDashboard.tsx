@@ -9,7 +9,7 @@ import {observer} from "mobx-react-lite";
 import useFetchDayPrice from "../../../hooks/useFetchDayPrice";
 import PriceLabel from "../../ui/PriceLabel/PriceLabel";
 import {useStores} from "../../../store";
-import {ReactComponent as FolderSvg} from "../../../utils/svg/Folder.svg"
+import FolderIcon from "../../ui/Icons/FolderIcon/FolderIcon";
 
 interface TickerDashboardProps{
     ticker:string
@@ -93,11 +93,11 @@ const TickerDashboard:FC<TickerDashboardProps> = ({ticker}) => {
                 <Switcher buttonObject={periodSwitcher} setButtonsFc={setPeriodSwitcher} setValFc={setPeriodVal} placeholder={"Period"}/>
                 <Switcher buttonObject={intervalSwitcher} setButtonsFc={setIntervalSwitcher} setValFc={setIntervalVal} placeholder={"Interval"}/>
                 <Button onClick={storeUpdate}
-
                         isActive={isInStore}
+                        isDisabled={isInStore}
 
-                        isDisabled={isInStore}>
-                    <FolderSvg></FolderSvg>
+                >
+                    <FolderIcon/>
                 </Button>
             </div>
             <PostsFeed ticker={ticker}/>

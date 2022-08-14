@@ -52,3 +52,14 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+
+@media (max-width: 600px) {
+    .bar_wrapper{
+
+        justify-content: flex-start;
+    }
+    .button_wrapper{
+        right: calc(0% + 10px);
+    }
+}

@@ -4,24 +4,26 @@ import classes from "./SearchTickerItem.module.css";
 
 
 interface SearchTickerItemProps extends  ITickerDescription{
-    onClick:any
+    onClick:any;
+    selection:number;
+    index:number
 }
 
 
-const SearchTickerItem:FC<SearchTickerItemProps> = ({ticker, id, exchange, company_name, onClick}) => {
+const SearchTickerItem:FC<SearchTickerItemProps> = ({ticker, id, exchange, company_name, onClick, selection, index}) => {
 
 
 
 
 
     return (
-        <div className={classes.search_card} onClick={()=>onClick(ticker)}>
+        <div className={`${selection===index?classes.active:""} ${classes.search_card}`} onClick={()=>onClick(ticker)}>
             <div className={classes.left_container}>
-                <div className={`${classes.se} ${classes.search_tick}`} >{ticker}</div>
+                <div className={`no_select ${classes.se} ${classes.search_tick}`} >{ticker}</div>
             </div>
             <div className={classes.right_container}>
-                <div className={`${classes.search_text} ${classes.search_exchange}`} >{exchange}</div>
-                <div className={`${classes.search_text} ${classes.search_name}`} >{company_name}</div>
+                <div className={`no_select ${classes.search_text} ${classes.search_exchange}`} >{exchange}</div>
+                <div className={`no_select ${classes.search_text} ${classes.search_name}`} >{company_name}</div>
             </div>
         </div>
     );

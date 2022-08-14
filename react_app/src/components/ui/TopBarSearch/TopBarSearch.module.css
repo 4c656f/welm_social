@@ -2,9 +2,9 @@
     display: grid;
     grid-template-columns: repeat(2, auto);
     grid-gap: 20px;
-    background-color: black;
+    background-color: var(--button_bg);
     border-radius: 10px;
-    border: white solid 1px;
+    border: #3a3a3a solid 1px;
     padding: 20px;
     position: absolute;
     transform: translate(-50%, 0);
@@ -16,4 +16,39 @@
     overflow-y: auto;
     z-index: 5;
     max-height: 40vh;
+}
+.search_results_wrapper:focus{
+    outline: none;
+}
+
+.input_container{
+    position: relative;
+    z-index: 2;
+}
+
+.input_container > div{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    right: calc(0% + 10px);
+    height: 15px;
+}
+.background{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 1;
+    left: 0%;
+    top: 0%;
+
+}
+@media (max-width: 670px) {
+    .search_results_wrapper{
+        grid-template-columns: repeat(1, auto);
+    }
+    .input_container{
+
+    }
+    
 }

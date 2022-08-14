@@ -29,15 +29,18 @@ const useFetchFeed = (start:number,
         if(isTriggered)return;
         setIsLoading(true)
         setIsFirstFetch(false)
+
         PostsServices.GetPosts(start, end, sort, interval, user, ticker)
-            .then(async (res)=>{
+            .then((res)=>{
                 if(res.data.length < 1){
                     setIsLast(true)
                     return
                 }else setIsLast(false)
                 setPosts((prevState => [...prevState, ...res.data]))
-            })
-            .finally(()=>setIsLoading(false))
+            }).catch((err)=> {
+            setIsLast(true)
+            console.log(err)
+        }).finally(()=>setIsLoading(false))
     },[start, isStoreLoading])
 
     useEffect(()=>{

@@ -22,7 +22,6 @@ class StockStore{
 
     setDashboardElems(elems:IDashboardElem[]){
 
-        console.log(elems)
         this.dashboardElems = elems
     }
 
@@ -94,8 +93,10 @@ class StockStore{
         return StocksServices.DeleteFromDashboard(this.RootStore.UserStore.user, ticker)
     }
     reorderDashboard(reorderDashboard:IDashboardElem[]){
+
+        this.setDashboardElems(reorderDashboard)
         if(!this.RootStore.UserStore.isAuth){
-            localStorage.setItem("dashboard", JSON.stringify(this.dashboardElems))
+            localStorage.setItem("dashboard", JSON.stringify(reorderDashboard))
             return
 
         }

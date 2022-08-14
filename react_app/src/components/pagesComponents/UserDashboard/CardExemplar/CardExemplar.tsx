@@ -4,6 +4,7 @@ import classes from "./CardExemplar.module.css"
 import {IDashboardElem} from "../../../../types/IDashboardElem";
 import {useStores} from "../../../../store";
 import Button from "../../../ui/Button/Button";
+import {ReactComponent as TrashSvg} from "../../../../utils/svg/trash.svg"
 
 interface CardExemplarProps {
 
@@ -127,29 +128,32 @@ const CardExemplar:FC<CardExemplarProps> = ({
                     />
 
                     <Button onClick={onClickDecriminate} content={stockAmount<2?"":"-"} >
-
-                        <div>
-                            {stockAmount < 2 ? "delete" : ""}
+                        <div className={classes.trash_container}>
+                            {stockAmount < 2 ? <TrashSvg/> : null}
                         </div>
-
-
                     </Button>
                 </div>
 
                 {children}
 
             </div>
-            <div className={toggles?classes.reorder_handle_active:classes.disabledEl} onPointerDown={(e) => controls.start(e)}>
-                <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
-                <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
-                <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
-            </div>
+            {toggles?
+                <>
+                    <div className={toggles?classes.reorder_handle_active:classes.disabledEl} onPointerDown={(e) => controls.start(e)}>
+                        <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
+                        <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
+                        <div className={toggles?classes.reorder_handle_sm:classes.disabledEl}></div>
+                    </div>
 
-            <div className={toggles?classes.delete_card_active:classes.disabledEl} onClick={remove_card}>
-                <div className={toggles?classes.inside_delete_card:classes.disabledEl}>
+                    <div className={toggles?classes.delete_card_active:classes.disabledEl} onClick={remove_card}>
+                        <div className={toggles?classes.inside_delete_card:classes.disabledEl}>
 
-                </div>
-            </div>
+                        </div>
+                    </div>
+                </>
+                :null
+            }
+
 
 
 

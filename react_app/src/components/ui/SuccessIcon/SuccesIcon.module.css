@@ -15,9 +15,12 @@
     animation-iteration-count: 1;
 }
 
-
+.main>svg{
+    height: 15px;
+}
 
 .main>svg>path{
+    stroke-width: 1.5px;
     stroke: white;
 
 }

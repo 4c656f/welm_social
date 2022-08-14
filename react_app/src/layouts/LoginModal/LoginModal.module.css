@@ -36,8 +36,14 @@
     right: calc(0% + 40px);
     color: var(--font_color);
     font-family: var(--inter_font);
-    transform: rotate(-45grad);
 
+
+}
+.close_bt > svg{
+    height: 15px;
+}
+.close_bt > svg > path{
+    stroke: white;
 }
 .sign_in{
     color: var(--font_color);

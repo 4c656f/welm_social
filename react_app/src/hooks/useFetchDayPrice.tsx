@@ -31,22 +31,26 @@ const useFetchDayPrice = (tickers:IDashboardElem[]|ticker[], period:IGetDayPrice
 
         const GetDayPrice = async () => {
             console.log("hook_GetDayPrice_fetch---------")
-            const data = await StocksServices.GetDayPrice({"tickers": tickers, "period":period})
+            try{
+                const data = await StocksServices.GetDayPrice({"tickers": tickers, "period":period})
+                if(isOneElem){
+                    const keys = Object.keys(data.data)
+                    setIsisLoadingPrice(false)
+                    setDayPrice(data.data[keys[0]])
+                    return
+                }
 
 
-            if(isOneElem){
-                const keys = Object.keys(data.data)
+                setDayPrice(data.data)
+
+
+
                 setIsisLoadingPrice(false)
-                setDayPrice(data.data[keys[0]])
-                return
+            }catch (e) {
+                console.log(e)
             }
 
 
-            setDayPrice(data.data)
-
-
-
-            setIsisLoadingPrice(false)
 
         }
         GetDayPrice()

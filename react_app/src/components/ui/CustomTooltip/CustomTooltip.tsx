@@ -20,7 +20,7 @@ interface CustomTooltipProps{
 
 const CustomTooltip:FC<CustomTooltipProps> = ({active, payload, label, setTooltipOpen, setIsTooltip}) => {
 
-    const [timer, setTimer] = useState<any>()
+    const [dateF, setDateF] = useState<string>()
 
 
 
@@ -34,31 +34,40 @@ const CustomTooltip:FC<CustomTooltipProps> = ({active, payload, label, setToolti
             setIsTooltip(false)
             return
         }
+
         setIsTooltip(true)
         setTooltipOpen(payload[0]["payload"]["price"])
 
     }, [payload])
 
-    if(!active) {
-        setIsTooltip(false)
-        return null
-    }
+
+    useEffect(()=>{
+        if(!active) {
 
 
+            return
+        }
+        if(!payload[0]) {
 
-    const date = () =>{
+            return
+        }
+
         try {
+            const date = format(new Date(label), "dd,MMM, yyyy")
 
-
-            return format(new Date(label), "dd,MMM, yyyy")
+            setDateF(date)
 
         }
         catch (e){
             console.log(e)
         }
+    }, [label])
 
-
+    if(!active) {
+        return null
     }
+
+
 
 
 
@@ -72,7 +81,7 @@ const CustomTooltip:FC<CustomTooltipProps> = ({active, payload, label, setToolti
 
     return (
         <div className={classes.main_container}>
-            <div className={classes.text}>{date()}</div>
+            <div className={classes.text}>{dateF}</div>
             <div className={classes.text}>{`${payload[0]["payload"]["price"]} $`}</div>
         </div>
 

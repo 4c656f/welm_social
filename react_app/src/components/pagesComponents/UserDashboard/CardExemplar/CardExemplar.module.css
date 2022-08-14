@@ -37,7 +37,9 @@
     height: 20px;
     width: 30px;
     position: absolute;
+    transform: translate(0%, -50%);
     right: calc(0% + 10px);
+    top: 50%;
     display: flex;
     flex-direction: column;
     justify-content:space-between;
@@ -86,7 +88,7 @@
     width: 70%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     flex-shrink: 1;
     align-items: center;
     grid-gap: 30px;
@@ -98,9 +100,59 @@
     align-items: center;
     justify-items: center;
     align-content: center;
-    row-gap: 5px;
+    width: 20px;
+    grid-gap: 5px;
 }
 .change_container > div {
     padding-left: 10px;
     padding-right: 10px;
+}
+.trash_container{
+    height: 15px;
+    width: max-content;
+
+}
+.trash_container >svg{
+    width: max-content;
+    height: 15px;
+}
+.trash_container > svg > path{
+    stroke-width: 1px;
+    stroke: white;
+}
+
+
+
+@media (max-width: 850px) {
+
+    .delete_card_active{
+        left: calc(0% + 20px);
+    }
+    .cards_text_tick{
+        margin-left: 25px;
+    }
+    .card{
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 70px;
+        row-gap: 20px;
+        height: 250px;
+    }
+    .property_wrapper{
+
+        align-items: flex-start;
+    }
+    .change_block{
+        flex-direction: column-reverse;
+
+    }
+    .change_container{
+        flex-direction: row;
+
+        width: max-content;
+    }
+    .reorder_handle_active{
+        touch-action: none;
+    }
 }

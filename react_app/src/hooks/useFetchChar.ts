@@ -13,7 +13,7 @@ const useFetchChar = (ticker:string, interval:string, period:boolean|"1d"|"1mo"|
         setIsLoading(true)
         StocksServices.GetTickerChar(ticker, period, interval).then((resp)=>{
             setData(resp.data[ticker])
-        }).finally(()=>setIsLoading(false))
+        }).catch((val)=>console.log(val)).finally(()=>setIsLoading(false))
     },[interval, period, ticker])
 
 

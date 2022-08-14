@@ -11,8 +11,7 @@ import {Reorder} from "framer-motion";
 import {useStores} from "../../../store";
 import {toJS} from "mobx";
 import {useNavigate} from "react-router-dom";
-
-
+import {ReactComponent as SettingSvg} from "../../../utils/svg/settings.svg";
 
 
 const periodOptions = [
@@ -45,7 +44,7 @@ const UserDashboard = () => {
 
     const [stockAmountState, setStockAmountState] = useState(false)
 
-    const [isToggles, setIsToggles] = useState(true)
+    const [isToggles, setIsToggles] = useState(false)
 
     const [reorderTimer, setReorderTimer] = useState<any>()
     const [isPercent, setIsPercent]= useState(false)
@@ -104,6 +103,7 @@ const UserDashboard = () => {
 
         clearTimeout(reorderTimer)
         const newTimer = setTimeout(async () => {
+            console.log("reorder")
             const reorderArr = elems.map((val, id) =>{
                 val["sort_id"] = id
                 return val
@@ -129,6 +129,9 @@ const UserDashboard = () => {
                     <PriceLabel price={dashboardFullPrice} isPercent={isPercent} setIsPercent={setIsPercentCallback} isLoading={isLoadingPrice} type={"All_price"}/>
 
                     <Selector initState={"day"} options={periodOptions} setFc={setPeriod}/>
+                    <div className={classes.setting} onClick={()=>setIsToggles((prev)=>!prev)}>
+                        <SettingSvg/>
+                    </div>
 
                 </div>
 
