@@ -1,7 +1,11 @@
 import smtplib as smtp
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 
 
@@ -19,13 +23,8 @@ def send_activation_mail(to, link):
     
     '''.format(link, link)
 
-
-
-
-
-
-    sender_address = 'contact@4c656f.com'
-    sender_pass = '195230qQ'
+    sender_address = os.getenv('MAIL_USER')
+    sender_pass = os.getenv('MAIL_PASSWORD')
 
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "account activation"
