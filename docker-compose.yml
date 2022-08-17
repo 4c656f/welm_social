@@ -14,9 +14,6 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-    ports:
-      - 3306:3306
-
   phpmyadmin:
     image: phpmyadmin
     restart: always
@@ -24,6 +21,19 @@ services:
       - 9000:80
     environment:
       - PMA_ARBITRARY=1
+
+
+  welm_flask_server:
+    container_name: welm_flask_server
+    build: ./python
+    restart: always
+    depends_on:
+      - db
+
+    ports:
+      - 80:80
+
+
 
 volumes:
   db:
