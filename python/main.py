@@ -33,7 +33,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resource={
     r"/*":{
-        "origins":"127.0.0.1:3000"
+        "origins":os.getenv("FRONT_DOMAIN")
     }
 }, support_credentials=True)
 
