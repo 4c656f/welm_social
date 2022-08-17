@@ -21,3 +21,6 @@
 /react_app/npm-debug.log*
 /react_app/yarn-debug.log*
 /react_app/yarn-error.log*
+
+__pycache__/
+*.py[cod]
