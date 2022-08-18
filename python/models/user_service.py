@@ -1,8 +1,13 @@
+import os
+
 import bcrypt, uuid, sys, flask
 from .mail_service import send_activation_mail
 from .token_service import *
 import datetime
+from dotenv import load_dotenv
 
+
+load_dotenv()
 sys.path.append("..")
 from mysql_methods.mysql import DB
 from slugify import slugify
@@ -71,7 +76,8 @@ class UserService:
         res = flask.make_response(resp_data)
 
         res.set_cookie("refresh_token", value=tokens["refresh_token"], httponly=True,
-                       expires=datetime.datetime.utcnow() + datetime.timedelta(days=30))
+                       expires=datetime.datetime.utcnow() + datetime.timedelta(days=30), domain=os.getenv("FRONT_DOMAIN"))
+
 
         return res
 
@@ -114,7 +120,7 @@ class UserService:
             res = flask.make_response(flask.jsonify(resp))
 
             res.set_cookie("refresh_token", value=tokens["refresh_token"], httponly=True,
-                           expires=datetime.datetime.utcnow() + datetime.timedelta(days=30))
+                           expires=datetime.datetime.utcnow() + datetime.timedelta(days=30), domain=os.getenv("FRONT_DOMAIN"))
 
             return res, 200
 
@@ -133,7 +139,8 @@ class UserService:
 
             res = flask.make_response("")
 
-            res.set_cookie("refresh_token", "", httponly=True)
+            res.set_cookie("refresh_token", "", httponly=True, samesite='None', domain=os.getenv("FRONT_DOMAIN"))
+
 
             delete_token(refresh_token)
 
