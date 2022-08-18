@@ -78,6 +78,7 @@ class UserService:
         res.set_cookie("refresh_token", value=tokens["refresh_token"], httponly=True,
                        expires=datetime.datetime.utcnow() + datetime.timedelta(days=30), domain=os.getenv("FRONT_DOMAIN"))
 
+
         return res
 
     def activation(self, link):
@@ -138,7 +139,8 @@ class UserService:
 
             res = flask.make_response("")
 
-            res.set_cookie("refresh_token", "", httponly=True, domain=os.getenv("FRONT_DOMAIN"))
+            res.set_cookie("refresh_token", "", httponly=True, samesite='None', domain=os.getenv("FRONT_DOMAIN"))
+
 
             delete_token(refresh_token)
 

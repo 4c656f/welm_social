@@ -31,11 +31,7 @@ from models.post_service import PostService
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resource={
-    r"/*":{
-        "origins":os.getenv("FRONT_DOMAIN")
-    }
-}, support_credentials=True)
+CORS(app, support_credentials=True, resources={r"/api/*": {"origins": "*"}})
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -44,7 +40,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # USERSERVICE
 
 @app.route("/login", methods=["POST"])
-@cross_origin(supports_credentials=True)
+@cross_origin(supports_credentials=True, headers=['Content-Type', 'application/json;charset=UTF-8','Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept'])
 def login():
 
 
@@ -59,7 +55,7 @@ def login():
 
 
 @app.route("/registration", methods=["POST"])
-@cross_origin(supports_credentials=True)
+@cross_origin(supports_credentials=True, headers=['Content-Type', 'application/json;charset=UTF-8','Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept'])
 def registration():
     
     data = request.get_json()
@@ -70,7 +66,7 @@ def registration():
 
 
 @app.route("/logout", methods=["POST"])
-@cross_origin(supports_credentials=True)
+@cross_origin(supports_credentials=True, headers=['Content-Type', 'application/json;charset=UTF-8','Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept'])
 def logout():
     return UserService().logout(request)
 
@@ -196,7 +192,10 @@ def add_to_dashboard():
 def get_dashboard():
     return StockService().get_dashboard(request)
 
-
+@app.route("/", methods=["GET"])
+@cross_origin(supports_credentials=True)
+def sub():
+    return "TRYING SUBDOMAIN"
 
 
 

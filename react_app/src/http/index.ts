@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {AuthResponse} from "../types/AuthResponse";
 
-export const API_URL = "http://localhost:80"
+export const API_URL = "http://api.welm.io"
 
 const api = axios.create({
     withCredentials: true,
