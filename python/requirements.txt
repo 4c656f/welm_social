@@ -6,3 +6,4 @@ bcrypt
 flask-cors
 python-slugify
 yfinance
+bjoern

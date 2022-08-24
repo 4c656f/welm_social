@@ -14,6 +14,7 @@ services:
     volumes:
       - db:/var/lib/mysql
 
+
   phpmyadmin:
     image: phpmyadmin
     restart: always
@@ -29,6 +30,9 @@ services:
     restart: always
     depends_on:
       - db
+
+    volumes:
+      - ./python/requirements:/requirements
 
     ports:
       - 80:80
