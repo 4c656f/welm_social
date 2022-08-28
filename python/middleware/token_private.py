@@ -17,20 +17,25 @@ def private():
 
             try:
                 access_token = request.headers['access_token']
+                print(access_token)
+
                 db = DB()
 
-                if not db.selection_command("*", "tokens", "access_token", access_token):
+                selection = db.fetch(f"SELECT * FROM `tokens` WHERE `access_token` = '{access_token}'")
+                print(selection)
+                if not selection:
                     return "invalid access_token", 401
 
                 jwt.decode(access_token, key=os.getenv('JWT_ACCESS_TOKEN'), algorithms=['HS256', ])
 
 
 
-            except Exception as e:
-                print(e, "protected")
+            except:
+                print("protected")
                 return "invalid access_token", 401
 
             return f()
+
         return __decorator
 
     return _decorator

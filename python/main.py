@@ -203,5 +203,5 @@ def sub():
 if __name__ == '__main__':
     import bjoern
 
-    bjoern.run(app, "0.0.0.0", 80)
-    # app.run(host='0.0.0.0', port= os.getenv('PORT'), debug=True)
+    # bjoern.run(app, "0.0.0.0", 80)
+    app.run(host='0.0.0.0', port= os.getenv('PORT'))
