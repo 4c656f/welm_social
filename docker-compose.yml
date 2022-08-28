@@ -31,9 +31,6 @@ services:
     depends_on:
       - db
 
-    volumes:
-      - ./python/requirements:/requirements
-
     ports:
       - 80:80
 
