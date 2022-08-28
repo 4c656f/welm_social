@@ -12,10 +12,11 @@ interface SuggestionsProps {
     selection: number|boolean;
     searchResults: ITickerDescription[]
     setSearchResults:any;
+    apply: ()=>any;
 }
 
 
-const Suggestions:FC<SuggestionsProps> = ({top,left, text, selection,searchResults, setSearchResults}) => {
+const Suggestions:FC<SuggestionsProps> = ({top,left, text, selection,searchResults, setSearchResults, apply}) => {
 
 
 
@@ -40,7 +41,7 @@ const Suggestions:FC<SuggestionsProps> = ({top,left, text, selection,searchResul
             {
                 searchResults.map((val, index)=>{
                     return(
-                        <div key={val.ticker} className={`${classes.suggestion_text} ${index===selection?classes.active:""}`}>
+                        <div key={val.ticker} className={`${classes.suggestion_text} ${index===selection?classes.active:""}`} onClick={apply}>
                             {val.ticker}
                         </div>
                     )

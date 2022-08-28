@@ -66,6 +66,21 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
         setSearchResults([])
         endHandlerFc()()
     }
+    const apply = () =>{
+        if(!isSuggestor)return;
+        const ticker = "$" + searchResults[curSelection]["ticker"]+ " ";
+        const newText = `${textVal.slice(0, startSug - 1)}${ticker}${textVal.slice(startSug + suggestionText.length , textVal.length)}`
+
+        setIsSuggestor(false)
+        setLeft(0)
+        setTop(0)
+        setSuggestionText("")
+        setStartSug(0)
+        setCurSelection(0)
+        setTextVal(newText)
+        setSearchResults([])
+        endHandlerFc()()
+    }
 
     useEffect(()=>{
         if(!ticker)return
@@ -117,8 +132,6 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
 
         }
         if(hookType === "cancel"){
-
-
             setIsSuggestor(false)
             setLeft(0)
             setTop(0)
@@ -127,7 +140,6 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
             setCurSelection(0)
             setSearchResults([])
             endHandlerFc()()
-
         }
     }
     
@@ -259,6 +271,7 @@ const PostTextArea:FC<PostTextAreaProps> = ({ticker}) => {
                     selection={curSelection}
                     searchResults={searchResults}
                     setSearchResults={setSearchResults}
+                    apply={apply}
                 />
                 :
                 null}

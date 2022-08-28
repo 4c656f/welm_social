@@ -67,7 +67,7 @@ class StockStore{
         }
         return dashboardFromCloud()
     }
-    changeAmount(id, amount){
+    changeAmount(id:number, amount:number){
 
         this.dashboardElems[id]["amount"] = amount
         if(!this.RootStore.UserStore.isAuth){

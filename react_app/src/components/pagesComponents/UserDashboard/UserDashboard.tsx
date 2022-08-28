@@ -119,7 +119,8 @@ const UserDashboard = () => {
 
 
     const setIsPercentCallback = useCallback(setIsPercent, [])
-
+    const setStockAmountStateCallback = useCallback(setStockAmountState, [])
+    const navigatorCallback = useCallback(navigator, [])
 
     return (
         <div className={classes.main_container}>
@@ -149,8 +150,8 @@ const UserDashboard = () => {
                                 dashboardElem={value}
                                 key={value.ticker}
                                 id={id}
-                                setStockAmountState={setStockAmountState}
-                                navigator={navigator}
+                                setStockAmountState={setStockAmountStateCallback}
+                                navigator={navigatorCallback}
                             >
                                 <PriceLabel
                                     price={dayPrice[value.ticker]}

@@ -94,7 +94,13 @@ const CardExemplar:FC<CardExemplarProps> = ({
     }
 
     const onBlur = (e:FocusEvent<HTMLInputElement>)=>{
-        setStockAmount(dashboardElem["amount"])
+        e.preventDefault()
+        if(stockAmount < 1){
+            remove_card()
+            return
+        }
+        StockStore.changeAmount(id, stockAmount)
+        setStockAmountState(prev=>!prev)
     }
 
     const controls = useDragControls()
