@@ -47,7 +47,7 @@ class StockService:
 
 
         sql = f"INSERT INTO `user_dashboard` (`user_id`, `ticker`, `amount`) VALUES ({user_id}, %s, %s)"
-        print(sql)
+
         self.db.execute_commit_many(sql, commit_list)
 
 
@@ -94,7 +94,7 @@ class StockService:
 
 
         sql_selection = f"SELECT * FROM user_dashboard WHERE user_id = {user_id} ORDER BY sort_id ASC"
-        print(sql_selection)
+
         selection = self.db.fetch(sql_selection)
 
         if not selection:
@@ -103,7 +103,7 @@ class StockService:
             sort_id = selection[0]["sort_id"] - 1
             sql = f"INSERT INTO `user_dashboard` (`sort_id`, `user_id`, `ticker`, `amount`) VALUES ({sort_id}, {user_id}, '{ticker}', {amount})"
 
-        print(sql)
+
 
         selection = self.db.execute_commit(sql)
 
@@ -147,7 +147,7 @@ class StockService:
                     i["sort_id"],
                     i["ticker"]
                 ))
-            print(sort_arr, commit_list)
+
 
 
 
@@ -174,14 +174,14 @@ class StockService:
             user_id = req_data["user"]["user_id"]
             amount = req_data["amount"]
             ticker = req_data["ticker"]
-            print(user_id, amount, ticker)
+
         except Exception as e:
             print(e)
             return flask.jsonify(False), 400
 
 
         sql = f"UPDATE user_dashboard SET amount = {amount} WHERE user_id = {user_id} AND ticker = '{ticker}'"
-        print(sql)
+
         self.db.execute_commit(sql)
 
 
@@ -197,7 +197,7 @@ class StockService:
             period = req_data["period"]
             interval = req_data["interval"]
 
-            print(period, interval)
+
 
 
         except Exception as e:
@@ -209,7 +209,7 @@ class StockService:
     def get_price(self, request):
         try:
             req_data = request.get_json()
-            print(req_data)
+
 
         except Exception as e:
             print(e)

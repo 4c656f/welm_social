@@ -43,7 +43,7 @@ class UserService:
 
         self.db.execute_commit(sql)
 
-        send_activation_mail(email, activation_link)
+        # send_activation_mail(email, activation_link)
 
         return flask.jsonify(True), 200
 
@@ -60,7 +60,7 @@ class UserService:
         compare = bcrypt.checkpw(password.encode(), selection[0]["password"].encode())
 
         if not compare:
-            print("invalid password")
+
             return "invalid password", 401
 
         user_id = selection[0]["id"]
@@ -82,7 +82,7 @@ class UserService:
         return res
 
     def activation(self, link):
-        print(link)
+
         res = self.db.selection_command("*", "users", "activation_link", link)
 
         if not res:
@@ -93,7 +93,7 @@ class UserService:
         sql = "UPDATE users SET activation_link = NULL WHERE activation_link = '{}'".format(link)
         self.db.token(sql)
 
-        return flask.redirect("http://www.google.com", code=302, Response=None)
+        return flask.redirect(f"http://{os.getenv('FRONT_DOMAIN')}", code=302, Response=None)
 
     def refresh(self, request):
 
@@ -159,7 +159,7 @@ class UserService:
             data = request.get_json()
             email = data["email"]
             nickname = data["nickname"]
-            print(data)
+
         except Exception as e:
             print(e)
             return flask.jsonify(), 400
@@ -169,10 +169,10 @@ class UserService:
 
 
         selection = self.db.fetch(sql)
-        print(selection)
+
 
         if selection:
-            print("rjewojrioewjr")
+
             return flask.jsonify(True)
 
         return flask.jsonify(False)

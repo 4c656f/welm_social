@@ -116,12 +116,12 @@ class PostService:
                 "SELECT * FROM `posts_likes` WHERE `author_id` = {} AND `post_id` = {}".format(author_id, post_id))
             if select_check:
                 sql = f"UPDATE `posts_likes` SET `like_type`='{like}',`creation_date`='{date}'  WHERE `author_id` = '{author_id}' AND `post_id` = '{post_id}'"
-                print(sql)
+
                 self.db.execute_commit(sql)
                 return flask.jsonify(True), 200
 
             sql = f"INSERT INTO `posts_likes` (`id`, `author_nickname`, `author_id`, `post_id`, `like_type`, `creation_date`) VALUES (NULL, '{author_nickname}', '{author_id}', {post_id}, '{like}', '{date}')"
-            print(sql)
+
             self.db.execute_commit(sql)
 
             return flask.jsonify(True), 200
@@ -188,14 +188,14 @@ class PostService:
                 WHERE posts.creation_date >= '{datetime.datetime.now() - datetime.timedelta(interval)}'
                 ORDER BY likes DESC,posts.id ASC LIMIT {start}, {end};
                 """
-            print(sql)
+
             posts = self.db.fetch(sql)
 
             data_return = []
 
             for i in posts:
                 tags_select = f"SELECT * FROM ticker_tags WHERE ticker_tags.post_id = {i['id']} GROUP BY ticker_tag"
-                print(tags_select)
+
                 tags = self.db.fetch(tags_select)
                 cur_post = i
                 cur_post["tags"] = tags
@@ -236,7 +236,7 @@ class PostService:
                             WHERE posts.post_link = "{link}";
                             """
 
-            print(sql)
+
             posts = self.db.fetch(sql)
 
             data_return = []
@@ -282,7 +282,7 @@ class PostService:
     def get_save_posts(self, request):
         try:
             data = request.get_json()
-            print(data)
+
             user_id = data["user"]["user_id"]
 
 
@@ -303,7 +303,7 @@ class PostService:
         li on li.post_id = posts.id AND li.author_id = {user_id}
         ORDER BY saved_posts.save_date DESC,posts.id ASC;"""
 
-        print(sql)
+
 
         posts = self.db.fetch(sql)
 
