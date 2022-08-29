@@ -43,7 +43,7 @@ class UserService:
 
         self.db.execute_commit(sql)
 
-        # send_activation_mail(email, activation_link)
+        send_activation_mail(email, activation_link)
 
         return flask.jsonify(True), 200
 
