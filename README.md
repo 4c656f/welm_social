@@ -17,3 +17,5 @@ development stack: fask, mysql, docker, react-typescript (standard SPA using CSR
 ```docker run -it -p 80:80 --mount type=bind,source="$(pwd)",target=/mounted <image_name> bash``` run an image with mounted dev folder&open a container in your terminal <br/>
 
 add a container to your docker-compose network <br/>
+
+change api url in react ```./src/http/index.ts``` to your local address
