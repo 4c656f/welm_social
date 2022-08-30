@@ -74,9 +74,11 @@ body{
     outline-color: #4b4b4b;
     outline: none;
     border-color: #4b4b4b;
+    box-shadow: #4b4b4b;
 }
 .default_input:focus{
-    border: 1px solid #4b4b4b;
+    box-shadow: 0 0 0 1px #4b4b4b;
+   
 }
 .default_input::placeholder{
     font-family: var(--inter_font);
